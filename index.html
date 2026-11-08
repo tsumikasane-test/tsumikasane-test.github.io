@@ -1565,6 +1565,8 @@ html[data-nav="pop"]::view-transition-old(root) { animation-name: nav-out-to-rig
 </style>
 <style>/* テスト版: an orange mark at the top of every page, so it is never taken for the real one */
 body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top: env(safe-area-inset-top, 0px); left: 50%; transform: translateX(-50%); padding: 1px 10px 2px; border-radius: 0 0 8px 8px; background: #ff9f0a; color: #000; font: 700 11px/1.4 -apple-system, system-ui, sans-serif; pointer-events: none; }
+/* no new accounts made from it: it only gets the real records */
+#syncSignUp { display: none !important; }
 </style>
 </head>
 <body>
@@ -1825,7 +1827,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       <section id="sec-sync" hidden>
         <div class="sec-head"><h2><span class="page-mark" role="img" aria-label="同期"><svg class="icon" width="40" height="40" aria-hidden="true" focusable="false"><use href="#i-sync"/></svg></span></h2><p class="sum-since" id="syncNote"></p></div>
         <div class="card pad" id="syncOut">
-          <p class="sync-lead">同じメールアドレスとパスワードでログインしたところどうしで、記録が自動でそろいます。パソコンのブラウザ、iPhone の Safari、ホーム画面のアプリは記録の置き場所が別々なので、それぞれで一度ログインしてください。はじめは「新しく登録する」を、2 か所目からは「ログイン」を押します。</p>
+          <p class="sync-lead">テスト版です。本番と同じメールアドレスとパスワードで「ログイン」すると、本番の記録がここにも届きます。ここで書いたり消したりしたものは、本番には送りません。</p>
           <form class="add" id="syncForm" autocomplete="on">
             <label class="flabel" for="syncEmail">メールアドレス</label>
             <div class="ffield"><input type="email" id="syncEmail" autocomplete="username" autocapitalize="off" spellcheck="false" required></div>
@@ -10944,8 +10946,12 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   $("copiesBtn").addEventListener("click", async () => { if (sheetEl.open) closeSheet(true); copyPending = null; $("copyAsk").hidden = true; await renderCopies(); showTab("copies"); });
 
   // ---------- この画面の版 ----------
-  // (without the header, lastModified is the moment the page loaded)
+  // when the app's content last changed, so 本番 and テスト版 say the same of the same app (the user's call: each said the
+  // time it was put out); tools/make-test.py sets it, and the content it was set for, whenever the content changes
+  const APP_VERSION = "2026年11月8日 13:31"; // 5245893c (tools/make-test.py: the content it was set for)
+  // (with none, when the page was put out; without the header, lastModified is the moment the page loaded)
   (() => {
+    if (APP_VERSION) { $("appVersion").textContent = `アプリの版：${APP_VERSION}`; $("appVersion").hidden = false; return; }
     const t = Date.parse(document.lastModified);
     if (!Number.isFinite(t) || Math.abs(Date.now() - t) < 5000) return;
     const d = new Date(t);
@@ -11203,7 +11209,14 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // here. A device signed in for the first time sends everything it has, and gets everything the others have
   // the project's web config. It isn't a secret: who may read and write what is set by the project's Firestore rules
   // (users/{uid}/… only for that user, signed in)
-  const FIREBASE_CONFIG = null; // テスト版: no sync, so it never touches the real records
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyCCb7x0-Dvwlomj_7_IlH2UXcHumPjgLNs",
+    authDomain: "tsumikasane-2e494.firebaseapp.com",
+    projectId: "tsumikasane-2e494",
+    storageBucket: "tsumikasane-2e494.firebasestorage.app",
+    messagingSenderId: "421060393684",
+    appId: "1:421060393684:web:07dfc55c88f3b5b1e45941",
+  };
   const syncReady = () => !!(FIREBASE_CONFIG || window.__syncRemote);
   let remote = null, syncUser = null, syncBusy = null;
   // what came down: a record changed there later than here (or not waiting here at all) takes its place, or goes when it
@@ -11343,13 +11356,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       signUp: (email, pw) => A.createUserWithEmailAndPassword(auth, email, pw),
       signOut: () => A.signOut(auth),
       reset: (email) => A.sendPasswordResetEmail(auth, email),
-      async push(docs) {
-        for (let k = 0; k < docs.length; k += 400) {
-          const batch = F.writeBatch(db);
-          for (const d of docs.slice(k, k + 400)) batch.set(F.doc(records(), `${d.s}~${d.i}`), { ...d, st: F.serverTimestamp() });
-          await batch.commit();
-        }
-      },
+      async push(docs) {}, // テスト版: 本番 → テスト only, so nothing written here ever goes up to the real records
       async pull(since) {
         const snap = await F.getDocs(F.query(records(), F.where("st", ">", F.Timestamp.fromMillis(since)), F.orderBy("st")));
         return snap.docs.map((x) => { const d = x.data(); return { ...d, st: d.st?.toMillis?.() || 0 }; });
@@ -11426,6 +11433,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     "auth/network-request-failed": "インターネットにつながっていません。",
     "auth/too-many-requests": "何度もまちがえたので、しばらく待ってからためしてください。",
     "auth/missing-email": "メールアドレスを入れてください。",
+    "auth/unauthorized-domain": "テスト版のアドレスが、Firebase の「承認済みドメイン」にまだ入っていません。",
     "auth/operation-not-allowed": "Firebase で「メール / パスワード」のログインが、まだ有効になっていません。",
   };
   function showSyncError(msg) { $("syncError").textContent = msg; $("syncError").hidden = !msg; }
