@@ -993,6 +993,8 @@ ul.list > li.wo-edit-note { display: grid; grid-template-columns: minmax(0, 1fr)
 .tile ul.ev .ev-left { flex: none; margin-inline-start: 6px; font-size: var(--t-foot); font-weight: 600; color: var(--tile-c); }
 .tile ul.ev li.past { color: var(--muted); }
 .tile ul.ev li.past::before { opacity: .45; }
+/* a name of 7 or more (カウントダウン) a step smaller in half a row, so it stays on one line */
+#homeTiles > .tile:not(.wide) .tile-head .lbl.long { font-size: var(--t-foot); }
 /* a tile whose head opens nothing (すぐに記録) */
 .tile-head.plain { cursor: default; }
 .tile-head.plain::after { content: none; }
@@ -9229,7 +9231,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return el("div", { class: "card tile", "data-tile": key, style: `--tile-c:${color}` },
       open === false ? el("div", { class: "tile-head plain" }, icon(tileIcon(key), 18), el("span", { class: "lbl" }, label))
         : el("button", { type: "button", class: "tile-head", "aria-label": label + "を開く", onclick: go },
-          icon(tileIcon(key), 18), el("span", { class: "lbl" }, label), el("span", { class: "chev" }, icon("next", 16))),
+          icon(tileIcon(key), 18), el("span", { class: "lbl" + (label.length >= 7 ? " long" : "") }, label), el("span", { class: "chev" }, icon("next", 16))),
       big != null ? el("div", { class: "big" + (/^[+−]?[\d.,]+$/.test(big) ? "" : " word") }, big, unit ? el("small", {}, unit) : null) : null,
       sub ? el("div", { class: "sub" }, parts) : null,
       extra);
@@ -12237,7 +12239,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // ---------- この画面の版 ----------
   // when the app's content last changed, so 本番 and テスト版 say the same of the same app (the user's call: each said the
   // time it was put out); tools/make-test.py sets it, and the content it was set for, whenever the content changes
-  const APP_VERSION = "2026年11月10日 7:47"; // 3204069b (tools/make-test.py: the content it was set for)
+  const APP_VERSION = "2026年11月10日 7:51"; // c1446b85 (tools/make-test.py: the content it was set for)
   // (with none, when the page was put out; without the header, lastModified is the moment the page loaded)
   (() => {
     if (APP_VERSION) { $("appVersion").textContent = `アプリの版：${APP_VERSION}`; $("appVersion").hidden = false; return; }
