@@ -1450,11 +1450,17 @@ ul.list > li.btn-row { padding: 0; }
 /* 「きょう ＋N こ」 over the stairs, pressed for today's first block: a link, its ・ as the line's, a finger's height */
 .tsumi-today { margin: -8px 0; padding: 8px 0; border: 0; background: none; color: var(--accent); font: inherit; cursor: pointer; }
 .tsumi-today::before { color: var(--muted); }
-/* 積みあげた記録: where the page is wide enough for two a phone's width (a PC, a tablet held sideways) as
-   wide as half of it, as it was beside 段の記録 (the user's calls: rows across the whole page put a name far from its
-   count; 段の記録 was taken out) */
-.tsumi-lists, .tsumi-col { display: flex; flex-direction: column; gap: var(--space-2); }
-@container (min-width: 38em) { .tsumi-lists { max-width: calc((100% - var(--space-3)) / 2); } }
+/* the count over the stairs, not shown (the user's call: the page kept for the blocks): the line is there only while a
+   kind is pressed, saying which, with しぼりをはずす */
+.tsumi-total .tsumi-big, .tsumi-total .tsumi-unit { display: none; }
+/* a kind's row in つみかさね's 設定: its records (the row) and しぼる (the pill at its end) */
+.tsumi-kind-row { display: flex; align-items: center; }
+.tsumi-kind-row > .row-btn { flex: 1; min-width: 0; }
+.tsumi-only { flex: none; margin-inline-end: var(--space-2); min-height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: var(--fill); color: var(--accent); font: inherit; font-size: var(--t-sub); font-weight: 600; cursor: pointer; }
+.tsumi-only[aria-pressed="true"] { background: var(--accent); color: #ffffff; }
+#tsumiKinds .tsumi-kind-row.on > .row-btn { background: var(--fill); font-weight: 600; }
+#tsumiKinds.only .tsumi-kind-row:not(.on) > .row-btn { color: var(--muted); }
+#tsumiKinds.only .tsumi-kind-row:not(.on) .sw { opacity: .3; }
 /* 運動's menu for the day (the user's weekly sheet): the weekday and its theme, then a row a move, its name on a line of its
    own and what to do under it; the sheet's notes fold away under メモ */
 .wo-menu .card-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-1); }
@@ -1476,15 +1482,13 @@ ul.list > li.btn-row { padding: 0; }
 /* a kind pressed keeps only its blocks in colour (the user's call: some colours are hard to tell apart) */
 #tsumiKinds .sw { flex: none; width: 14px; height: 14px; border-radius: 4px; }
 /* a kind's key, as its blocks are drawn (the user's call: white, the kind's colour in the middle): a white square with a
-   dot of the colour, edged faintly so it shows on a light ground (積みあげた記録, the kind over the count, the words under
+   dot of the colour, edged faintly so it shows on a light ground (つみあげた記録, the kind over the count, the words under
    the stairs); a deleted one's as the stairs draw it: faint white, with lines across in its colour */
 .blk { background: radial-gradient(circle closest-side, var(--k) 0 50%, #ffffff calc(50% + .5px)); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .16); }
 .sw.gone, .dot.gone { position: relative; overflow: hidden; background: transparent; }
 .sw.gone::before, .dot.gone::before { content: ""; position: absolute; inset: 0; background: #ffffff; opacity: .3; }
 .sw.gone::after, .dot.gone::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(135deg, currentColor 0 2px, transparent 2px 5px); }
 #tsumiKinds .tsumi-gone-row .row-btn { padding-inline-start: calc(var(--space-2) + 20px); font-size: var(--t-sub); }
-#tsumiKinds .row-today { margin-inline-start: auto; color: var(--accent); font-size: var(--t-sub); font-weight: 600; font-variant-numeric: tabular-nums; }
-#tsumiKinds .row-today + .row-count { margin-inline-start: 0; }
 #tsumiKinds .row-btn[aria-pressed="true"] { background: var(--fill); font-weight: 600; }
 #tsumiKinds.only .row-btn[aria-pressed="false"] { color: var(--muted); }
 #tsumiKinds.only .row-btn[aria-pressed="false"] .sw { opacity: .3; }
@@ -2173,9 +2177,12 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       <!-- つみかさね: every record a square block, the blocks stacked as stairs that climb one at a time (the user's call), as
            the app's icon has them. A block pressed says the record it is -->
       <section id="sec-tsumi" style="--sec-c: var(--accent)" hidden>
-        <div class="sec-head"><h2><span class="page-mark" role="img" aria-label="つみかさね"><svg class="icon" width="40" height="40" aria-hidden="true" focusable="false"><use href="#i-stairs"/></svg></span></h2></div>
+        <!-- its gear opens つみあげた記録 (the user's call: the page kept for the blocks) -->
+        <div class="sec-head">
+          <div class="title-row"><h2><span class="page-mark" role="img" aria-label="つみかさね"><svg class="icon" width="40" height="40" aria-hidden="true" focusable="false"><use href="#i-stairs"/></svg></span></h2><button type="button" class="icon-btn" id="tsumiSettings" aria-label="設定" aria-haspopup="dialog"><svg class="icon" width="22" height="22" aria-hidden="true" focusable="false"><use href="#i-gear"/></svg></button></div>
+        </div>
         <div class="card tsumi-card">
-          <p class="tsumi-total"><span class="tsumi-kind" id="tsumiKind" hidden></span><span class="tsumi-big" id="tsumiCount">0</span><span class="tsumi-unit">こ</span><span class="tsumi-total-acts" id="tsumiTotalActs" hidden><button type="button" class="link-btn" id="tsumiUnkind">しぼりをはずす</button><button type="button" class="link-btn danger" id="tsumiDropAll" hidden>まとめて削除</button></span></p>
+          <p class="tsumi-total" id="tsumiTotal" hidden><span class="tsumi-kind" id="tsumiKind" hidden></span><span class="tsumi-big" id="tsumiCount">0</span><span class="tsumi-unit">こ</span><span class="tsumi-total-acts" id="tsumiTotalActs" hidden><button type="button" class="link-btn" id="tsumiUnkind">しぼりをはずす</button><button type="button" class="link-btn danger" id="tsumiDropAll" hidden>まとめて削除</button></span></p>
           <p class="tsumi-sub due-line" id="tsumiSub"></p>
           <!-- 大きく: blocks of one size round the summit; 全体: the whole staircase. Shown once it no longer fits big -->
           <div class="seg tsumi-views" role="group" aria-label="階段の見え方" id="tsumiViews" hidden>
@@ -2207,17 +2214,8 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
             </div>
           </div>
         </div>
-        <!-- the whole staircase as a picture, as a goal's 全体 can be (the user's call) -->
-        <div class="card" id="tsumiImageCard" hidden><button type="button" class="link-btn sheet-row" id="tsumiImage">画像で保存</button></div>
-        <!-- the two lists, side by side where the page is wide (the user's call: on a PC their rows ran across the whole page,
-             a name far from its count) -->
-        <div class="tsumi-lists">
-          <div class="tsumi-col">
-            <h3 class="group-head">積みあげた記録</h3>
-            <ul class="list card" id="tsumiKinds"></ul>
-            <!-- (no words under it and no くわしく: taken out, the user's call) -->
-          </div>
-        </div>
+        <!-- (no 画像で保存: taken out, the user's call) -->
+        <!-- (つみあげた記録 is in the 設定 its gear opens: the user's call) -->
       </section>
     </div>
     <!-- a page's own row of buttons, in a bar like the tab bar (the user's call: 目標 has one; ToDo's was taken out): which
@@ -2369,6 +2367,12 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
         <p class="group-foot usage-line" id="usageLine" hidden></p>
         <p class="group-foot" id="appVersion" hidden></p>
         <input type="file" id="importFile" accept=".json,application/json" hidden>
+      </div>
+      <!-- つみかさね's: つみあげた記録, from its gear (the user's call: the page kept for the blocks); a kind opens its records,
+           しぼる colours only its blocks on the stairs -->
+      <div class="sheet-view" id="tsumiGroup" hidden>
+        <h3 class="group-head">つみあげた記録</h3>
+        <ul class="list card" id="tsumiKinds"></ul>
       </div>
       <div class="sheet-view" id="subjectsGroup" hidden>
         <h3 class="group-head">科目</h3>
@@ -2743,7 +2747,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // a page a level down, under a tab, outside the menu: a record's entries under 記録
   const SUBPAGES = [{ key: "reclist", parent: "records" }, { key: "trash", parent: "records" }, { key: "copies", parent: "records" }, { key: "sync", parent: "records" }, { key: "runlevel", parent: "diet" }];
   // the page a page sits under: きょう for the record pages, 記録 for a record's entries
-  const parentOf = (key) => (isRecord(key) ? "home" : key === "trash" && (trashBack || trashOf === "todos") ? trashBack || "todo" : SUBPAGES.find((p) => p.key === key)?.parent || null);
+  const parentOf = (key) => (isRecord(key) ? "home" : key === "trash" && (trashBack || trashOf === "todos") ? trashBack || "todo" : (key === "reclist" && recListBack) || SUBPAGES.find((p) => p.key === key)?.parent || null);
   const SLOTS = ["朝食", "昼食", "夕食", "間食"];
 
   let tab = "home";
@@ -2753,6 +2757,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   let todoQuery = ""; // the words ToDo's list is narrowed to, each of them in a ToDo's name or memo (none: all of it)
   let trashOf = null; // 最近削除した項目 opened from ToDo's page shows its ToDos alone ("todos"), and goes back there; null: all, from 記録
   let trashBack = null; // and the page it goes back to when not that one: つみかさね, opened from a deleted one's block
+  let recListBack = null; // a record's entries opened from つみかさね's 設定: back there, not to 記録
   let trashMark = null, trashMarkScroll = false; // the deleted one opened from つみかさね's block: lit in the list, brought into sight once
   let calMonth = monthOf(todayKey), calDay = todayKey;
 
@@ -3270,6 +3275,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     if (isRecord(key)) lastRecord = key;
     else if (key === "home") lastRecord = null;
     if (key === "records") recListKind = null;
+    if (key !== "reclist" && recListBack) { recListBack = null; recListKind = null; } // (one opened from つみかさね, let go as it closes)
     for (const p of [...PAGES, ...SUBPAGES]) $("sec-" + p.key).hidden = p.key !== key;
     // a tab stays lit on the pages under it (きょう on its record pages, 記録 on a record's entries); aria-current says
     // the same to screen readers
@@ -6847,7 +6853,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   let editingId = null, editingStart = null, editScope = "one", editBase = "", editDays = "", edLabelChoice = "", sheetByKey = false, sheetClosing = false, sheetAnims = [], closeTimer = null, drag = null, delTimer = null;
   let settingsFrom = null; // the settings showing: "gear" when opened from the month bar, "day" when from a day's sheet
   let sheetOpener = "day"; // what keyboard focus goes back to when the sheet closes: the day, the calendar's gear or ＋, 勉強's, きょう's or からだ's gear, ToDo's (or the top bar's) or 目標's ＋
-  let settingsScope = "calendar"; // whose settings: 記録's バックアップ ("records"), the calendar's labels, 勉強's subjects, きょう's tiles ("home"), ダイエット's goals, 身長・年齢・性別 and records ("weight") or 家計簿's budget ("money")
+  let settingsScope = "calendar"; // whose settings: つみかさね's つみあげた記録 ("tsumi"), 記録's バックアップ ("records"), the calendar's labels, 勉強's subjects, きょう's tiles ("home"), ダイエット's goals, 身長・年齢・性別 and records ("weight") or 家計簿's budget ("money")
   let tileDrag = null; // きょう's tile whose row is being dragged by its grip in the settings
   let goalNew = false; // the sheet holds a new goal's form, opened from 目標's ＋
   let planNew = false; // the sheet holds a new plan's form, opened from the ＋ beside the calendar's gear
@@ -6886,7 +6892,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     const mode = sheetMode(), adding = mode === "goal" || mode === "plan" || mode === "todo", changing = mode === "edit" || mode === "rec";
     for (const [m, id] of Object.entries(SHEET_VIEWS)) $(id).hidden = m !== mode;
     sheetEl.classList.toggle("compact", mode === "month");
-    $("labelsGroup").hidden = settingsScope !== "calendar"; $("todoLabelsGroup").hidden = settingsScope !== "todo"; $("subjectsGroup").hidden = settingsScope !== "study"; $("tilesGroup").hidden = settingsScope !== "home"; $("bodyGroup").hidden = settingsScope !== "weight"; $("moneyGroup").hidden = settingsScope !== "money"; $("woMenuGroup").hidden = settingsScope !== "woMenu"; $("jobGroup").hidden = settingsScope !== "job"; $("backupGroup").hidden = settingsScope !== "records";
+    $("labelsGroup").hidden = settingsScope !== "calendar"; $("todoLabelsGroup").hidden = settingsScope !== "todo"; $("subjectsGroup").hidden = settingsScope !== "study"; $("tilesGroup").hidden = settingsScope !== "home"; $("bodyGroup").hidden = settingsScope !== "weight"; $("moneyGroup").hidden = settingsScope !== "money"; $("woMenuGroup").hidden = settingsScope !== "woMenu"; $("jobGroup").hidden = settingsScope !== "job"; $("backupGroup").hidden = settingsScope !== "records"; $("tsumiGroup").hidden = settingsScope !== "tsumi";
     $("sheetDone").hidden = changing || adding || mode === "alarm"; $("sheetSave").hidden = mode !== "edit"; $("recSave").hidden = mode !== "rec";
     $("goalSave").hidden = mode !== "goal"; $("planSave").hidden = mode !== "plan"; $("todoSave").hidden = mode !== "todo";
     $("sheetCancel").hidden = !(changing || adding || mode === "month" || mode === "alarm" || (mode === "chart" && (mPath.length || chartFromDay)) || (mode === "settings" && settingsFrom === "day") || (mode === "day" && dayFromFind));
@@ -7298,7 +7304,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     resetSheet();
     // keyboard users land back on what they opened it from: the day (the grid has been redrawn since), the gear, or an
     // entry's row on the page showing (記録's list and the record page can hold the same entry)
-    if (sheetByKey) ({ find: $("calFind"), month: $("calMonthBtn"), gear: $("calSettings"), plan: $("calAdd"), todo: $("todoAdd"), todogear: $("todoSettings"), records: $("recSettings"), todonav: navbar.classList.contains("scrolled") ? $("navAdd") : $("todoAdd"), rec: $("sec-" + tab).querySelector(`[data-edit="${recReturnId}"]`), study: $("studySettings"), home: $("homeSettings"), grid: $("calTime").querySelector(`[data-ev="${CSS.escape(gridReturn)}"]`), weight: $("wtSettings"), money: $("moneySettings"), tiletodo: $("homeTiles").querySelector(".td-add button"), goal: $("goalAdd"), chart: $("goalList").querySelector(`[data-goal="${chartReturnId}"]`) || $("goalAdd") }[sheetOpener] || $("calGrid").querySelector(".cal-day.sel"))?.focus();
+    if (sheetByKey) ({ find: $("calFind"), month: $("calMonthBtn"), gear: $("calSettings"), plan: $("calAdd"), todo: $("todoAdd"), todogear: $("todoSettings"), records: $("recSettings"), tsumi: $("tsumiSettings"), todonav: navbar.classList.contains("scrolled") ? $("navAdd") : $("todoAdd"), rec: $("sec-" + tab).querySelector(`[data-edit="${recReturnId}"]`), study: $("studySettings"), home: $("homeSettings"), grid: $("calTime").querySelector(`[data-ev="${CSS.escape(gridReturn)}"]`), weight: $("wtSettings"), money: $("moneySettings"), tiletodo: $("homeTiles").querySelector(".td-add button"), goal: $("goalAdd"), chart: $("goalList").querySelector(`[data-goal="${chartReturnId}"]`) || $("goalAdd") }[sheetOpener] || $("calGrid").querySelector(".cal-day.sel"))?.focus();
   });
   // Esc: from an edit form (or settings or a chart reached from a day) back to the day's list, from a chart's cell back
   // out of it, otherwise out of the sheet
@@ -7330,6 +7336,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   $("calSettings").addEventListener("click", (ev) => openSettings(ev.detail === 0));
   $("todoSettings").addEventListener("click", (ev) => openSettings(ev.detail === 0, "todo"));
   $("recSettings").addEventListener("click", (ev) => openSettings(ev.detail === 0, "records")); // 記録's: バックアップ
+  $("tsumiSettings").addEventListener("click", (ev) => openSettings(ev.detail === 0, "tsumi")); // つみかさね's: つみあげた記録
   // iPhone: the bar on top can be pulled down to put the sheet away, as iOS sheets can
   sheetHead.addEventListener("pointerdown", (ev) => {
     if (wideScreen.matches || sheetClosing || ev.button !== 0 || ev.target.closest("button")) return;
@@ -9435,7 +9442,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // [column, row] when away from the summit
   const VIEW_KEY = LS_PREFIX + "tsumiView";
   let tsumiView = (() => { try { return localStorage.getItem(VIEW_KEY) === "all" ? "all" : "near"; } catch { return "near"; } })(), tsumiAnchor = null;
-  // a kind pressed in 積みあげた記録: only its blocks keep their colour; kept on this phone, as the view is (the user's call:
+  // a kind pressed in つみあげた記録: only its blocks keep their colour; kept on this phone, as the view is (the user's call:
   // it went when the app was opened again)
   const KIND_KEY = LS_PREFIX + "tsumiKind";
   let tsumiOnly = (() => { try { const k = localStorage.getItem(KIND_KEY); return k && TSUMI_KINDS[k] ? k : null; } catch { return null; } })(), tsumiKindKept = tsumiOnly || "";
@@ -9599,7 +9606,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       blocks.forEach((b, i) => { const mo = ymd(new Date(b.t)).slice(0, 7); if (mo !== was) tsumiMonths.push([i, mo]); was = mo; });
     }
     $("tsumiCount").textContent = fmtN(mine.length);
-    $("tsumiKind").hidden = $("tsumiTotalActs").hidden = !v;
+    $("tsumiKind").hidden = $("tsumiTotalActs").hidden = $("tsumiTotal").hidden = !v;
     // every deleted one at once, with only they pressed and two or more of them
     const goneMany = tsumiGoneOnly && v ? mine.length : 0;
     $("tsumiDropAll").hidden = goneMany < 2;
@@ -9621,10 +9628,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     // the stairs said for a screen reader with the count as it shows, the kind pressed, the days on end and the ★ after the
     // newest (the user's calls: the ★ couldn't be reached but by a finger; the kind pressed wasn't said)
     $("tsumiCanvas").setAttribute("aria-label", n ? `これまでの記録 ${nf(n)} こが、${k} 段の階段に積みあがっています。${v ? `${onlyLabel()}のブロック ${nf(mine.length)} こだけに色を付けています。` : ""}つぎの段まであと ${left} こ。${!v && today ? `きょうは ${today} こ積みました。` : ""}${!v && (endText || pastText) ? (endText || pastText) + "。" : ""}前と次のボタンや左右の矢印キーで1つずつ、PageUp と PageDown で月ごとに見られます。いちばん新しいブロックの次は★です。Enter キーで、見ているブロックの記録が開きます。` : "まだブロックがありません。");
-    // the picture's button says when it will be the kind pressed (the user's call: that didn't show)
-    $("tsumiImage").textContent = v ? `${onlyLabel()}の画像で保存` : "画像で保存";
     $("tsumiPrev").hidden = $("tsumiNext").hidden = n < 2;
-    $("tsumiImageCard").hidden = !n;
     // opened with blocks gone on since the last look: the newest (of the kind pressed), where they drop in; else as it was
     if (opening) {
       tsumiHoverAt = null; tsumiNeko = null; // (つみねこ where the stairs have it, or where they had it at the last look)
@@ -9649,8 +9653,9 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   const tsumiMark = () => Math.round((11 * (parseFloat(getComputedStyle(document.documentElement).fontSize) || 17)) / 17);
   let tsumiMeasure = null;
   // in 大きく, with the step being built named there too (「47段目」)
-  function tsumiAxis(cols, near = false) {
-    return Math.max(38, Math.ceil(tsumiTextWidth(near ? `${cols} 段目` : `${cols} 段`)) + 10);
+  // (no 段 marks now: room on the right only for the rings a block or the ★ may wear)
+  function tsumiAxis() {
+    return 12;
   }
   // how wide words are drawn on the stairs (the 段 marks, a month's name)
   function tsumiTextWidth(words) {
@@ -9827,18 +9832,23 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // with lines across it in its colour. dim: a block of another kind than the one pressed, faint, and on a light ground
   // light grey without its edge, the kind pressed standing out (the user's call: the two looked alike); sq(px, py, s, rr)
   // makes a block's path
+  // a block drawn as a solid one (the user's call: piled up like real blocks, touching all round): its face over the top
+  // left, its thickness along its bottom and right in grey, as a block lit from above; what is drawn on it, on its face
   function paintTsumiBlock(x, sq, px, py, size, rad, colour, { gone = false, today = false, light = false, dim = 1 } = {}) {
-    const faded = dim < 1, mark = light && faded ? 0.3 : dim;
-    if (today && !gone && size < 12) { x.globalAlpha = mark; x.fillStyle = colour; sq(px, py, size, rad); x.fill(); return; }
+    const faded = dim < 1, mark = light && faded ? 0.3 : dim, d = tsumiDepth(size), f = size - d, fr = Math.max(0, rad - d / 2);
+    const body = (fill) => { if (d) { x.fillStyle = fill; sq(px, py, size, Math.min(rad, 2)); x.fill(); } };
+    if (today && !gone && size < 12) { x.globalAlpha = mark; body(colour); x.fillStyle = colour; sq(px, py, f, fr); x.fill(); if (d) { x.fillStyle = "rgba(0, 0, 0, .28)"; x.fillRect(px, py + f, size, d); x.fillRect(px + f, py, d, f); } return; }
     x.globalAlpha = gone ? dim * 0.3 : light && faded ? 1 : dim;
-    x.fillStyle = light && faded ? "#f2f2f7" : light && size < 8 ? "#e5e5ea" : "#ffffff"; sq(px, py, size, rad); x.fill();
-    if (light && size >= 8 && !faded) { x.strokeStyle = "#c6c6c8"; x.lineWidth = 1; sq(px + 0.5, py + 0.5, size - 1, Math.max(0, rad - 0.5)); x.stroke(); }
+    body(light && faded ? "#e5e5ea" : light ? "#c7c7cc" : "#8e8e93");
+    x.fillStyle = light && faded ? "#f2f2f7" : light && size < 8 ? "#e5e5ea" : "#ffffff"; sq(px, py, f, fr); x.fill();
     x.globalAlpha = mark;
-    if (gone) { if (size >= 5) goneMarks(x, px, py, size, rad, colour, sq); return; }
+    if (gone) { if (size >= 5) goneMarks(x, px, py, f, fr, colour, sq); return; }
     x.fillStyle = colour;
-    if (size < 8) { const d = Math.max(1, Math.round(size * 0.5)); x.fillRect(px + (size - d) / 2, py + (size - d) / 2, d, d); return; }
-    x.beginPath(); x.arc(px + size / 2, py + size / 2, Math.max(2, size * (today ? 0.18 : 0.12)), 0, 2 * Math.PI); x.fill();
+    if (size < 8) { const dd = Math.max(1, Math.round(f * 0.5)); x.fillRect(px + (f - dd) / 2, py + (f - dd) / 2, dd, dd); return; }
+    x.beginPath(); x.arc(px + f / 2, py + f / 2, Math.max(2, f * (today ? 0.18 : 0.12)), 0, 2 * Math.PI); x.fill();
   }
+  // how thick a block of this size is drawn
+  function tsumiDepth(size) { return size >= 4 ? Math.max(1, Math.round(size * 0.13)) : 0; }
   // the blocks stacked the same day as block i, oldest first: [first, last] (they are side by side, the blocks being in
   // the order they were stacked)
   function tsumiDayRun(i) {
@@ -9955,7 +9965,8 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     const L = tsumiLayout(), { n, k, cols, W, axis, pitch, C, R, near } = L, r = n - (k * (k + 1)) / 2;
     let [c0, r0] = near ? tsumiAnchor || L.summit : [0, 0];
     c0 = clampTo(c0, 0, cols - C); r0 = clampTo(r0, 0, cols - R); // a finger moving it leaves it between places
-    const gap = pitch >= 16 ? 3 : pitch >= 8 ? 2 : pitch >= 4 ? 1 : 0, size = pitch - gap;
+    // (no gaps between them: the blocks touch all round, a solid pile; the user's call)
+    const gap = 0, size = pitch;
     // (on a wide page at the left, in line with the switch over them and ◀ ▶ and the words under them: the user's call,
     // they stood apart in the card's middle)
     const gridH = Math.ceil(pitch * R) + L.pad + L.top, ox = L.pad + L.lead + (wideScreen.matches ? 0 : Math.floor((L.inner - L.lead - pitch * C) / 2)), H = gridH + 12;
@@ -9970,7 +9981,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     x.clearRect(0, 0, W, H);
     const css = getComputedStyle(document.documentElement), tone = (v, d) => css.getPropertyValue(v).trim() || d, colour = {};
     for (const [key, v] of Object.entries(TSUMI_KINDS)) colour[key] = tone(v.c, "#8e8e93");
-    const rad = size >= 8 ? Math.min(7, size * 0.24) : 0;
+    const rad = size >= 8 ? Math.min(5, size * 0.16) : 0;
     const xOf = (c) => ox + (c - c0) * pitch + gap / 2, yOf = (row) => gridH - (row - r0 + 1) * pitch + gap / 2;
     const sq = (px, py, s = size, rr = rad) => { x.beginPath(); if (rr && x.roundRect) x.roundRect(px, py, s, s, rr); else x.rect(px, py, s, s); };
     const lands = (i) => a.start + (i - a.from) * a.step; // when block i lands, while they drop in
@@ -9998,9 +10009,10 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
         const ink = b.gone || solid ? colour[b.kind] : TSUMI_LIGHT[b.kind];
         paintTsumiBlock(x, sq, px, py, size, rad, ink, { gone: b.gone, today, light, dim: on ? 1 : 0.16 });
         x.globalAlpha = on ? 1 : light ? 0.3 : 0.16;
-        if (gap && ((i >= tsumiFresh && size >= 8) || (i >= dayLo && i <= dayHi && i !== si0))) {
-          const o = gap / 2;
-          x.strokeStyle = colour[b.kind]; x.lineWidth = Math.min(1.5, gap * 0.6); sq(px - o, py - o, size + 2 * o, rad ? rad + o : 0); x.stroke();
+        // (the blocks touching now, the frame is just inside the face)
+        if (size >= 8 && (i >= tsumiFresh || (i >= dayLo && i <= dayHi && i !== si0))) {
+          const f = size - tsumiDepth(size);
+          x.strokeStyle = colour[b.kind]; x.lineWidth = 1.5; sq(px + 0.75, py + 0.75, f - 1.5, Math.max(0, rad - 0.75)); x.stroke();
         }
       }
     }
@@ -10009,22 +10021,24 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     if (k >= cLo && k <= cHi) {
       x.strokeStyle = tone("--muted", "#8e8e93"); x.lineWidth = 1; x.globalAlpha = 0.5;
       if (size >= 8) x.setLineDash([3, 3]);
-      for (let row = Math.max(r, lo); row < k && row <= hi; row++) { sq(xOf(k) + 0.5, yOf(row) + 0.5, size - 1); x.stroke(); }
+      for (let row = Math.max(r, lo); row < k && row <= hi; row++) { sq(xOf(k) + 0.5, yOf(row) + 0.5, size - tsumiDepth(size) - 1); x.stroke(); }
       x.setLineDash([]); x.globalAlpha = 1;
       if (k <= hi) {
-        const gx = xOf(k), gy = yOf(k);
-        x.fillStyle = "#ffcc00"; sq(gx, gy); x.fill();
+        const gx = xOf(k), gy = yOf(k), gd = tsumiDepth(size), gf = size - gd;
+        // (a solid block as the others: its thickness in a deeper gold)
+        if (gd) { x.fillStyle = "#c79a00"; sq(gx, gy, size, Math.min(rad, 2)); x.fill(); }
+        x.fillStyle = "#ffcc00"; sq(gx, gy, gf, Math.max(0, rad - gd / 2)); x.fill();
         // a gold ring round it, so it stands apart from a yellow block at any size (the user's call: in dark mode it looked
         // like 家計簿's), inside it in a deeper gold when the block under it wears its ring (the user's call: the two rings
         // ran together); the black one instead, when it is pressed
         if (!tsumiAtGoal) {
           const inside = size >= 8 && si0 === (k * (k + 1)) / 2 + k - 1;
           x.strokeStyle = inside ? "#c79a00" : "#ffcc00"; x.lineWidth = 1.5;
-          if (inside) sq(gx + 1.5, gy + 1.5, size - 3, Math.max(0, rad - 1.5)); else sq(gx - 2.5, gy - 2.5, size + 5, rad ? rad + 2.5 : 0);
+          if (inside) sq(gx + 1.5, gy + 1.5, gf - 3, Math.max(0, rad - 1.5)); else sq(gx - 2.5, gy - 2.5, size + 5, rad ? rad + 2.5 : 0);
           x.stroke();
         }
         if (size >= 12) {
-          const cx = gx + size / 2, cy = gy + size / 2 + size * 0.03, rr = size * 0.32;
+          const cx = gx + gf / 2, cy = gy + gf / 2 + gf * 0.03, rr = gf * 0.32;
           x.beginPath();
           for (let j = 0; j < 10; j++) { const ang = -Math.PI / 2 + (j * Math.PI) / 5, d = j % 2 ? rr * 0.45 : rr; x.lineTo(cx + d * Math.cos(ang), cy + d * Math.sin(ang)); }
           x.closePath(); x.fillStyle = "rgba(0, 0, 0, .35)"; x.fill();
@@ -10043,18 +10057,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     x.restore();
     // the ground, once the view reaches it
     if (r0 < 0.5) { x.fillStyle = tone("--separator", "#c6c6c8"); x.fillRect(0, gridH + 1, wideScreen.matches ? Math.min(W - axis, ox + C * pitch + 2) : W - axis, 1); }
-    // the 段 marks on the right: how high the steps are, every 5 (or more, when small)
-    const fs = tsumiMark(), every = [5, 10, 20, 50, 100, 200, 500].find((v) => v * pitch >= fs + 7) || 1000;
-    x.fillStyle = tone("--muted", "#8e8e93"); x.font = `${fs}px ${getComputedStyle(document.body).fontFamily}`; x.textBaseline = "middle";
-    // in 大きく: the step being built named beside its next place, and a mark only where its step's edge shows (the user's
-    // call: the marks are heights, so beside taller columns 「5段」 read as the step of the block next to it)
-    const yB = near && k >= cLo && k <= cHi && r >= lo && r <= hi ? gridH - (r - r0 + 0.5) * pitch : null;
-    if (yB !== null && yB > L.top + L.pad && yB < gridH - 2) x.fillText(`${k + 1} 段目`, ox + C * pitch + 6, yB);
-    for (let j = every - 1; j <= k; j += every) {
-      const y = gridH - (j - r0 + 0.5) * pitch;
-      if ((near && (j < cLo || j > cHi)) || (yB !== null && Math.abs(y - yB) < fs + 4)) continue;
-      if (y > L.top + L.pad && y < gridH - 2) x.fillText(`${j + 1} 段`, ox + C * pitch + 6, y);
-    }
+    // (no 段 marks on the right, 「5 段」 beside the ★ and the rest: taken out, the user's call)
     // 全体: a frame round what 大きく shows (the user's call: going back and forth lost the place)
     if (!near && L.big) {
       const N = tsumiLayout("near"), fc = clampTo(Math.round((tsumiAnchor || N.summit)[0]), 0, cols - N.C), fr = clampTo(Math.round((tsumiAnchor || N.summit)[1]), 0, cols - N.R);
@@ -10335,13 +10338,14 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // how many of each kind went in; one pressed keeps only its blocks in colour, and the line under the stairs and its
   // steps keep to them; pressed again, all of them (the user's call: some colours are hard to tell apart)
   function renderTsumiKinds(blocks) {
-    // and how many of each went on today (the user's call: only the whole day's showed)
-    const counts = new Map(), today = new Map(), gone = new Map(), t0 = Date.parse(todayKey + "T00:00:00");
-    for (const b of blocks) { counts.set(b.kind, (counts.get(b.kind) || 0) + 1); if (b.t >= t0) today.set(b.kind, (today.get(b.kind) || 0) + 1); if (b.gone) gone.set(b.kind, (gone.get(b.kind) || 0) + 1); }
+    // (no 「きょう ＋N」 beside a kind: taken out, the user's call)
+    const counts = new Map(), gone = new Map();
+    for (const b of blocks) { counts.set(b.kind, (counts.get(b.kind) || 0) + 1); if (b.gone) gone.set(b.kind, (gone.get(b.kind) || 0) + 1); }
     // under a kind with deleted ones, how many (the user's call: 「ToDo 14 こ」 were all deleted ones, unsaid); pressed, only
     // they, the newest shown, ◀ ▶ going through them; pressed again, every kind
     const goneRow = (key, v) => !gone.get(key) ? null : el("li", { class: "btn-row tsumi-gone-row" },
       el("button", { type: "button", class: "row-btn nav", "data-gone": key, "aria-pressed": String(tsumiOnly === key && tsumiGoneOnly), onclick: () => {
+        if (sheetEl.open) closeSheet(true); // (from the gear's sheet: the stairs it acts on come into sight)
         tsumiAnim = null; tsumiAtGoal = false; tsumiGone = null;
         if (tsumiOnly === key && tsumiGoneOnly) { tsumiOnly = null; tsumiGoneOnly = false; tsumiPick = null; renderTsumi(); showTsumiStairs(); return; }
         let j = -1;
@@ -10352,16 +10356,35 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       } }, el("span", { class: "sw gone", style: `color: var(${v.c})` }), el("span", {}, `うち削除した${v.label}`), el("span", { class: "row-count" }, `${fmtN(gone.get(key))} こ`)));
     const fb = document.activeElement?.closest?.("#tsumiKinds button"), list = $("tsumiKinds"), focused = fb?.dataset.kind, focusedGone = fb?.dataset.gone;
     list.classList.toggle("only", !!tsumiOnly);
-    const rows = Object.entries(TSUMI_KINDS).filter(([key]) => counts.get(key)).map(([key, v]) => [el("li", { class: "btn-row" },
-      el("button", { type: "button", class: "row-btn nav", "data-kind": key, "aria-pressed": String(tsumiOnly === key && !tsumiGoneOnly), onclick: () => {
-        tsumiOnly = tsumiOnly === key && !tsumiGoneOnly ? null : key; tsumiGoneOnly = false; tsumiPick = null; tsumiAnim = null; tsumiAtGoal = false; tsumiGone = null;
-        if (tsumiOnly) tsumiFollow(shownIndex()); // its newest comes into view
-        renderTsumi(); showTsumiStairs();
-      } }, el("span", { class: "sw blk", style: `--k: ${TSUMI_LIGHT[key]}` }), el("span", {}, v.label),
-      today.get(key) ? el("span", { class: "row-today" }, `きょう ＋${today.get(key)}`) : null, el("span", { class: "row-count" }, `${fmtN(counts.get(key))} こ`))), goneRow(key, v)]).flat();
+    // pressed, the kind's records, to look over and put right (the user's call: from つみかさね's gear); しぼる at its end, only
+    // its blocks in colour on the stairs
+    const rows = Object.entries(TSUMI_KINDS).filter(([key]) => counts.get(key)).map(([key, v]) => {
+      const on = tsumiOnly === key && !tsumiGoneOnly;
+      return [el("li", { class: "btn-row tsumi-kind-row" + (on ? " on" : "") },
+        el("button", { type: "button", class: "row-btn nav", "data-kind": key, onclick: () => openTsumiKind(key) },
+          el("span", { class: "sw blk", style: `--k: ${TSUMI_LIGHT[key]}` }), el("span", {}, v.label),
+          el("span", { class: "row-count" }, `${fmtN(counts.get(key))} こ`), el("span", { class: "chev" }, icon("next", 16))),
+        el("button", { type: "button", class: "tsumi-only", "data-only": key, "aria-pressed": String(on),
+          "aria-label": on ? `${v.label}のしぼりこみをはずす` : `${v.label}のブロックだけ色をつける`, onclick: () => setTsumiOnly(on ? null : key) }, on ? "しぼり中" : "しぼる")),
+        goneRow(key, v)];
+    }).flat();
     setChildren(list, ...(rows.length ? rows : [el("li", { class: "empty" }, "まだ記録がありません。")]));
     if (focused) list.querySelector(`button[data-kind="${focused}"]`)?.focus();
     if (focusedGone) list.querySelector(`button[data-gone="${focusedGone}"]`)?.focus();
+  }
+  // しぼる from つみかさね's 設定: only the kind's blocks in colour, its newest in view; the sheet goes, the stairs show
+  function setTsumiOnly(key) {
+    if (sheetEl.open) closeSheet(true);
+    tsumiOnly = key; tsumiGoneOnly = false; tsumiPick = null; tsumiAnim = null; tsumiAtGoal = false; tsumiGone = null;
+    if (tsumiOnly) tsumiFollow(shownIndex()); // its newest comes into view
+    renderTsumi(); showTsumiStairs();
+  }
+  // a kind pressed there: its records as 記録 lists them (looked over, searched, opened to put right), back to つみかさね;
+  // ToDo and 目標 on their own pages
+  function openTsumiKind(key) {
+    if (sheetEl.open) closeSheet(true);
+    if (key === "todo" || key === "goal") { showTab(key); return; }
+    openRecList(key, "tsumi");
   }
   // the month name nearest a press, within reach of its box
   function nearMonth(g, px, py, reach) {
@@ -10744,127 +10767,9 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     if (kind === "workout") { setDietPart("workout"); showTab("diet"); return; }
     showTab("study");
   }
-  // the whole staircase as a picture (the user's call: to keep it or show it, as a goal's 全体 can be): the count, the
-  // steps and since when over every block, and the kinds under it, in the light colours whatever the screen's (as :root
-  // has them); saved as a goal's picture is
+  // the kinds' colours as on a light ground (as :root has them), for the dots on the white blocks whatever the screen's
+  // (no 画像で保存 of the stairs: taken out, the user's call)
   const TSUMI_LIGHT = { todo: "#1e6ef4", journal: "#956d51", meal: "#c55300", workout: "#007eae", study: "#e7124d", routine: "#4f7a00", weight: "#564ade", money: "#a16a00", goal: "#008575" };
-  async function saveTsumiImage() {
-    const blocks = tsumiShown, n = blocks.length;
-    if (!n) return;
-    const k = tsumiCol(n), r = n - (k * (k + 1)) / 2, cols = k + 1, font = getComputedStyle(document.body).fontFamily, round = getComputedStyle($("tsumiCount")).fontFamily;
-    // with a kind pressed, its count, its days and only its blocks in colour, as on the screen (the user's call: the picture
-    // was every kind's)
-    const only = tsumiOnly, v = TSUMI_KINDS[only], mine = only ? blocks.filter(tsumiIn) : blocks, label = v ? onlyLabel() : "";
-    // the count alone over the stairs, as the page has it (the user's call: the lines under it were taken out), with room
-    // over the stairs for a month's name over the ★; the 段 marks on the right (the user's call: the picture had none)
-    const PAD = 28, SIZE = 480, AX = 44, HEAD = 100, SCALE = 2, W = SIZE + PAD * 2, pitch = Math.min(48, (SIZE - AX) / cols);
-    const gap = pitch >= 16 ? 3 : pitch >= 8 ? 2 : pitch >= 4 ? 1 : 0, size = pitch - gap, rad = size >= 8 ? Math.min(8, size * 0.24) : 0;
-    const t = parseYmd(todayKey);
-    // the kinds and their counts, set in lines under the stairs
-    const counts = new Map();
-    let goneN = 0;
-    for (const b of blocks) { counts.set(b.kind, (counts.get(b.kind) || 0) + 1); if (b.gone && (!only || tsumiIn(b))) goneN++; }
-    const items = Object.entries(TSUMI_KINDS).filter(([key]) => counts.get(key)).map(([key, kv]) => ({ label: kv.label, n: counts.get(key), colour: TSUMI_LIGHT[key], on: !only || (key === only && !tsumiGoneOnly) }));
-    // and the deleted ones (of the kind pressed), as they are drawn (gone)
-    if (goneN) items.push({ label: only ? `削除した${v.label}` : "削除したもの", n: goneN, colour: only ? TSUMI_LIGHT[only] : "#8e8e93", gone: true, on: true });
-    const m = document.createElement("canvas").getContext("2d"), keys = [];
-    m.font = `600 15px ${font}`;
-    let lx = 0, lines = 1;
-    for (const it of items) {
-      const w = 18 + m.measureText(`${it.label} ${fmtN(it.n)}`).width;
-      if (lx && lx + w > SIZE) { lx = 0; lines++; }
-      keys.push({ ...it, x: lx, line: lines - 1 }); lx += w + 18;
-    }
-    const top = PAD + HEAD, ground = top + cols * pitch, H = ground + 28 + lines * 26 + PAD;
-    const canvas = document.createElement("canvas");
-    canvas.width = W * SCALE; canvas.height = H * SCALE;
-    const x = canvas.getContext("2d");
-    x.scale(SCALE, SCALE);
-    // a deleted one's swatch, drawn as this picture's blocks are: faint with lines, or with an edge where they are small
-    const goneSwatch = (px, py, s, rr, colour, sw) => {
-      if (size >= 10) { goneMarks(x, px, py, s, rr, colour, sw); return; }
-      x.strokeStyle = colour; x.lineWidth = 1.5; sw(px + 0.75, py + 0.75, s - 1.5, Math.max(0, rr - 0.75)); x.stroke();
-    };
-    // a kind's key as its blocks are: white and edged, a dot of its colour in the middle; a deleted one's faint, with lines
-    const keySwatch = (px, py, s, rr, colour, gone, sw) => {
-      const a = x.globalAlpha;
-      x.globalAlpha = gone ? a * 0.3 : a; x.fillStyle = "#ffffff"; sw(px, py, s, rr); x.fill();
-      x.strokeStyle = "#c6c6c8"; x.lineWidth = 1; sw(px + 0.5, py + 0.5, s - 1, Math.max(0, rr - 0.5)); x.stroke();
-      x.globalAlpha = a;
-      if (gone) { goneSwatch(px, py, s, rr, colour, sw); return; }
-      x.fillStyle = colour; x.beginPath(); x.arc(px + s / 2, py + s / 2, s * 0.25, 0, 2 * Math.PI); x.fill();
-    };
-    x.fillStyle = "#f2f2f7"; x.fillRect(0, 0, W, H);
-    x.textBaseline = "alphabetic";
-    x.fillStyle = "#6c6c70"; x.font = `600 15px ${font}`;
-    x.textAlign = "left"; x.fillText("つみかさね", PAD, PAD + 14);
-    x.textAlign = "right"; x.fillText(`${t.getFullYear()}年${t.getMonth() + 1}月${t.getDate()}日`, W - PAD, PAD + 14);
-    x.textAlign = "left";
-    let cx = PAD; // the count's place: after the kind's colour and name, with one pressed
-    if (v) {
-      const sw = (px, py, s = 18, rr = 5) => { x.beginPath(); if (x.roundRect) x.roundRect(px, py, s, s, rr); else x.rect(px, py, s, s); };
-      x.globalAlpha = 1; keySwatch(PAD, PAD + 42, 18, 5, TSUMI_LIGHT[only], tsumiGoneOnly, sw);
-      x.fillStyle = "#000000"; x.font = `700 26px ${font}`; x.fillText(label, PAD + 26, PAD + 60);
-      cx = PAD + 26 + x.measureText(label).width + 12;
-    }
-    x.fillStyle = "#000000"; x.font = `700 44px ${round}`;
-    const count = fmtN(mine.length), cw = x.measureText(count).width;
-    x.fillText(count, cx, PAD + 62);
-    x.fillStyle = "#6c6c70"; x.font = `600 17px ${font}`;
-    x.fillText("こ", cx + cw + 6, PAD + 62);
-    // the stairs, from the ground up, as on the screen: the step being built with its places to come and the yellow goal
-    const ox = PAD + (SIZE - AX - cols * pitch) / 2, xOf = (c) => ox + c * pitch + gap / 2, yOf = (row) => ground - (row + 1) * pitch + gap / 2;
-    const sq = (px, py, s = size, rr = rad) => { x.beginPath(); if (rr && x.roundRect) x.roundRect(px, py, s, s, rr); else x.rect(px, py, s, s); };
-    // the blocks as on the screen: white, their colour in their middle, today's larger (the user's call: the picture had
-    // none of today's to see), a deleted one faint with lines across it
-    const dayStart = Date.parse(todayKey + "T00:00:00");
-    blocks.forEach((b, i) => {
-      const c = tsumiCol(i), px = xOf(c), py = yOf(i - (c * (c + 1)) / 2);
-      paintTsumiBlock(x, sq, px, py, size, rad, TSUMI_LIGHT[b.kind], { gone: b.gone, today: b.t >= dayStart, light: true, dim: tsumiIn(b) ? 1 : 0.16 });
-    });
-    x.globalAlpha = 1;
-    x.strokeStyle = "#6c6c70"; x.lineWidth = 1; x.globalAlpha = 0.5;
-    if (size >= 8) x.setLineDash([3, 3]);
-    for (let row = r; row < k; row++) { sq(xOf(k) + 0.5, yOf(row) + 0.5, size - 1); x.stroke(); }
-    x.setLineDash([]); x.globalAlpha = 1;
-    x.fillStyle = "#ffcc00"; sq(xOf(k), yOf(k)); x.fill();
-    x.strokeStyle = "#ffcc00"; x.lineWidth = 1.5; sq(xOf(k) - 2.5, yOf(k) - 2.5, size + 5, rad ? rad + 2.5 : 0); x.stroke(); // its gold ring, as on the screen
-    if (size >= 12) {
-      const cx = xOf(k) + size / 2, cy = yOf(k) + size / 2 + size * 0.03, rr = size * 0.32;
-      x.beginPath();
-      for (let j = 0; j < 10; j++) { const ang = -Math.PI / 2 + (j * Math.PI) / 5, d = j % 2 ? rr * 0.45 : rr; x.lineTo(cx + d * Math.cos(ang), cy + d * Math.sin(ang)); }
-      x.closePath(); x.fillStyle = "rgba(0, 0, 0, .35)"; x.fill();
-    }
-    x.fillStyle = "#c6c6c8"; x.fillRect(PAD, ground + 1, SIZE, 1);
-    // つみねこ, as on the screen (the user's call: in the picture too): on the step finished last, awake once something
-    // has gone on today
-    const nekoPose = blocks[n - 1].t >= dayStart ? "awake" : "asleep", nk = nekoSpot(k - 1, k, nekoPose, pitch, size, xOf, yOf, (px) => Math.floor((px - ox) / pitch));
-    drawNeko(x, nk.cx, nk.fy, nk.u, nekoPose);
-    // the month names, as on the screen (the user's call: the picture had none), on つみねこ's left where it sits
-    const spots = [];
-    x.font = `600 12px ${font}`; x.textAlign = "right"; x.textBaseline = "alphabetic"; x.fillStyle = "#8e8e93";
-    tsumiMonths.forEach(([i, mo], m) => {
-      const c = tsumiCol(i), label = monthName(mo), p = nekoClear({ label, rx: xOf(c) + size - 1 - (c === k - 1 ? 4 : 0), by: yOf(c) - 4, w: x.measureText(label).width, year: mo.endsWith("-01"), m }, nk.box, 12);
-      if (p.rx - p.w >= 4) spots.push(p);
-    });
-    const spotAt = (c, w) => (c <= k ? nekoClear({ rx: xOf(c) + size - 1 - (c === k - 1 ? 4 : 0), by: yOf(c) - 4, w }, nk.box, 12) : null);
-    for (const p of yearMonths(fitMonths(spots, 12), 12, (w) => x.measureText(w).width, 4, spotAt)) x.fillText(p.label, p.rx, p.by);
-    x.textAlign = "left";
-    // the 段 marks, as on the screen
-    const every = [5, 10, 20, 50, 100, 200, 500].find((v) => v * pitch >= 20) || 1000;
-    x.fillStyle = "#6c6c70"; x.font = `600 13px ${font}`; x.textBaseline = "middle";
-    for (let j = every - 1; j <= k; j += every) x.fillText(`${j + 1} 段`, ox + cols * pitch + 8, ground - (j + 0.5) * pitch);
-    x.font = `600 15px ${font}`; x.textBaseline = "middle";
-    for (const it of keys) {
-      const a = it.on ? 1 : 0.35, ly = ground + 28 + it.line * 26 + 8, sw = (px, py, s = 12, rr = 3) => sq(px, py, s, rr);
-      x.globalAlpha = a; keySwatch(PAD + it.x, ly - 6, 12, 3, it.colour, it.gone, sw);
-      x.fillStyle = "#000000"; x.fillText(it.label, PAD + it.x + 18, ly);
-      x.fillStyle = "#6c6c70"; x.fillText(fmtN(it.n), PAD + it.x + 18 + x.measureText(it.label + " ").width, ly);
-    }
-    x.globalAlpha = 1;
-    await savePicture(canvas, `tsumikasane-stairs-${only ? only + (tsumiGoneOnly ? "-deleted" : "") + "-" : ""}${todayKey}.png`, v ? `つみかさね（${label}）` : "つみかさね");
-  }
-  $("tsumiImage").addEventListener("click", saveTsumiImage);
   // drawn again for a new width, and in the other mode's colours
   addEventListener("resize", () => { if (tab === "tsumi" && tsumiGeo) drawTsumi(); });
   matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => { if (tab === "tsumi" && tsumiGeo) drawTsumi(); });
@@ -11007,9 +10912,9 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       }) },
   };
   // drawn before the page slides in, so it arrives whole
-  function openRecList(kind) {
+  function openRecList(kind, back = null) {
     if (!RECORD_LISTS[kind]) return;
-    recListKind = kind; recQuery = ""; // a list opened from its card starts whole; back from a page, its words stay
+    recListBack = back; recListKind = kind; recQuery = ""; // a list opened from its card starts whole; back from a page, its words stay
     renderRecList();
     showTab("reclist");
   }
@@ -11597,7 +11502,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // ---------- この画面の版 ----------
   // when the app's content last changed, so 本番 and テスト版 say the same of the same app (the user's call: each said the
   // time it was put out); tools/make-test.py sets it, and the content it was set for, whenever the content changes
-  const APP_VERSION = "2026年11月9日 12:06"; // b18bbfb7 (tools/make-test.py: the content it was set for)
+  const APP_VERSION = "2026年11月9日 12:47"; // ab06c092 (tools/make-test.py: the content it was set for)
   // (with none, when the page was put out; without the header, lastModified is the moment the page loaded)
   (() => {
     if (APP_VERSION) { $("appVersion").textContent = `アプリの版：${APP_VERSION}`; $("appVersion").hidden = false; return; }
