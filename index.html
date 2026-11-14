@@ -4311,6 +4311,149 @@ ul.list > li.btn-row { padding: 0; }
 #woChart { touch-action: pan-y; }
 /* ③ 自己ベスト */
 #woBestList .num { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* ダイエット その5 (2026-11-14): ① よく食べたもの, ② 区分ごとのカロリー, ③ コピー, ④ 推定1RM, ⑤ 週の目標, ⑦ インターバル, ⑧ 血圧, ⑨ 曜日, ⑩ 前と比べる */
+.dt5-rank .card-head, .dt5-slots .card-head, .dt5-wd .card-head, .dt5-ago .card-head, .dt5-wo-goal .card-head, .dt5-hiit .card-head { padding: 0; }
+.dt5-rank .sub, .dt5-slots .sub, .dt5-wd .sub, .dt5-ago > .sub, .dt5-wo-goal .sub, .dt5-hiit .sub, .dt5-vital .sub { margin: 0; }
+.dt5-seg button { min-height: 32px; padding: 0 12px; white-space: nowrap; }
+.dt5-rank-list { list-style: none; margin: 0; padding: 0; }
+.dt5-rank-list li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: .5px solid var(--separator); }
+.dt5-rank-list li:first-child { border-top: 0; }
+.dt5-rank-list .body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.dt5-rank-name { overflow-wrap: anywhere; }
+.dt5-rank-i { flex: none; width: 1.6em; height: 1.6em; display: grid; place-items: center; border-radius: 50%; background: var(--fill); font-size: var(--t-foot); font-weight: 700; color: var(--muted); }
+.dt5-rank-list .num, .dt5-slot-rows .num, .dt5-wo-goal .num, .dt5-ago .num { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dt5-stack { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: var(--fill); }
+.dt5-stack i { display: block; height: 100%; }
+.dt5-stack .s0, .dt5-key.s0 { background: var(--c-meal); }
+.dt5-stack .s1, .dt5-key.s1 { background: color-mix(in srgb, var(--c-meal) 70%, var(--surface)); }
+.dt5-stack .s2, .dt5-key.s2 { background: color-mix(in srgb, var(--c-meal) 45%, var(--surface)); }
+.dt5-stack .s3, .dt5-key.s3 { background: var(--muted); }
+.dt5-slot-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.dt5-slot-rows li { display: grid; grid-template-columns: auto auto 1fr; align-items: baseline; column-gap: 8px; }
+.dt5-slot-rows li .num { justify-self: end; }
+.dt5-slot-rows li .sub { grid-column: 2 / -1; }
+.dt5-key { display: inline-block; width: 10px; height: 10px; border-radius: 3px; }
+.dt5-copy { margin: -4px 0 0; }
+.dt5-copy[hidden], .dt5-rm-line[hidden] { display: none; }
+.dt5-copy .link-btn { min-height: 40px; }
+.dt5-rm-line { margin: -4px 0 0; font-size: var(--t-sub); color: var(--muted); }
+.dt5-card-foot { margin: 0; padding: 4px var(--space-2) 12px; }
+.dt5-rm .num, .dt5-race .num { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dt5-goal-bar { flex: none; }
+.dt5-goal-bar i.done { background: var(--accent); }
+.dt5-week b { color: var(--muted); }
+.dt5-week b.did { color: var(--c-workout); }
+.dt5-hi-picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.dt5-hi-pick { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.dt5-hi-pick select { width: 100%; min-width: 0; min-height: 40px; padding: 0 10px; background-color: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--fg); font: inherit; font-size: 16px; }
+.dt5-hi-bar { display: flex; justify-content: center; }
+.dt5-hi-bar .btn { min-width: 9em; }
+.dt5-hi-done { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.dt5-hi-now { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0; }
+.dt5-hi-phase { font-weight: 700; font-size: var(--t-title3); color: var(--muted); }
+.dt5-hi-phase.work { color: var(--c-workout); }
+.dt5-hi-phase.rest { color: var(--accent); }
+.dt5-hi-left { font-size: 56px; line-height: 1.1; font-weight: 700; font-variant-numeric: tabular-nums; }
+.dt5-vital-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.dt5-vital-row input { width: 4.6em; min-width: 0; min-height: 40px; padding: 0 8px; background-color: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--fg); font: inherit; font-size: 16px; text-align: center; }
+.dt5-vital-k { width: 2.6em; font-size: var(--t-sub); }
+.dt5-vital-row + .dt5-vital-row { margin-top: 6px; }
+.dt5-vital-row .unit { color: var(--muted); font-size: var(--t-sub); }
+.dt5-vital-note.warn { color: var(--warn); }
+.dt5-bp { display: inline-block; font-size: 10px; line-height: 1.15; letter-spacing: -.02em; }
+.dt5-wd-bars { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; }
+.dt5-wd-col { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; font-size: var(--t-foot); color: var(--muted); }
+.dt5-wd-v { font-variant-numeric: tabular-nums; color: var(--fg); font-size: 11px; letter-spacing: -.02em; }
+.dt5-wd-track { position: relative; width: 14px; height: 56px; border-radius: 4px; background: var(--fill); }
+.dt5-wd-track::after { content: ""; position: absolute; left: -2px; right: -2px; top: 50%; height: 1px; background: var(--separator); }
+.dt5-wd-track i { position: absolute; left: 0; right: 0; border-radius: 3px; background: var(--accent); }
+.dt5-wd-col.up .dt5-wd-track i { background: var(--warn); }
+.dt5-ago .num.down { color: var(--accent); }
+.dt5-ago > .sub { margin-top: 8px; }
+/* ダイエット その6 (2026-11-14): ①② 野菜・お酒・カフェイン, ③ 食べられるもの, ⑤ 1年, ⑦ シューズ, ⑧ スコア, ⑩ ごほうび */
+.dt6-veg .card-head, .dt6-drink .card-head, .dt6-year .card-head, .dt6-shoes .card-head, .dt6-score .card-head, .dt6-sleep .card-head, .dt6-reward .card-head { padding: 0; }
+.dt6-veg .sub, .dt6-drink .sub, .dt6-year .sub, .dt6-shoes .sub, .dt6-score .sub, .dt6-sleep > .sub, .dt6-reward .sub { margin: 0; }
+.dt6-veg .num, .dt6-shoes .num, .dt6-zone .num { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dt6-bar { flex: none; }
+.dt6-bar i.done { background: var(--accent); }
+.dt6-bar i.over { background: var(--warn); }
+.dt6-stepper { display: flex; align-items: center; gap: 8px; }
+.dt6-step-k { flex: 1; min-width: 0; font-size: var(--t-sub); }
+.dt6-step-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--fill); }
+.dt6-step-v { min-width: 3.4em; text-align: center; font-variant-numeric: tabular-nums; }
+.dt6-drink .sub.warn, .dt6-shoes .sub.warn { color: var(--warn); }
+.dt6-fit { display: grid; gap: 6px; padding-top: 10px; margin-top: 10px; border-top: .5px solid var(--separator); }
+.dt6-fit-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.dt6-year-cells { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.dt6-year-cell { display: flex; flex-direction: column; padding: 8px 10px; border-radius: 10px; background: var(--fill); }
+.dt6-year-cell strong { font-variant-numeric: tabular-nums; }
+.dt6-months { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; }
+.dt6-month { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.dt6-month small { font-size: 10px; color: var(--muted); }
+.dt6-month-track { position: relative; width: 100%; max-width: 16px; height: 48px; border-radius: 3px; background: var(--fill); }
+.dt6-month-track i { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 3px; background: var(--c-workout); }
+.dt6-walk { margin: 0; }
+.dt6-walk[hidden] { display: none; }
+.dt6-shoe-name { font-weight: 600; overflow-wrap: anywhere; }
+.dt6-score-v strong { font-size: 24px; font-variant-numeric: tabular-nums; }
+.dt6-score-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.dt6-score-rows li { display: grid; grid-template-columns: 3em minmax(0, 1fr) auto; align-items: baseline; gap: 8px; }
+.dt6-score-rows .num { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--muted); }
+.dt6-score-rows li.full .num { color: var(--accent); }
+.dt6-score-rows li.half .num { color: var(--fg); }
+.dt6-sleep .num { font-weight: 700; font-variant-numeric: tabular-nums; }
+.dt6-sleep > .sub { margin-top: 8px; }
+.dt6-reward-next { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 10px 12px; border-radius: 10px; background: var(--fill); }
+.dt6-reward-next strong { overflow-wrap: anywhere; }
+.dt6-reward-got { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: var(--t-sub); }
+.dt6-reward-got li { display: flex; gap: 6px; overflow-wrap: anywhere; }
+.dt6-check { color: var(--accent); font-weight: 700; }
+/* ダイエット その7 (2026-11-14): ① 食事カレンダー, ② 食べたもの, ③ 予定, ④ 写真, ⑤⑥ ウォームアップ・プレート, ⑧ 曜日, ⑨ 内訳, ⑩ 理由 */
+.dt7-cal-day.in { background: color-mix(in srgb, var(--accent) 18%, var(--surface)); }
+.dt7-cal-day.over { background: color-mix(in srgb, #ff9500 24%, var(--surface)); }
+.dt7-cal-k { font-size: 11px; }
+.dt7-cal-dot { width: 5px; height: 5px; margin-top: 4px; border-radius: 50%; background: var(--muted); }
+.dt7-key { display: inline-block; width: 9px; height: 9px; margin-inline-end: 4px; border-radius: 3px; vertical-align: 0; }
+.dt7-key.in { background: color-mix(in srgb, var(--accent) 45%, var(--surface)); }
+.dt7-key.over { background: color-mix(in srgb, #ff9500 55%, var(--surface)); }
+.dt7-meal-cal .sub, .dt7-food .sub, .dt7-gallery .sub, .dt7-split .sub, .dt7-why .sub { margin: 0; }
+.dt7-meal-cal .card-head, .dt7-food .card-head, .dt7-gallery .card-head, .dt7-split .card-head, .dt7-why .card-head { padding: 0; }
+.dt7-food-head { margin: 4px 0 0; font-size: var(--t-sub); font-weight: 600; }
+.dt7-food-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.dt7-food-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: baseline; gap: 10px; padding: 4px 0; border-top: .5px solid var(--separator); }
+.dt7-food-name { overflow-wrap: anywhere; }
+.dt7-food-list .num { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dt7-food-list .num.up { color: var(--warn); }
+.dt7-food-list .num.down { color: var(--accent); }
+.dt7-plan .card-head { padding: 12px var(--space-2) 4px; }
+.dt7-plan-list li .body { min-width: 0; }
+.dt7-plan .btn.dt7-eat { flex: none; white-space: nowrap; }
+.dt7-plan-sum { margin: 0; padding: 4px var(--space-2) 8px; }
+.dt7-plan-sum.warn { color: var(--warn); }
+.dt7-plan-form { display: grid; gap: 8px; padding: 4px var(--space-2) 12px; }
+.dt7-plan-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.dt7-plan-form input, .dt7-plan-form select { width: 100%; min-width: 0; min-height: 40px; padding: 0 10px; background-color: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--fg); font: inherit; font-size: 16px; }
+.dt7-plan-go { display: flex; justify-content: flex-end; }
+.dt7-gal-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.dt7-gal-cell { position: relative; aspect-ratio: 1; padding: 0; overflow: hidden; border: 0; border-radius: 8px; background: var(--fill); cursor: pointer; }
+.dt7-gal-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dt7-gal-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 2px 6px; background: linear-gradient(transparent, rgba(0, 0, 0, .55)); color: #ffffff; font-size: 11px; text-align: left; }
+.dt7-lift { display: grid; gap: 2px; margin: -4px 0 0; font-size: var(--t-sub); }
+.dt7-lift[hidden] { display: none; }
+.dt7-lift .muted { color: var(--muted); }
+.dt7-wds { display: flex; flex-wrap: wrap; gap: 6px; }
+#dt6ShoeForm .btn { flex: none; white-space: nowrap; }
+#dt6ShoeFrom { min-width: 0; }
+.dt7-wd { width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: var(--fill); color: var(--fg); font: inherit; font-size: var(--t-sub); cursor: pointer; }
+.dt7-wd[aria-pressed="true"] { background: var(--accent); color: #ffffff; font-weight: 700; }
+.dt7-wd:disabled { opacity: .45; cursor: default; }
+.dt7-split .num { font-weight: 700; font-variant-numeric: tabular-nums; }
+.dt7-split > .sub { margin-top: 8px; }
+.dt7-why-text { margin: 0; padding: 10px 12px; border-radius: 10px; background: var(--fill); font-weight: 600; white-space: pre-wrap; overflow-wrap: anywhere; }
+.dt7-why textarea { width: 100%; min-height: 72px; padding: 8px 10px; background-color: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--fg); font: inherit; font-size: 16px; resize: vertical; }
+.dt7-why-bar { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
+.dt7-why .btn.ghost { justify-self: start; }
+.dt7-why-meal { margin: 10px 0 0; padding-top: 8px; border-top: .5px solid var(--separator); font-size: var(--t-sub); white-space: pre-wrap; overflow-wrap: anywhere; }
 /* ⑨ the rest, counted down above the tab bar over every page, with ＋30秒 and おわり */
 .rest-bar {
   position: fixed; z-index: 29; left: 50%; transform: translateX(-50%); bottom: calc(var(--tabbar) + max(12px, env(safe-area-inset-bottom, 0px)) + 68px);
@@ -6594,6 +6737,40 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
           <div class="ffield"><select id="dt4StepGoal"></select></div>
         </form>
         <p class="group-foot"><span class="phrase">運動のページで、</span><span class="phrase">その日の歩数を入れられます。</span></p>
+        <!-- (ダイエット その5 ⑤) the days a week of 運動 -->
+        <h3 class="group-head">週の目標</h3>
+        <form class="add" id="dt5WoDaysForm" autocomplete="off" onsubmit="return false">
+          <label class="flabel" for="dt5WoDays">運動する日</label>
+          <div class="ffield"><select id="dt5WoDays"><option value="0">目標なし</option><option value="1">週 1 日</option><option value="2">週 2 日</option><option value="3">週 3 日</option><option value="4">週 4 日</option><option value="5">週 5 日</option><option value="6">週 6 日</option><option value="7">毎日</option></select></div>
+        </form>
+        <p class="group-foot"><span class="phrase">運動のページの「今週の運動」で、</span><span class="phrase">運動した日を数えます。</span></p>
+        <!-- (ダイエット その6 ⑦) the running shoes, each from the day first worn -->
+        <h3 class="group-head">ランニングシューズ</h3>
+        <ul class="list card" id="dt6ShoeList" hidden></ul>
+        <form class="add" id="dt6ShoeForm" autocomplete="off">
+          <label class="flabel" for="dt6ShoeName">名前</label>
+          <div class="ffield"><input type="text" id="dt6ShoeName" maxlength="30"><button class="btn ghost sm" type="submit">登録</button></div>
+          <label class="flabel" for="dt6ShoeFrom">使いはじめた日</label>
+          <div class="ffield"><input type="date" id="dt6ShoeFrom"></div>
+        </form>
+        <p class="group-foot"><span class="phrase">その日からのランの距離を数えて、</span><span class="phrase">600 km を替えどきの目安にします。</span><span class="phrase">新しいシューズを登録すると、その日からはそちらで数えます。</span></p>
+        <!-- (ダイエット その7 ⑥) the bar's weight, for the plates; ⑧ 運動のお知らせ -->
+        <h3 class="group-head">バーベル</h3>
+        <form class="add" id="dt7BarForm" autocomplete="off" onsubmit="return false">
+          <label class="flabel" for="dt7Bar">バーの重さ</label>
+          <div class="ffield"><select id="dt7Bar"><option value="20">20 kg</option><option value="15">15 kg</option><option value="10">10 kg</option></select></div>
+        </form>
+        <p class="group-foot"><span class="phrase">ベンチプレスなどバーベルの種目で重さを入れると、</span><span class="phrase">片側につけるプレートを出します。</span></p>
+        <h3 class="group-head">運動のお知らせ</h3>
+        <form class="add" id="dt7RemindForm" autocomplete="off" onsubmit="return false">
+          <label class="flabel" for="dt7RemindOn">お知らせ</label>
+          <div class="ffield"><input type="checkbox" id="dt7RemindOn" class="switch" role="switch"></div>
+          <label class="flabel" for="dt7RemindAt">時刻</label>
+          <div class="ffield"><input type="time" id="dt7RemindAt" value="18:00"></div>
+          <span class="flabel full" id="dt7RemindDaysLabel">曜日</span>
+          <div class="ffield full dt7-wds" role="group" aria-labelledby="dt7RemindDaysLabel" id="dt7RemindDays"></div>
+        </form>
+        <p class="group-foot" id="dt7RemindFoot"></p>
       </div>
       <!-- 食事の設定 (the gear while 食事 shows, the user's calls, 2026-11-10): the 目安 (からだ's own), ⑤ the protein goal, ⑩ お知らせ -->
       <div class="sheet-view" id="mealSetGroup" hidden>
@@ -6872,6 +7049,16 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
           <div class="ffield"><input type="date" id="dt4Start"></div>
         </form>
         <p class="group-foot" id="dt4StartFoot"></p>
+        <!-- (ダイエット その6 ⑩) ごほうび at weights of one's own -->
+        <h3 class="group-head">ごほうび</h3>
+        <ul class="list card" id="dt6RewardList" hidden></ul>
+        <form class="add" id="dt6RewardForm" autocomplete="off">
+          <label class="flabel" for="dt6RewardKg">体重</label>
+          <div class="ffield"><input type="number" id="dt6RewardKg" step="0.1" min="20" max="300" inputmode="decimal"><span class="unit">kg</span></div>
+          <label class="flabel" for="dt6RewardText">ごほうび</label>
+          <div class="ffield"><input type="text" id="dt6RewardText" maxlength="40"><button class="btn ghost sm" type="submit">追加</button></div>
+        </form>
+        <p class="group-foot"><span class="phrase">からだのページに、次のごほうびまであと何 kg かが出ます。</span></p>
         <!-- (からだ その2 ⑥) サイズの目標: a line on its plot, and how far the latest is -->
         <h3 class="group-head">サイズの目標</h3>
         <form class="add" id="bd2SizeGoalForm" autocomplete="off" onsubmit="return false"><div class="form-rows" id="bd2SizeGoalRows"></div></form>
@@ -9331,6 +9518,9 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     // ①〜⑩ (the user's calls, 2026-11-10)
     draw(() => renderMealGoal(items)); draw(renderMealOften); draw(renderMealYesterday); draw(renderMealWeek); draw(() => syncMealAt());
     if (dietFour) draw(renderDt4Meal); // (ダイエット その4, 2026-11-13)
+    if (dietFive) draw(renderDt5Meal); // (ダイエット その5, 2026-11-14)
+    if (dietSix) draw(renderDt6Meal); // (ダイエット その6)
+    if (dietSeven) draw(renderDt7Meal); // (ダイエット その7)
   }
   // a row's line under its name: ⑧ when (21時以降 said), ⑤ its PFC, ⑨ what it cost in 家計簿
   function mealSub(m) {
@@ -9832,6 +10022,9 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     // ①〜⑩ (the user's calls, 2026-11-10)
     draw(renderWoLast); draw(syncWoKcal); draw(() => renderWoBalance(items)); draw(renderRunMonth); draw(renderWoWeek); draw(renderWoParts); draw(renderWoBest); draw(renderWoChart);
     if (dietFour) draw(renderDt4Wo); // (ダイエット その4, 2026-11-13)
+    if (dietFive) draw(renderDt5Wo); // (ダイエット その5, 2026-11-14)
+    if (dietSix) draw(renderDt6Wo); // (ダイエット その6)
+    if (dietSeven) draw(renderDt7Wo); // (ダイエット その7)
   }
 
   // ---------- 運動 ①〜⑩ (the user's calls, 2026-11-10): the last time and the same again (①), when to go up a step (②), 自己
@@ -11697,6 +11890,9 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     if (bodyTwo) { renderBodyTwo(); draw(renderBd2Week); draw(renderBd2SizeGoals); } // (からだ その2)
     draw(renderBd3); // (からだ その3)
     if (dietFour) draw(renderDt4Body); // (ダイエット その4)
+    if (dietFive) draw(renderDt5Body); // (ダイエット その5)
+    if (dietSix) draw(renderDt6Body); // (ダイエット その6)
+    if (dietSeven) draw(renderDt7Body); // (ダイエット その7)
     renderPhotos().catch(() => {});
 
     // the list in the settings under the gear: every record, newest first, the period above not reaching it there; a row
@@ -13833,6 +14029,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     if (todoEleven) out.push(...td11Alarms(now)); // (ToDo その11 ⑤ 締め切り)
     out.push(...bd2WeekAlarms(now)); // (からだ その2 ⑨ 週のまとめ)
     out.push(...bd3Alarms(now)); // (からだ その3 ④ 寝る時刻, ⑤ 水分)
+    if (dietSeven) out.push(...dt7Alarms(now)); // (ダイエット その7 ⑧ 運動のお知らせ)
     out.push(...bt2Alarms(now), ...mo2Alarms(now)); // (バイト その2 ② 出勤前, ⑨ シフト希望; 家計簿 その2 ⑥ つけ忘れ)
     out.push(...bt3Alarms(now)); // (バイト その3 ⑨ 給料日)
     out.push(...goalReviewAlarms(now)); // 目標 ⑤ 見直しのお知らせ
@@ -13887,6 +14084,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     if (todoEleven) parts.push(...td11Push()); // (ToDo その11 ⑤)
     if (bodyTwo) parts.push(...bd2Push()); // (からだ その2 ⑨)
     parts.push(...bd3Push()); // (からだ その3 ④⑤)
+    if (dietSeven) parts.push(...dt7Push()); // (ダイエット その7 ⑧)
     parts.push(...bt2Push(), ...mo2Push()); // (バイト その2 ②⑨, 家計簿 その2 ⑥)
     parts.push(...bt3Push()); // (バイト その3 ⑨)
     parts.push(...goalReviewParts()); // (目標 ⑤)
@@ -20696,7 +20894,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // ---------- この画面の版 ----------
   // when the app's content last changed, so 本番 and テスト版 say the same of the same app (the user's call: each said the
   // time it was put out); tools/make-test.py sets it, and the content it was set for, whenever the content changes
-  const APP_VERSION = "2026年11月14日 10:14"; // 661ff812 (tools/make-test.py: the content it was set for)
+  const APP_VERSION = "2026年11月14日 10:19"; // 6e8b4efa (tools/make-test.py: the content it was set for)
   // (with none, when the page was put out; without the header, lastModified is the moment the page loaded)
   (() => {
     if (APP_VERSION) { $("appVersion").textContent = `アプリの版：${APP_VERSION}`; $("appVersion").hidden = false; return; }
@@ -31754,7 +31952,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   function bd2PutDay(d, patch, undoWords) {
     const was = bd2Day(d), next = { ...(was || {}), date: d, ...patch, createdAt: was?.createdAt || Date.now(), updatedAt: Date.now() };
     for (const k of Object.keys(next)) if (next[k] === undefined) delete next[k];
-    const empty = !num(next.water) && !isHm(next.bed || "") && !isHm(next.wake || "") && !num(next.temp) && !next.cond && !next.note && !num(next.steps); // (からだ その3 ②③, ダイエット その4 ⑧)
+    const empty = !num(next.water) && !isHm(next.bed || "") && !isHm(next.wake || "") && !num(next.temp) && !next.cond && !next.note && !num(next.steps) && !num(next.sys) && !num(next.dia) && !num(next.pulse) && !num(next.veg) && !num(next.alc) && !num(next.caf); // (からだ その3 ②③, ダイエット その4 ⑧, その5 ⑧, その6 ①②)
     act(async () => { if (empty) { if (was) takeBack(bodyDays, [d]); } else await bodyDays.write(d, next); });
     if (undoWords) flash(undoWords, () => act(async () => { if (was) await bodyDays.write(d, was); else takeBack(bodyDays, [d]); }));
   }
@@ -38038,6 +38236,970 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   function renderDt4Wo() { draw(renderDt4MoveNote); draw(renderDt4Steps); draw(renderDt4WoCal); draw(renderDt4WoSettings); }
   function renderDt4Body() { draw(renderDt4Since); draw(renderDt4StartSet); }
   dietFour = true;
+
+  // ---------- ダイエット その5 ①〜⑩ (the user's calls, 2026-11-14): what was eaten most, by times or by kcal (①), the
+  // kcal by 区分 (②) and the day's 食事 as words to copy (③); 推定1RM (④), 運動's days a week against a goal (⑤), ランの
+  // タイム予想 (⑥) and an interval timer (⑦); 血圧・脈拍 (⑧), the weight by weekday (⑨) and the weight against a week, a
+  // month, three months and a year before (⑩). Function declarations and var, as the page may draw before this runs
+  // (dietFive, set at its end) ----------
+  var dietFive = false;
+  function dt5Range(d, n) { return [addDays(d, -(n - 1)), d]; }
+  function dt5Key(s) { return oneLine(s).normalize("NFKC").replace(/\s+/g, "").toLowerCase(); }
+
+  // ① この30日の食事: the foods eaten most often, or those that came to the most kcal, the 30 days up to the day shown
+  var dt5RankBy = "n";
+  function dt5Foods(d) {
+    const [from, to] = dt5Range(d, 30), by = new Map(), xs = meals.items.filter((m) => isDay(m.date || "") && m.date >= from && m.date <= to && oneLine(m.text));
+    for (const m of xs) {
+      const k = dt5Key(m.text), b = by.get(k) || { name: oneLine(m.text), n: 0, kcal: 0, kn: 0, last: "" };
+      b.n++;
+      if (typeof m.kcal === "number") { b.kcal += m.kcal; b.kn++; }
+      if (m.date >= b.last) { b.last = m.date; b.name = oneLine(m.text); }
+      by.set(k, b);
+    }
+    return { from, to, all: xs.length, kcal: sum(xs, (m) => (typeof m.kcal === "number" ? m.kcal : 0)), foods: [...by.values()] };
+  }
+  function renderDt5Rank() {
+    let box = $("dt5Rank");
+    if (!box) { box = el("div", { class: "card pad dt5-rank", id: "dt5Rank", hidden: true }); $("mealWeekCard").after(box); }
+    const r = dt5Foods(viewDate);
+    if (r.all < 3) { box.hidden = true; box.replaceChildren(); return; }
+    box.hidden = false;
+    const byK = dt5RankBy === "kcal" && r.kcal > 0, list = r.foods.filter((f) => (byK ? f.kcal > 0 : true))
+      .sort((a, b) => (byK ? b.kcal - a.kcal || b.n - a.n : b.n - a.n || b.kcal - a.kcal) || b.last.localeCompare(a.last)).slice(0, 5);
+    const seg = el("div", { class: "seg dt5-seg", role: "group", "aria-label": "並べ方" }, [["n", "回数"], ["kcal", "kcal"]].map(([k, w]) =>
+      el("button", { type: "button", "aria-pressed": String((byK ? "kcal" : "n") === k), disabled: k === "kcal" && !r.kcal, onclick: () => { dt5RankBy = k; renderDt5Rank(); } }, w)));
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "よく食べたもの"), seg),
+      el("ol", { class: "dt5-rank-list" }, list.map((f, i) => el("li", {}, el("span", { class: "dt5-rank-i" }, String(i + 1)),
+        el("span", { class: "body" }, el("span", { class: "dt5-rank-name" }, f.name), el("span", { class: "sub" }, phrases([`${f.n} 回`, f.kn ? `1回 平均 ${fmtN(Math.round(f.kcal / f.kn))} kcal` : null]))),
+        el("span", { class: "num" }, byK ? `${fmtN(Math.round(f.kcal))} kcal` : `${f.n} 回`)))),
+      el("p", { class: "sub" }, phrases([`${fmtMD(r.from)}〜${fmtMD(r.to)}の30日`, byK && list.length ? `上の${list.length}つで全体の ${Math.round((sum(list, (f) => f.kcal) / r.kcal) * 100)}%` : `記録 ${fmtN(r.all)} 件`])));
+  }
+
+  // ② 区分ごとのカロリー: the 30 days' kcal by 朝食・昼食・夕食・間食 (a day a share, over the days with a kcal), as one bar
+  function dt5SlotShare(d) {
+    const [from, to] = dt5Range(d, 30), xs = meals.items.filter((m) => isDay(m.date || "") && m.date >= from && m.date <= to && typeof m.kcal === "number" && m.kcal > 0);
+    const days = new Set(xs.map((m) => m.date)).size, all = sum(xs, (m) => m.kcal);
+    return { days, all, rows: SLOTS.map((s) => { const k = sum(xs.filter((m) => (SLOTS.includes(m.slot) ? m.slot : "間食") === s), (m) => m.kcal); return { s, k, pct: all ? (k / all) * 100 : 0 }; }) };
+  }
+  function renderDt5Slots() {
+    let box = $("dt5Slots");
+    if (!box) { box = el("div", { class: "card pad dt5-slots", id: "dt5Slots", hidden: true }); ($("dt5Rank") || $("mealWeekCard")).after(box); }
+    const r = dt5SlotShare(viewDate);
+    if (r.days < 3) { box.hidden = true; box.replaceChildren(); return; }
+    box.hidden = false;
+    const pr = r.rows.map((x) => ({ ...x, p: Math.round(x.pct) })), snack = pr[3].p, dinner = pr[2].p, breakfast = pr[0].p;
+    const say = snack >= 20 ? `間食が全体の ${snack}% です。減らすなら、まずここからが近道です` : dinner >= 45 ? `夕食が全体の ${dinner}% です。朝や昼に少し回すと、夜が軽くなります`
+      : breakfast < 10 ? "朝食が少なめです。朝に少し食べると、昼までの空腹がやわらぎます" : "かたよりは少なめです";
+    setChildren(box, el("div", { class: "card-head" }, "区分ごとのカロリー"),
+      el("div", { class: "dt5-stack", role: "img", "aria-label": pr.map((x) => `${x.s} ${x.p}%`).join("、") }, pr.map((x, i) => (x.pct > 0 ? el("i", { class: "s" + i, style: `width:${x.pct}%` }) : null))),
+      el("ul", { class: "dt5-slot-rows" }, pr.map((x, i) => el("li", {}, el("span", { class: "dt5-key s" + i, "aria-hidden": "true" }), el("span", {}, x.s),
+        el("span", { class: "num" }, `${x.p}%`), el("span", { class: "sub" }, `1日 平均 ${fmtN(Math.round(x.k / r.days))} kcal`)))),
+      el("p", { class: "sub" }, phrases([`${fmtMD(addDays(viewDate, -29))}〜${fmtMD(viewDate)}のカロリーを入れた ${r.days} 日`, say])));
+  }
+
+  // ③ the day's 食事 as words (区分 by 区分, with kcal and the day's PFC), shared or copied to paste into LINE and the like
+  function dt5DayText(d) {
+    const xs = meals.items.filter((m) => m.date === d).sort((a, b) => SLOTS.indexOf(a.slot) - SLOTS.indexOf(b.slot) || (mealAt(a) || "99").localeCompare(mealAt(b) || "99") || num(a.createdAt) - num(b.createdAt));
+    if (!xs.length) return "";
+    const k = (m) => (typeof m.kcal === "number" ? ` ${fmtN(m.kcal)}kcal` : ""), lines = [`${fmtMDW(d)}の食事`];
+    for (const s of [...SLOTS, ""]) {
+      const ys = xs.filter((m) => (s ? m.slot === s : !SLOTS.includes(m.slot)));
+      if (ys.length) lines.push(`${s || "食事"}：${ys.map((m) => `${oneLine(m.text)}${k(m)}`).join("、")}`);
+    }
+    const wk = xs.filter((m) => typeof m.kcal === "number"), pfc = ["p", "f", "c"].map((x) => [x.toUpperCase(), sum(xs, (m) => (typeof m[x] === "number" ? m[x] : 0))]).filter(([, v]) => v > 0);
+    if (wk.length) lines.push(`合計 ${fmtN(sum(wk, (m) => m.kcal))} kcal` + (pfc.length ? `（${pfc.map(([x, v]) => `${x} ${fmtN(Math.round(v))}g`).join("・")}）` : "") + (wk.length < xs.length ? `（kcal 未入力 ${xs.length - wk.length} 件）` : ""));
+    return lines.join("\n");
+  }
+  async function dt5CopyDay() {
+    const text = dt5DayText(viewDate);
+    if (!text) { flash("この日の食事はまだありません"); return; }
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch {
+      const ta = el("textarea", { readonly: true, style: "position:fixed;top:0;left:0;opacity:0" }, text);
+      document.body.append(ta); ta.select();
+      try { ok = document.execCommand("copy"); } catch {}
+      ta.remove();
+    }
+    flash(ok ? "この日の食事を文字でコピーしました。LINEなどに貼り付けられます" : "コピーできませんでした");
+  }
+  function renderDt5Copy() {
+    let p = $("dt5Copy");
+    if (!p) { p = el("p", { class: "dt5-copy", id: "dt5Copy", hidden: true }, el("button", { type: "button", class: "link-btn", onclick: dt5CopyDay }, "この日の食事を文字でコピー")); $("mealTotal").after(p); }
+    p.hidden = !meals.items.some((m) => m.date === viewDate);
+  }
+
+  // ④ 推定1RM (Epley: 重さ × (1 + 回数 / 30)), from sets of 1〜12 回 with a weight (秒 not); the best of a move, said under 種目
+  // as it is typed with the weights for 5・8・10 回, and the moves' in a card under 自己ベスト
+  const dt5Rm = (kg, reps) => (kg > 0 && reps >= 1 && reps <= 12 ? (reps === 1 ? kg : kg * (1 + reps / 30)) : 0);
+  const dt5Half = (v) => Math.round(v * 2) / 2;
+  function dt5Rms(upTo = todayKey) {
+    const by = new Map();
+    for (const w of workouts.items) {
+      if (!w.exercise || w.per === "sec" || !isDay(w.date || "") || w.date > upTo) continue;
+      const k = woKey(w.exercise);
+      for (const s of setsOfEntry(w)) {
+        const v = dt5Rm(num(s.kg), Math.round(num(s.reps)));
+        const b = by.get(k);
+        if (v > 0 && (!b || v > b.rm)) by.set(k, { name: w.exercise, rm: v, kg: num(s.kg), reps: Math.round(num(s.reps)), date: w.date });
+      }
+    }
+    return by;
+  }
+  function renderDt5RmLine() {
+    let p = $("dt5RmLine");
+    if (!p) { p = el("p", { class: "full field-note dt5-rm-line", id: "dt5RmLine", hidden: true }); ($("dt4MoveNote") || $("woExercise").parentNode).after(p); }
+    const name = $("woType").value === "筋トレ" ? $("woExercise").value.trim() : "", b = name ? dt5Rms().get(woKey(name)) : null;
+    if (!b) { p.hidden = true; p.replaceChildren(); return; }
+    p.hidden = false;
+    setChildren(p, el("span", { class: "phrase" }, keepUnits(`推定1RM ${fmtNum(dt5Half(b.rm))} kg`)), "・",
+      el("span", { class: "phrase" }, keepUnits("目安 " + [5, 8, 10].map((r) => `${r}回 ${fmtNum(dt5Half(b.rm / (1 + r / 30)))} kg`).join("・"))));
+  }
+  function renderDt5RmCard() {
+    let box = $("dt5RmCard");
+    if (!box) { box = el("div", { class: "card dt5-rm", id: "dt5RmCard", hidden: true }, el("div", { class: "card-head" }, "推定1RM（1回だけ挙げられる重さ）"), el("ul", { class: "list" }), el("p", { class: "sub dt5-card-foot" })); $("woBestCard").after(box); }
+    const now = dt5Rms(), was = dt5Rms(addDays(todayKey, -30)), list = [...now.values()].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 8);
+    box.hidden = !list.length;
+    if (!list.length) return;
+    setChildren(box.querySelector("ul"), list.map((b) => {
+      const old = was.get(woKey(b.name)), up = old && b.rm - old.rm >= 0.5 ? dt5Half(b.rm - old.rm) : 0;
+      return el("li", {}, el("span", { class: "body" }, el("span", {}, b.name), el("span", { class: "sub" }, phrases([keepUnits(`${woDayWord(b.date)} ${fmtNum(b.kg)} kg × ${b.reps} 回から`), up ? `30日前より +${fmtNum(up)} kg` : null]))),
+        el("span", { class: "num" }, `${fmtNum(dt5Half(b.rm))} kg`));
+    }));
+    box.querySelector(".dt5-card-foot").textContent = "1〜12回のセットから計算した目安です。実際に1回の重さを試すときは、補助についてもらいましょう。";
+  }
+
+  // ⑤ 運動の週の目標 (settings woDaysGoal, with the account): the days of 運動 this week (as the calendar starts it) against
+  // the goal, the week's days in a row, and the weeks in a row before this one that reached it
+  function dt5DaysGoal() { const v = num(settings.get("woDaysGoal")?.days); return v >= 1 && v <= 7 ? v : 0; }
+  function dt5WeekDays(start) { const end = addDays(start, 6), s = new Set(); for (const w of workouts.items) if (isDay(w.date || "") && w.date >= start && w.date <= end && w.date <= todayKey) s.add(w.date); return s; }
+  function renderDt5WoGoal() {
+    let box = $("dt5WoGoal");
+    if (!box) { box = el("div", { class: "card pad dt5-wo-goal", id: "dt5WoGoal" }); $("runMonthCard").after(box); }
+    const goal = dt5DaysGoal(), start = addDays(viewDate, -((parseYmd(viewDate).getDay() - weekStart() + 7) % 7)), days = dt5WeekDays(start), n = days.size;
+    let streak = 0;
+    if (goal) for (let i = 1; i <= 52; i++) { if (dt5WeekDays(addDays(start, -7 * i)).size >= goal) streak++; else break; }
+    const cur = start <= todayKey && todayKey <= addDays(start, 6), left = cur ? daysBetween(todayKey, addDays(start, 6)) + 1 : 0, need = Math.max(0, goal - n);
+    const pct = goal ? Math.min(100, Math.round((n / goal) * 100)) : 0;
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, cur ? "今週の運動" : `${fmtMD(start)}の週の運動`), el("span", { class: "num" }, goal ? `${n} / ${goal} 日` : `${n} 日`)),
+      goal ? el("span", { class: "bar-track dt5-goal-bar", role: "img", "aria-label": `目標の ${pct}%` }, el("i", { class: n >= goal ? "done" : "", style: `width:${pct}%` })) : null,
+      el("div", { class: "bd3-week dt5-week" }, Array.from({ length: 7 }, (_, i) => { const d = addDays(start, i), did = days.has(d); return el("span", { class: "bd3-day" + (did ? " ok" : "") + (d === viewDate ? " today" : "") },
+        el("small", { "aria-hidden": "true" }, WD[parseYmd(d).getDay()]), el("b", { class: did ? "did" : null, "aria-hidden": "true" }, did ? "●" : d > todayKey ? "" : "—"), el("span", { class: "sr-only" }, `${fmtMDW(d)} ${did ? "運動した" : d > todayKey ? "これから" : "運動なし"}`)); })),
+      el("p", { class: "sub" }, goal ? phrases([n >= goal ? "今週の目標に届きました" : cur ? (need > left ? `あと ${need} 日（残り ${left} 日）` : `あと ${need} 日`) : "目標に届きませんでした", streak ? `${streak} 週続けて達成` : null])
+        : el("button", { type: "button", class: "link-btn", onclick: (ev) => openSettings(ev.detail === 0, "workout", $("dt5WoDays")) }, "週に何日運動するか、目標を決める")));
+  }
+  $("dt5WoDays").addEventListener("change", (ev) => { const v = Number(ev.target.value); act(() => (v ? settings.set("woDaysGoal", { days: v, updatedAt: Date.now() }) : settings.remove("woDaysGoal"))); });
+
+  // ⑥ ランのタイム予想 (Riegel: 時間 × (距離の比)^1.06), from the best of the runs of 1 km or more in the 90 days up to the
+  // day shown: 5 km, 10 km, ハーフ and フル, each with its pace
+  function dt5Clock(s) { const t = Math.round(s), h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60); return h ? `${h}:${pad(m)}:${pad(t % 60)}` : `${m}:${pad(t % 60)}`; }
+  function dt5BestRun(d = viewDate) {
+    let best = null;
+    for (const w of workouts.items) {
+      if (w.type !== "ランニング" || !isDay(w.date || "") || w.date > d || w.date < addDays(d, -89) || !(num(w.km) >= 1) || !(num(w.minutes) > 0)) continue;
+      const score = (num(w.minutes) * 60) / Math.pow(num(w.km), 1.06);
+      if (!best || score < best.score) best = { score, w };
+    }
+    return best;
+  }
+  function renderDt5Race() {
+    let box = $("dt5Race");
+    if (!box) { box = el("div", { class: "card dt5-race", id: "dt5Race", hidden: true }, el("div", { class: "card-head" }, "ランのタイム予想"), el("ul", { class: "list" }), el("p", { class: "sub dt5-card-foot" })); ($("dt5RmCard") || $("woBestCard")).after(box); }
+    const b = dt5BestRun();
+    box.hidden = !b;
+    if (!b) return;
+    setChildren(box.querySelector("ul"), [["5 km", 5], ["10 km", 10], ["ハーフ", 21.0975], ["フル", 42.195]].map(([k, km]) => {
+      const t = b.score * Math.pow(km, 1.06);
+      return el("li", {}, el("span", { class: "body" }, el("span", {}, k), el("span", { class: "sub" }, fmtPace(t / km))), el("span", { class: "num" }, dt5Clock(t)));
+    }));
+    box.querySelector(".dt5-card-foot").textContent = `この90日でいちばん速かったラン（${woDayWord(b.w.date)} ${fmtNum(num(b.w.km))} km・${num(b.w.minutes)} 分）からの目安です。長い距離ほど、練習しだいで変わります。`;
+  }
+
+  // ⑦ インターバルタイマー: 運動 and 休み by turns (settings hiit: 秒 and 回), 3 seconds to get ready first, a beep and a buzz as
+  // each turn starts, kept to the clock (a phone put away and taken out finds it where it is); once done, put in 運動 as その他
+  var dt5Hi = null, dt5HiTimer = 0, dt5HiDone = null;
+  const DT5_WORK = [20, 30, 40, 45, 60], DT5_REST = [10, 15, 20, 30, 60], DT5_ROUNDS = [4, 6, 8, 10, 12, 15, 20];
+  function dt5HiSet() { const v = settings.get("hiit") || {}; return { work: DT5_WORK.includes(v.work) ? v.work : 20, rest: DT5_REST.includes(v.rest) ? v.rest : 10, rounds: DT5_ROUNDS.includes(v.rounds) ? v.rounds : 8 }; }
+  function dt5HiTotal(s) { return s.rounds * s.work + (s.rounds - 1) * s.rest; }
+  function dt5HiAt(now = Date.now()) {
+    const h = dt5Hi, t = (now - h.start) / 1000 - 3;
+    if (t < 0) return { phase: "ready", left: Math.ceil(-t), round: 1 };
+    const cyc = h.work + h.rest, i = Math.floor(t / cyc), into = t - i * cyc;
+    if (i >= h.rounds - 1 && into >= h.work) return { phase: "end", round: h.rounds };
+    return into < h.work ? { phase: "work", left: Math.ceil(h.work - into), round: i + 1 } : { phase: "rest", left: Math.ceil(cyc - into), round: i + 1 };
+  }
+  function dt5HiStart() {
+    unlockBeep();
+    dt5HiDone = null;
+    dt5Hi = { ...dt5HiSet(), start: Date.now(), seen: "" };
+    dt5HiTick();
+  }
+  function dt5HiStop() { clearTimeout(dt5HiTimer); dt5Hi = null; renderDt5Hiit(); }
+  function dt5HiTick() {
+    clearTimeout(dt5HiTimer);
+    if (!dt5Hi) return;
+    const at = dt5HiAt(), key = at.phase + at.round;
+    if (dt5Hi.seen && key !== dt5Hi.seen && at.phase !== "ready") { beep(); navigator.vibrate?.(at.phase === "work" ? [200] : [100, 80, 100]); }
+    dt5Hi.seen = key;
+    if (at.phase === "end") {
+      const h = dt5Hi;
+      dt5Hi = null;
+      dt5HiDone = { work: h.work, rest: h.rest, rounds: h.rounds, mins: Math.max(1, Math.round(dt5HiTotal(h) / 60)), date: todayKey };
+      flash("インターバルおわり。おつかれさまでした");
+      renderDt5Hiit();
+      return;
+    }
+    renderDt5Hiit(at);
+    dt5HiTimer = setTimeout(dt5HiTick, 250);
+  }
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && dt5Hi) dt5HiTick(); });
+  function dt5HiSave() {
+    const x = dt5HiDone;
+    if (!x) return;
+    dt5HiDone = null;
+    act(async () => {
+      const id = await workouts.add({ date: x.date, type: "その他", minutes: x.mins, note: `インターバル ${x.work}秒×${x.rounds}回（休み${x.rest}秒）`, createdAt: Date.now() });
+      flash(`運動に「インターバル ${x.mins} 分」を記録しました`, () => { takeBack(workouts, [id]); flash("元に戻しました"); });
+    });
+    renderDt5Hiit();
+  }
+  function renderDt5Hiit(at) {
+    let box = $("dt5Hiit");
+    if (!box) { box = el("div", { class: "card pad dt5-hiit", id: "dt5Hiit" }); $("woWeekCard").after(box); }
+    if (dt5Hi) {
+      at = at || dt5HiAt();
+      const word = at.phase === "ready" ? "よーい" : at.phase === "work" ? "運動" : "休み";
+      if (box.dataset.mode !== "run") {
+        box.dataset.mode = "run";
+        setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "インターバルタイマー"), el("span", { class: "num dt5-hi-round" })),
+          el("div", { class: "dt5-hi-now", role: "timer", "aria-live": "off" }, el("span", { class: "dt5-hi-phase" }), el("strong", { class: "dt5-hi-left" })),
+          el("div", { class: "dt5-hi-bar" }, el("button", { type: "button", class: "btn ghost sm", onclick: dt5HiStop }, "やめる")));
+      }
+      box.querySelector(".dt5-hi-round").textContent = `${at.round} / ${dt5Hi.rounds} 回`;
+      const ph = box.querySelector(".dt5-hi-phase");
+      ph.textContent = word; ph.className = "dt5-hi-phase " + at.phase;
+      box.querySelector(".dt5-hi-left").textContent = String(at.left);
+      return;
+    }
+    if (box.contains(document.activeElement) && document.activeElement.matches("select") && box.dataset.mode === "set") return;
+    box.dataset.mode = "set";
+    const s = dt5HiSet(), pick = (k, list, unit, label) => {
+      const sel = el("select", { "aria-label": label }, list.map((v) => el("option", { value: v, selected: v === s[k] }, `${v}${unit}`)));
+      sel.addEventListener("change", () => act(() => settings.set("hiit", { ...dt5HiSet(), [k]: Number(sel.value), updatedAt: Date.now() })));
+      return el("label", { class: "dt5-hi-pick" }, el("span", { class: "sub" }, label), sel);
+    };
+    const done = dt5HiDone;
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "インターバルタイマー"), el("span", { class: "muted small" }, `全部で ${dt5Clock(dt5HiTotal(s))}`)),
+      el("div", { class: "dt5-hi-picks" }, pick("work", DT5_WORK, "秒", "運動"), pick("rest", DT5_REST, "秒", "休み"), pick("rounds", DT5_ROUNDS, "回", "回数")),
+      done ? el("p", { class: "sub dt5-hi-done" }, el("span", { class: "phrase" }, `${done.work}秒×${done.rounds}回、できました。`),
+        el("button", { type: "button", class: "btn sm", onclick: dt5HiSave }, "運動に記録する"), el("button", { type: "button", class: "link-btn", onclick: () => { dt5HiDone = null; renderDt5Hiit(); } }, "記録しない")) : null,
+      el("div", { class: "dt5-hi-bar" }, el("button", { type: "button", class: "btn", onclick: dt5HiStart }, "スタート")),
+      el("p", { class: "sub" }, "運動と休みが切りかわるたびに、音と振動で知らせます（iPhoneは音だけで、マナーモードでは鳴りません）。"));
+  }
+
+  // ⑧ 血圧・脈拍 (bodyDays: sys, dia, pulse), the day's with the 7 days to it; 135/85 and over is 家庭血圧's 高め
+  function dt5BpWord(x) { return num(x?.sys) > 0 && num(x?.dia) > 0 ? `${num(x.sys)}/${num(x.dia)}` : ""; }
+  function renderDt5Vital() {
+    let box = $("dt5Vital");
+    const anchor = $("bd3Daily") || $("bd2Daily");
+    if (!box) { box = el("div", { class: "card pad bd2-daily dt5-vital", id: "dt5Vital" }); anchor.after(box); }
+    else if (anchor && box.previousElementSibling !== anchor && anchor.id === "bd3Daily") anchor.after(box);
+    const d = viewDate, x = bd2Day(d);
+    if (!(box.contains(document.activeElement) && document.activeElement.matches("input") && box.dataset.day === d)) {
+      box.dataset.day = d;
+      const f = (id, k, lo, hi, label) => {
+        const i = el("input", { type: "number", id, min: lo, max: hi, step: 1, inputmode: "numeric", value: num(x?.[k]) > 0 ? String(num(x[k])) : "", "aria-label": label });
+        i.addEventListener("change", () => {
+          const y = bd2Day(d), v = Math.round(Number(i.value)), note = box.querySelector(".dt5-vital-note");
+          if (i.value === "") { if (num(y?.[k])) bd2PutDay(d, { [k]: undefined }); return; }
+          if (!(v >= lo && v <= hi)) { note.textContent = `${label}は ${lo}〜${hi} の範囲で入力してください`; note.classList.add("warn"); return; }
+          if (v !== num(y?.[k])) bd2PutDay(d, { [k]: v });
+        });
+        return i;
+      };
+      setChildren(box, el("div", { class: "row-between" }, el("span", { class: "bd2-sec-head" }, "血圧・脈拍"), el("span", { class: "dt5-vital-v" })),
+        el("div", { class: "dt5-vital-row" }, el("span", { class: "dt5-vital-k" }, "血圧"), f("dt5Sys", "sys", 60, 250, "最高血圧（上）"), el("span", { class: "unit" }, "/"), f("dt5Dia", "dia", 30, 150, "最低血圧（下）"), el("span", { class: "unit" }, "mmHg")),
+        el("div", { class: "dt5-vital-row" }, el("span", { class: "dt5-vital-k" }, "脈拍"), f("dt5Pulse", "pulse", 30, 220, "脈拍"), el("span", { class: "unit" }, "拍/分")),
+        el("p", { class: "sub dt5-vital-note" }), el("div", { class: "bd3-week dt5-vital-week" }));
+    }
+    const bp = dt5BpWord(x), note = box.querySelector(".dt5-vital-note"), hi = num(x?.sys) >= 135 || num(x?.dia) >= 85;
+    box.querySelector(".dt5-vital-v").textContent = [bp, num(x?.pulse) ? `${num(x.pulse)} 拍` : ""].filter(Boolean).join("・") || "—";
+    if (!/範囲/.test(note.textContent) || !box.contains(document.activeElement)) {
+      note.textContent = num(x?.sys) && num(x?.dia) && num(x.sys) <= num(x.dia) ? "上の値が下の値より大きくなるように入れてください" : hi ? "家庭で測る血圧では高めの目安（135/85 以上）です。続くようなら、医師に相談しましょう"
+        : bp ? "" : "朝起きて1時間以内、トイレのあと・朝食の前に測ると比べやすくなります";
+      note.classList.toggle("warn", hi);
+    }
+    const days = Array.from({ length: 7 }, (_, i) => addDays(d, i - 6));
+    setChildren(box.querySelector(".dt5-vital-week"), days.map((dd) => { const y = bd2Day(dd), w = dt5BpWord(y), h = num(y?.sys) >= 135 || num(y?.dia) >= 85;
+      return el("span", { class: "bd3-day" + (h ? " warn" : "") + (dd === d ? " today" : "") }, el("small", { "aria-hidden": "true" }, WD[parseYmd(dd).getDay()]),
+        el("b", { "aria-hidden": "true" }, w ? el("span", { class: "dt5-bp" }, num(y.sys), el("br"), num(y.dia)) : "—"), el("span", { class: "sr-only" }, `${fmtMDW(dd)} ${w ? `血圧 ${w}` : "記録なし"}${num(y?.pulse) ? `、脈拍 ${num(y.pulse)}` : ""}`)); }));
+  }
+
+  // ⑨ 曜日のくせ: the 8 weeks to the day shown, each weight against the mean of those 3 days either side of it, by weekday
+  function dt5Weekdays(d = viewDate) {
+    const ws = sortedWeights().filter((r) => r.id >= addDays(d, -55) && r.id <= d), by = Array.from({ length: 7 }, () => []);
+    for (const r of ws) {
+      const near = ws.filter((q) => q.id >= addDays(r.id, -3) && q.id <= addDays(r.id, 3));
+      if (near.length < 4) continue;
+      by[parseYmd(r.id).getDay()].push(num(r.kg) - sum(near, (q) => q.kg) / near.length);
+    }
+    return { n: sum(by, (a) => a.length), avg: by.map((a) => (a.length >= 2 ? sum(a, (v) => v) / a.length : null)) };
+  }
+  function renderDt5Wd() {
+    let box = $("dt5Wd");
+    if (!box) { box = el("div", { class: "card pad dt5-wd", id: "dt5Wd", hidden: true }); ($("dt4Since") || $("wtStats")).after(box); }
+    const r = dt5Weekdays(), ws = weekStart(), have = r.avg.map((v, i) => [i, v]).filter(([, v]) => v !== null);
+    if (r.n < 14 || have.length < 4) { box.hidden = true; box.replaceChildren(); return; }
+    box.hidden = false;
+    const hi = have.reduce((a, b) => (b[1] > a[1] ? b : a)), lo = have.reduce((a, b) => (b[1] < a[1] ? b : a)), spread = hi[1] - lo[1], max = Math.max(0.3, ...have.map(([, v]) => Math.abs(v)));
+    setChildren(box, el("div", { class: "card-head" }, "曜日ごとの体重のくせ"),
+      el("div", { class: "dt5-wd-bars" }, Array.from({ length: 7 }, (_, k) => { const i = (ws + k) % 7, v = r.avg[i], h = v === null ? 0 : Math.round((Math.abs(v) / max) * 100);
+        return el("span", { class: "dt5-wd-col" + (v > 0 ? " up" : "") }, el("span", { class: "dt5-wd-v", "aria-hidden": "true" }, v === null ? "—" : signed(v)),
+          el("span", { class: "dt5-wd-track", "aria-hidden": "true" }, v !== null && h ? el("i", { style: `height:${Math.max(4, h / 2)}%;${v > 0 ? "bottom:50%" : "top:50%"}` }) : null),
+          el("small", { "aria-hidden": "true" }, WD[i]), el("span", { class: "sr-only" }, `${WD[i]}曜 ${v === null ? "記録が少ない" : `${signed(v)} kg`}`)); })),
+      el("p", { class: "sub" }, spread >= 0.2 ? phrases([`${WD[hi[0]]}曜がいちばん重め（${signed(hi[1])} kg）`, `${WD[lo[0]]}曜がいちばん軽め（${signed(lo[1])} kg）`]) : "曜日による差は、ほとんどありません"),
+      el("p", { class: "sub" }, "この8週間の体重を、前後3日の平均と比べた差です。週末の食事などで重くなる曜日は、気にしすぎなくて大丈夫です。"));
+  }
+
+  // ⑩ 前と比べる: the 7日平均 of the day shown against those a week, a month, 3 months and a year before (体脂肪率 too, when
+  // both have it); none where there were no records then
+  function dt5Mean(d, f) { const xs = sortedWeights().filter((r) => r.id >= addDays(d, -6) && r.id <= d && num(f(r)) > 0); return xs.length ? sum(xs, f) / xs.length : 0; }
+  function dt5MonthsBack(d, n) { const p = parseYmd(d), y = new Date(p.getFullYear(), p.getMonth() - n, 1), last = new Date(y.getFullYear(), y.getMonth() + 1, 0).getDate(); return `${y.getFullYear()}-${pad(y.getMonth() + 1)}-${pad(Math.min(p.getDate(), last))}`; }
+  function renderDt5Ago() {
+    let box = $("dt5Ago");
+    if (!box) { box = el("div", { class: "card pad dt5-ago", id: "dt5Ago", hidden: true }); ($("dt5Wd") || $("dt4Since") || $("wtStats")).after(box); }
+    const d = viewDate, kg = dt5Mean(d, (r) => r.kg), fat = dt5Mean(d, (r) => r.fat);
+    const rows = [["1週間前", addDays(d, -7)], ["1か月前", dt5MonthsBack(d, 1)], ["3か月前", dt5MonthsBack(d, 3)], ["1年前", dt5MonthsBack(d, 12)]].map(([k, day]) => ({ k, day, kg: dt5Mean(day, (r) => r.kg), fat: dt5Mean(day, (r) => r.fat) })).filter((x) => x.kg > 0);
+    if (!kg || !rows.length) { box.hidden = true; box.replaceChildren(); return; }
+    box.hidden = false;
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "前と比べる"), el("span", { class: "num" }, `${fmtKg(kg)} kg`)),
+      rows.map((x) => el("div", { class: "dt4-since-row dt5-ago-row" }, el("span", { class: "k" }, x.k), el("span", { class: "num" + (kg - x.kg < 0 ? " down" : "") }, `${signed(kg - x.kg)} kg`),
+        el("span", { class: "sub" }, phrases([keepUnits(`${fmtMD(x.day)}ごろ ${fmtKg(x.kg)} kg`), fat > 0 && x.fat > 0 ? `体脂肪率 ${signed(fat - x.fat)}%` : null])))),
+      el("p", { class: "sub" }, `${relLabel(d) || fmtShort(d)}までの7日平均を、それぞれの日までの7日平均と比べています。`));
+  }
+
+  // as each part is drawn
+  function renderDt5Meal() { draw(renderDt5Rank); draw(renderDt5Slots); draw(renderDt5Copy); }
+  function renderDt5Wo() { draw(renderDt5WoGoal); draw(() => { if (!dt5Hi) renderDt5Hiit(); }); draw(renderDt5RmLine); draw(renderDt5RmCard); draw(renderDt5Race); draw(renderDt5WoSettings); }
+  function renderDt5Body() { draw(renderDt5Vital); draw(renderDt5Wd); draw(renderDt5Ago); }
+  function renderDt5WoSettings() { const sel = $("dt5WoDays"); if (document.activeElement !== sel) sel.value = String(dt5DaysGoal()); }
+  for (const id of ["woExercise", "woType"]) for (const t of ["input", "change"]) $(id).addEventListener(t, () => { if (dietFive) renderDt5RmLine(); });
+  dietFive = true;
+
+  // ---------- ダイエット その6 ①〜⑩ (the user's calls, 2026-11-14): 野菜の皿数 (①), お酒 and カフェイン (②) and what the
+  // kcal left could still be (③); 心拍ゾーン (④), 運動's year (⑤), 歩数 as km and kcal (⑥) and the shoes' km (⑦); the
+  // day's からだスコア (⑧), 睡眠 against the next morning's weight (⑨) and ごほうび at weights of one's own (⑩). Function
+  // declarations and var, as the page may draw before this runs (dietSix, set at its end) ----------
+  var dietSix = false;
+  // a count of the day in bodyDays (veg, alc, caf): − and ＋, kept at once
+  function dt6Count(d, k, n, max) {
+    const cur = num(bd2Day(d)?.[k]), v = Math.max(0, Math.min(max, cur + n));
+    if (v !== cur) bd2PutDay(d, { [k]: v || undefined });
+  }
+  function dt6Stepper(d, k, label, unit, max) {
+    const v = num(bd2Day(d)?.[k]);
+    return el("div", { class: "dt6-stepper" }, el("span", { class: "dt6-step-k" }, label),
+      el("button", { type: "button", class: "icon-btn dt6-step-btn", "aria-label": `${label}を1${unit}へらす`, disabled: !v, onclick: () => dt6Count(d, k, -1, max) }, icon("minus", 18)),
+      el("strong", { class: "dt6-step-v", "aria-live": "polite" }, `${v} ${unit}`),
+      el("button", { type: "button", class: "icon-btn dt6-step-btn", "aria-label": `${label}を1${unit}ふやす`, onclick: () => dt6Count(d, k, 1, max) }, icon("plus", 18)));
+  }
+  function dt6Week(d, f, word) {
+    return el("div", { class: "bd3-week" }, Array.from({ length: 7 }, (_, i) => addDays(d, i - 6)).map((dd) => { const r = f(dd);
+      return el("span", { class: "bd3-day" + (r.cls ? " " + r.cls : "") + (dd === d ? " today" : "") }, el("small", { "aria-hidden": "true" }, WD[parseYmd(dd).getDay()]),
+        el("b", { "aria-hidden": "true" }, r.v), el("span", { class: "sr-only" }, `${fmtMDW(dd)} ${word(r)}`)); }));
+  }
+
+  // ① 野菜の皿数: a 皿 a 小鉢 (野菜 70 g), against 5 a day (厚生労働省's 350 g), and the 7 days to the day shown
+  function renderDt6Veg() {
+    let box = $("dt6Veg");
+    if (!box) { box = el("div", { class: "card pad dt6-veg", id: "dt6Veg" }); ($("dt5Copy") || $("mealTotal")).after(box); }
+    const d = viewDate, v = num(bd2Day(d)?.veg), pct = Math.min(100, Math.round((v / 5) * 100));
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "野菜"), el("span", { class: "num" }, `${v} / 5 皿`)),
+      el("span", { class: "bar-track dt6-bar", role: "img", "aria-label": `目標の ${pct}%` }, el("i", { class: v >= 5 ? "done" : "", style: `width:${pct}%` })),
+      dt6Stepper(d, "veg", "食べた野菜", "皿", 20),
+      dt6Week(d, (dd) => { const n = num(bd2Day(dd)?.veg); return { n, v: n ? String(n) : "—", cls: n >= 5 ? "ok" : "" }; }, (r) => (r.n ? `${r.n}皿` : "記録なし")),
+      el("p", { class: "sub" }, "小鉢1つ（野菜 70 g くらい）で1皿。1日5皿（350 g）が目安です。"));
+  }
+
+  // ② 飲みもの: お酒 (杯: a beer can, a glass of wine…) with the week's 休肝日, and カフェイン (coffee, tea: 杯), 5 杯 and over
+  // said (about 400 mg)
+  function renderDt6Drink() {
+    let box = $("dt6Drink");
+    if (!box) { box = el("div", { class: "card pad dt6-drink", id: "dt6Drink" }); ($("dt6Veg") || $("mealTotal")).after(box); }
+    const d = viewDate, x = bd2Day(d), days = Array.from({ length: 7 }, (_, i) => addDays(d, i - 6));
+    const known = days.filter((dd) => bd2Day(dd)), free = known.filter((dd) => !num(bd2Day(dd)?.alc)).length, caf = num(x?.caf);
+    setChildren(box, el("div", { class: "card-head" }, "お酒・カフェイン"),
+      dt6Stepper(d, "alc", "お酒", "杯", 30),
+      dt6Week(d, (dd) => { const n = num(bd2Day(dd)?.alc); return { n, v: n ? String(n) : bd2Day(dd) ? "0" : "—", cls: n >= 3 ? "warn" : "" }; }, (r) => (r.n ? `お酒 ${r.n}杯` : "お酒なし")),
+      el("p", { class: "sub" }, phrases([`この7日の休肝日 ${free} 日`, known.length < 7 ? "記録のない日は数えていません" : null, num(x?.alc) >= 3 ? "飲みすぎに気をつけましょう" : null])),
+      dt6Stepper(d, "caf", "コーヒー・お茶", "杯", 30),
+      el("p", { class: "sub" + (caf >= 5 ? " warn" : "") }, caf >= 5 ? "カフェインが多めです（1日4杯ほど、400 mg までが目安）" : "缶ビール1本・グラスワイン1杯で、お酒1杯と数えます。"));
+  }
+
+  // ③ what the kcal left of the day's 目安 could still be: the common dishes that fit, the most たんぱく質 for their kcal first;
+  // one pressed goes in under the 区分 picked
+  function renderDt6Fit() {
+    const card = $("mealGoalCard");
+    card.querySelector(".dt6-fit")?.remove();
+    const items = meals.items.filter((m) => m.date === viewDate), left = kcalGoal() - sum(items, (m) => (typeof m.kcal === "number" ? m.kcal : 0));
+    if (viewDate !== todayKey || !items.length || left < 60) return;
+    const fit = MEAL_FOODS.filter((f) => f.kcal <= left && f.kcal >= 40).sort((a, b) => b.p / b.kcal - a.p / a.kcal || b.kcal - a.kcal).slice(0, 4);
+    if (!fit.length) return;
+    card.append(el("div", { class: "dt6-fit" }, el("span", { class: "sub" }, `あと ${fmtN(left)} kcal で食べられるもの（たんぱく質の多い順）`),
+      el("div", { class: "dt6-fit-row" }, fit.map((f) => el("button", { type: "button", class: "chip-btn meal-pick", "aria-label": `${f.name} 約 ${f.kcal} kcal を、選んでいる区分に追加`,
+        onclick: () => addMeals([{ text: f.name, kcal: f.kcal, p: f.p, f: f.f, c: f.c }], checkedValue("mealSlot") || "間食") }, el("span", { class: "meal-pick-name" }, f.name), el("small", {}, `${fmtN(f.kcal)} kcal`))))));
+  }
+
+  // ④ 心拍ゾーン: 最大心拍 (220 − 年齢), and with a 脈拍 (その5 ⑧) in the 14 days, カルボーネン法 from it; five zones' beats
+  const DT6_ZONES = [["ゾーン1", "ウォームアップ", 50, 60], ["ゾーン2", "脂肪燃焼", 60, 70], ["ゾーン3", "有酸素", 70, 80], ["ゾーン4", "きつい", 80, 90], ["ゾーン5", "全力", 90, 100]];
+  function dt6Rest(d = todayKey) { const xs = Array.from({ length: 14 }, (_, i) => num(bd2Day(addDays(d, -i))?.pulse)).filter((v) => v >= 30 && v <= 120); return xs.length ? Math.round(sum(xs, (v) => v) / xs.length) : 0; }
+  function renderDt6Zone() {
+    let box = $("dt6Zone");
+    if (!box) { box = el("div", { class: "card dt6-zone", id: "dt6Zone" }, el("div", { class: "card-head" }, "心拍ゾーン"), el("ul", { class: "list" }), el("p", { class: "sub dt5-card-foot" })); ($("dt5Race") || $("woBestCard")).after(box); }
+    const age = num(bodyProfile().age), max = age >= 10 && age <= 100 ? 220 - age : 0, rest = dt6Rest(), ul = box.querySelector("ul"), foot = box.querySelector(".dt5-card-foot");
+    if (!max) {
+      ul.replaceChildren(); ul.hidden = true;
+      setChildren(foot, "年齢を入れると、ランのときの心拍の目安が出ます。", el("button", { type: "button", class: "link-btn", onclick: (ev) => openSettings(ev.detail === 0, "weight", $("bodyAge")) }, "年齢を入れる"));
+      return;
+    }
+    ul.hidden = false;
+    const bpm = (p) => Math.round(rest ? rest + ((max - rest) * p) / 100 : (max * p) / 100);
+    setChildren(ul, DT6_ZONES.map(([k, name, lo, hi]) => el("li", {}, el("span", { class: "body" }, el("span", {}, `${k}・${name}`), el("span", { class: "sub" }, `${lo}〜${hi}%`)), el("span", { class: "num" }, `${bpm(lo)}〜${bpm(hi)} 拍`))));
+    foot.textContent = rest ? `最大心拍 ${max}（220 − ${age}歳）と、この14日の脈拍の平均 ${rest} から計算しています（カルボーネン法）。` : `最大心拍 ${max}（220 − ${age}歳）からの目安です。からだのページで脈拍を入れると、より自分に合った値になります。`;
+  }
+
+  // ⑤ 運動の1年: the year's days of 運動, ラン km, 筋トレ セット and time, with its months as bars of days; ‹ › for the years
+  var dt6Year = 0, dt6YearSeen = "";
+  function renderDt6Year() {
+    let box = $("dt6Year");
+    if (!box) { box = el("div", { class: "card pad dt6-year", id: "dt6Year", hidden: true }); ($("dt4WoCal") || $("woPartsCard")).after(box); }
+    if (dt6YearSeen !== viewDate) { dt6YearSeen = viewDate; dt6Year = 0; }
+    const y = dt6Year || Number(viewDate.slice(0, 4)), ys = String(y), all = workouts.items.filter((w) => isDay(w.date || "") && w.date.startsWith(ys) && w.date <= todayKey);
+    if (!workouts.items.some((w) => isDay(w.date || ""))) { box.hidden = true; box.replaceChildren(); return; }
+    box.hidden = false;
+    const days = new Set(all.map((w) => w.date)), km = Math.round(sum(all.filter((w) => w.type === "ランニング"), (w) => num(w.km)) * 10) / 10, sets = sum(all.filter((w) => w.exercise), (w) => w.sets), mins = sum(all, (w) => w.minutes);
+    const months = Array.from({ length: 12 }, (_, i) => { const ym = `${ys}-${pad(i + 1)}`; return new Set([...days].filter((d) => d.startsWith(ym))).size; }), top = Math.max(1, ...months);
+    const first = workouts.items.filter((w) => isDay(w.date || "")).reduce((a, w) => (w.date < a ? w.date : a), todayKey), step = (k) => { dt6Year = y + k; renderDt6Year(); };
+    const cell = (k, v) => el("div", { class: "dt6-year-cell" }, el("span", { class: "sub" }, k), el("strong", {}, v));
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "運動の1年"),
+        el("span", { class: "bd2-cal-nav" }, el("button", { type: "button", class: "icon-btn", "aria-label": "前の年", disabled: ys <= first.slice(0, 4), onclick: () => step(-1) }, icon("prev", 18)),
+          el("span", { class: "bd2-cal-ym" }, `${y}年`),
+          el("button", { type: "button", class: "icon-btn", "aria-label": "次の年", disabled: ys >= todayKey.slice(0, 4), onclick: () => step(1) }, icon("next", 18)))),
+      el("div", { class: "dt6-year-cells" }, cell("運動した日", `${fmtN(days.size)} 日`), cell("ラン", `${fmtNum(km)} km`), cell("筋トレ", `${fmtN(sets)} セット`), cell("時間", mins ? durText(mins) : "—")),
+      el("div", { class: "dt6-months", role: "img", "aria-label": months.map((n, i) => `${i + 1}月 ${n}日`).join("、") }, months.map((n, i) => el("span", { class: "dt6-month" },
+        el("span", { class: "dt6-month-track" }, el("i", { style: `height:${Math.round((n / top) * 100)}%` })), el("small", {}, String(i + 1))))),
+      el("p", { class: "sub" }, "棒は、月ごとの運動した日数です。"));
+  }
+
+  // ⑥ 歩数 as km and kcal: 歩幅 身長 × 0.45, and 体重 × km × 0.5 (as ウォーキング's 消費カロリー); under 歩数 in 運動
+  function renderDt6Walk() {
+    const box = $("dt4Steps");
+    if (!box) return;
+    let p = $("dt6Walk");
+    if (!p) { p = el("p", { class: "sub dt6-walk", id: "dt6Walk" }); box.append(p); }
+    const steps = num(bd2Day(viewDate)?.steps), h = num(bodyProfile().height), kg = bodyKgOn(viewDate);
+    if (!steps) { p.hidden = true; return; }
+    p.hidden = false;
+    if (!(h >= 100 && h <= 250)) { p.textContent = "身長を入れると、歩いた距離とカロリーの目安が出ます。"; return; }
+    const km = Math.round(((steps * h * 0.45) / 100000) * 10) / 10;
+    p.textContent = keepUnits([`約 ${fmtNum(km)} km`, kg > 0 ? `約 ${fmtN(Math.round(kg * km * 0.5))} kcal` : null, `歩幅 ${Math.round(h * 0.45)} cm で計算`].filter(Boolean).join("・"));
+  }
+
+  // ⑦ シューズの距離 (settings runShoes, with the account): each pair from the day it was first worn; a run goes to the pair
+  // put on last by its day. 600 km (or the pair's own) is when to change them
+  function dt6Shoes() { const l = settings.get("runShoes")?.list; return (Array.isArray(l) ? l.filter((s) => s && typeof s.id === "string" && typeof s.name === "string" && isDay(s.from || "")) : []).sort((a, b) => a.from.localeCompare(b.from)).slice(-10); }
+  function dt6ShoeKm() {
+    const shoes = dt6Shoes(), km = new Map(shoes.map((s) => [s.id, 0]));
+    for (const w of workouts.items) {
+      if (w.type !== "ランニング" || !isDay(w.date || "") || !(num(w.km) > 0)) continue;
+      const s = [...shoes].reverse().find((x) => x.from <= w.date);
+      if (s) km.set(s.id, km.get(s.id) + num(w.km));
+    }
+    return km;
+  }
+  function renderDt6Shoes() {
+    let box = $("dt6Shoes");
+    if (!box) { box = el("div", { class: "card pad dt6-shoes", id: "dt6Shoes", hidden: true }); $("runMonthCard").after(box); }
+    const shoes = dt6Shoes(), km = dt6ShoeKm(), now = shoes[shoes.length - 1];
+    if (!shoes.length) {
+      box.hidden = !workouts.items.some((w) => w.type === "ランニング");
+      setChildren(box, el("div", { class: "card-head" }, "シューズの距離"), el("p", { class: "sub" }, "ランニングシューズを登録すると、走った距離と替えどきがわかります。",
+        el("button", { type: "button", class: "link-btn", onclick: (ev) => openSettings(ev.detail === 0, "workout", $("dt6ShoeName")) }, "シューズを登録する")));
+      return;
+    }
+    box.hidden = false;
+    const k = Math.round(km.get(now.id) * 10) / 10, lim = num(now.limit) || 600, pct = Math.min(100, Math.round((k / lim) * 100));
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "シューズの距離"), el("span", { class: "num" }, `${fmtNum(k)} / ${fmtN(lim)} km`)),
+      el("span", { class: "dt6-shoe-name" }, now.name),
+      el("span", { class: "bar-track dt6-bar", role: "img", "aria-label": `替えどきの目安の ${pct}%` }, el("i", { class: k >= lim ? "over" : "", style: `width:${pct}%` })),
+      el("p", { class: "sub" + (k >= lim * 0.9 ? " warn" : "") }, k >= lim ? "替えどきです。クッションがへたると、ひざや足をいためやすくなります" : phrases([`${fmtDayLong(now.from)}から`, `替えどきまで あと ${fmtNum(Math.round((lim - k) * 10) / 10)} km`])));
+  }
+  function renderDt6ShoeSettings() {
+    const shoes = dt6Shoes(), km = dt6ShoeKm(), ul = $("dt6ShoeList");
+    ul.hidden = !shoes.length;
+    setChildren(ul, [...shoes].reverse().map((s, i) => el("li", {}, el("span", { class: "body" }, el("span", {}, s.name + (i === 0 ? "（いま）" : "")), el("span", { class: "sub" }, phrases([`${fmtDayLong(s.from)}から`, `${fmtNum(Math.round(km.get(s.id) * 10) / 10)} km`]))),
+      delButton(() => dt6DropShoe(s.id), "削除", s.name))));
+    const f = $("dt6ShoeFrom");
+    if (document.activeElement !== f && !f.value) f.value = todayKey;
+    f.max = todayKey;
+  }
+  $("dt6ShoeForm").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    const name = oneLine($("dt6ShoeName").value).slice(0, 30), from = $("dt6ShoeFrom").value, list = dt6Shoes();
+    if (!name) { $("dt6ShoeName").focus(); return; }
+    if (!isDay(from) || from > todayKey) { flash("使いはじめた日を選んでください"); return; }
+    if (list.length >= 10) { flash("シューズは10足まで登録できます"); return; }
+    act(() => settings.set("runShoes", { list: [...list, { id: uid(), name, from, limit: 600 }], updatedAt: Date.now() }));
+    $("dt6ShoeName").value = "";
+    flash(`シューズ「${name}」を登録しました`);
+  });
+  function dt6DropShoe(id) {
+    const was = settings.get("runShoes"), s = dt6Shoes().find((x) => x.id === id);
+    if (!s) return;
+    act(() => settings.set("runShoes", { list: dt6Shoes().filter((x) => x.id !== id), updatedAt: Date.now() }));
+    flash(`シューズ「${s.name}」を削除しました`, () => act(() => settings.set("runShoes", { ...(was || {}), updatedAt: Date.now() })));
+  }
+
+  // ⑧ からだスコア: 20 points each for 睡眠 (7時間), 水分 (its 目標), 歩数 (its 目標), 食事 (recorded, within the 目安) and 運動;
+  // half for half way. The day shown, and its 7 days
+  function dt6Score(d) {
+    const x = bd2Day(d), sl = bd2SleepMins(x), wa = num(x?.water), wg = bd2WaterGoal(), st = num(x?.steps), sg = typeof dt4StepGoal === "function" ? dt4StepGoal() : 8000;
+    const ms = meals.items.filter((m) => m.date === d && typeof m.kcal === "number"), k = sum(ms, (m) => m.kcal), goal = kcalGoal();
+    const parts = [
+      ["睡眠", sl >= 420 ? 20 : sl >= 360 ? 10 : 0, sl ? `${Math.floor(sl / 60)}時間${sl % 60 ? `${sl % 60}分` : ""}` : "未記録"],
+      ["水分", wa >= wg ? 20 : wa >= wg / 2 ? 10 : 0, wa ? `${fmtN(wa)} ml` : "未記録"],
+      ["歩数", st >= sg ? 20 : st >= sg / 2 ? 10 : 0, st ? `${fmtN(st)} 歩` : "未記録"],
+      ["食事", !ms.length ? 0 : k <= goal ? 20 : k <= goal * 1.1 ? 10 : 0, ms.length ? `${fmtN(k)} kcal` : "未記録"],
+      ["運動", workouts.items.some((w) => w.date === d) ? 20 : 0, workouts.items.some((w) => w.date === d) ? "した" : "なし"],
+    ];
+    return { total: sum(parts, (p) => p[1]), parts, any: !!x || ms.length > 0 };
+  }
+  function renderDt6Score() {
+    let box = $("dt6Score");
+    if (!box) { box = el("div", { class: "card pad dt6-score", id: "dt6Score" }); ($("dt5Vital") || $("bd3Daily") || $("bd2Daily")).after(box); }
+    const d = viewDate, s = dt6Score(d);
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, d === todayKey ? "きょうのからだスコア" : `${fmtMD(d)}のからだスコア`), el("span", { class: "dt6-score-v" }, el("strong", {}, String(s.total)), " 点")),
+      el("ul", { class: "dt6-score-rows" }, s.parts.map(([k, pt, w]) => el("li", { class: pt >= 20 ? "full" : pt ? "half" : "" }, el("span", {}, k), el("span", { class: "sub" }, w), el("span", { class: "num" }, `${pt}`)))),
+      dt6Week(d, (dd) => { const t = dt6Score(dd); return { t, v: t.any ? String(t.total) : "—", cls: t.total >= 80 ? "ok" : "" }; }, (r) => (r.t.any ? `${r.t.total}点` : "記録なし")),
+      el("p", { class: "sub" }, "睡眠7時間・水分と歩数の目標・食事の目安・運動で、20点ずつです（半分で10点）。"));
+  }
+
+  // ⑨ 睡眠と体重: over the 90 days, the next morning's weight against the day before's, after a night under 6 hours and after
+  // one of 7 hours or more; said once each has 3 or more
+  function dt6SleepKg(d = viewDate) {
+    const by = new Map(sortedWeights().map((r) => [r.id, num(r.kg)])), short = [], enough = [];
+    for (let i = 0; i < 90; i++) {
+      const dd = addDays(d, -i), a = by.get(addDays(dd, -1)), b = by.get(dd), m = bd2SleepMins(bd2Day(dd));
+      if (!a || !b || !m) continue;
+      if (m < 360) short.push(b - a); else if (m >= 420) enough.push(b - a);
+    }
+    const avg = (xs) => (xs.length ? sum(xs, (v) => v) / xs.length : 0);
+    return { short: short.length, enough: enough.length, s: avg(short), e: avg(enough) };
+  }
+  function renderDt6Sleep() {
+    let box = $("dt6Sleep");
+    if (!box) { box = el("div", { class: "card pad dt6-sleep", id: "dt6Sleep", hidden: true }); ($("dt5Ago") || $("dt4Since") || $("wtStats")).after(box); }
+    const r = dt6SleepKg();
+    if (r.short < 3 || r.enough < 3) { box.hidden = true; box.replaceChildren(); return; }
+    box.hidden = false;
+    const gap = r.s - r.e, row = (k, n, v) => el("div", { class: "dt4-since-row" }, el("span", { class: "k" }, k), el("span", { class: "num" }, `${signed(v, 2)} kg`), el("span", { class: "sub" }, `${n} 回の平均`));
+    setChildren(box, el("div", { class: "card-head" }, "睡眠と次の日の体重"),
+      row("6時間未満の次の朝", r.short, r.s), row("7時間以上の次の朝", r.enough, r.e),
+      el("p", { class: "sub" }, gap >= 0.1 ? `よく寝た日のほうが、体重が ${fmtKg(gap)} kg ほど減りやすいようです。` : gap <= -0.1 ? "睡眠の長さによる差は、いまのところ見えません。" : "睡眠の長さによる差は、ほとんどありません。"),
+      el("p", { class: "sub" }, "この90日の、前の日の体重からの変化です。"));
+  }
+
+  // ⑩ ごほうび (settings dietRewards, with the account): a weight and what to treat oneself to; reached once the 7日平均 is at it
+  // or under. The next one with how far, and those reached
+  function dt6Rewards() { const l = settings.get("dietRewards")?.list; return (Array.isArray(l) ? l.filter((r) => r && typeof r.id === "string" && num(r.kg) >= 20 && typeof r.text === "string") : []).sort((a, b) => b.kg - a.kg).slice(0, 10); }
+  function dt6Now() { const a = avg7(), ws = sortedWeights().filter((r) => r.id <= todayKey); const last = ws[ws.length - 1]; return last ? a.get(last.id) || num(last.kg) : 0; }
+  function renderDt6Reward() {
+    let box = $("dt6Reward");
+    if (!box) { box = el("div", { class: "card pad dt6-reward", id: "dt6Reward" }); ($("dt4Since") || $("wtStats")).after(box); }
+    const list = dt6Rewards(), now = dt6Now();
+    if (!list.length) {
+      box.hidden = !now;
+      setChildren(box, el("div", { class: "card-head" }, "ごほうび"), el("p", { class: "sub" }, "体重がここまで来たら、というごほうびを決めておけます。",
+        el("button", { type: "button", class: "link-btn", onclick: (ev) => openSettings(ev.detail === 0, "weight", $("dt6RewardKg")) }, "ごほうびを決める")));
+      return;
+    }
+    box.hidden = false;
+    const got = list.filter((r) => now > 0 && now <= r.kg), next = list.find((r) => !(now > 0 && now <= r.kg));
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "ごほうび"), el("span", { class: "muted small" }, `${got.length} / ${list.length}`)),
+      next ? el("div", { class: "dt6-reward-next" }, el("strong", {}, next.text), el("span", { class: "sub" }, now ? `${fmtKg(next.kg)} kg まで あと ${fmtKg(now - next.kg)} kg` : `${fmtKg(next.kg)} kg`)) : el("p", { class: "dt6-reward-next" }, "ぜんぶのごほうびに届きました！"),
+      got.length ? el("ul", { class: "dt6-reward-got" }, got.map((r) => el("li", {}, el("span", { class: "dt6-check", "aria-hidden": "true" }, "✓"), el("span", {}, `${fmtKg(r.kg)} kg・${r.text}`)))) : null,
+      el("p", { class: "sub" }, "7日平均の体重がその重さになると、届いたことになります。"));
+  }
+  function renderDt6RewardSettings() {
+    const list = dt6Rewards(), ul = $("dt6RewardList");
+    ul.hidden = !list.length;
+    setChildren(ul, list.map((r) => el("li", {}, el("span", { class: "body" }, el("span", {}, r.text), el("span", { class: "sub" }, `${fmtKg(r.kg)} kg`)), delButton(() => dt6DropReward(r.id), "削除", r.text))));
+  }
+  $("dt6RewardForm").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    const kg = Math.round(Number($("dt6RewardKg").value) * 10) / 10, text = oneLine($("dt6RewardText").value).slice(0, 40), list = dt6Rewards();
+    if (!(kg >= 20 && kg <= 300)) { $("dt6RewardKg").focus(); return; }
+    if (!text) { $("dt6RewardText").focus(); return; }
+    if (list.length >= 10) { flash("ごほうびは10こまでです"); return; }
+    act(() => settings.set("dietRewards", { list: [...list, { id: uid(), kg, text }], updatedAt: Date.now() }));
+    $("dt6RewardKg").value = ""; $("dt6RewardText").value = "";
+    flash(`${fmtKg(kg)} kg のごほうび「${text}」を決めました`);
+  });
+  function dt6DropReward(id) {
+    const was = settings.get("dietRewards"), r = dt6Rewards().find((x) => x.id === id);
+    if (!r) return;
+    act(() => settings.set("dietRewards", { list: dt6Rewards().filter((x) => x.id !== id), updatedAt: Date.now() }));
+    flash(`ごほうび「${r.text}」を削除しました`, () => act(() => settings.set("dietRewards", { ...(was || {}), updatedAt: Date.now() })));
+  }
+
+  // as each part is drawn
+  function renderDt6Meal() { draw(renderDt6Veg); draw(renderDt6Drink); draw(renderDt6Fit); }
+  function renderDt6Wo() { draw(renderDt6Shoes); draw(renderDt6Zone); draw(renderDt6Year); draw(renderDt6Walk); draw(renderDt6ShoeSettings); }
+  function renderDt6Body() { draw(renderDt6Score); draw(renderDt6Reward); draw(renderDt6Sleep); draw(renderDt6RewardSettings); }
+  dietSix = true;
+
+  // ---------- ダイエット その7 ①〜⑩ (the user's calls, 2026-11-14): 食事 as a month (①), the foods and the next
+  // morning's weight (②), 食事の予定 (③) and 食事's photos side by side (④); ウォームアップ (⑤) and プレート (⑥) for the
+  // weight typed, the day's 運動 as words to copy (⑦) and 運動のお知らせ (⑧); what the weight lost was made of (⑨) and
+  // the reason for the goal (⑩). Function declarations and var, as the page may draw before this runs (dietSeven, set at
+  // its end) ----------
+  var dietSeven = false;
+  // words put on the clipboard (or, failing that, through a hidden field), and said
+  async function dt7Copy(text, words) {
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch {
+      const ta = el("textarea", { readonly: true, style: "position:fixed;top:0;left:0;opacity:0" }, text);
+      document.body.append(ta); ta.select();
+      try { ok = document.execCommand("copy"); } catch {}
+      ta.remove();
+    }
+    flash(ok ? words : "コピーできませんでした");
+  }
+
+  // ① 食事カレンダー: each day's kcal, tinted within the 目安 or over it (a day under 800 kcal taken as not all recorded, as
+  // the カロリー貯金 has it); a day pressed shows it; the month's days recorded, within the 目安 and the average
+  var dt7CalMonth = null, dt7CalSeen = "";
+  function renderDt7MealCal() {
+    let box = $("dt7MealCal");
+    if (!box) { box = el("div", { class: "card pad bd2-cal dt7-meal-cal", id: "dt7MealCal", hidden: true }); ($("dt5Slots") || $("mealWeekCard")).after(box); }
+    if (!meals.items.some((m) => isDay(m.date || ""))) { box.hidden = true; box.replaceChildren(); return; }
+    box.hidden = false;
+    if (dt7CalSeen !== viewDate) { dt7CalSeen = viewDate; dt7CalMonth = null; }
+    const ym = dt7CalMonth || viewDate.slice(0, 7), n = daysInMonth(ym), ws = weekStart(), lead = (parseYmd(`${ym}-01`).getDay() - ws + 7) % 7, goal = kcalGoal(), by = new Map();
+    for (const m of meals.items) if (isDay(m.date || "") && m.date.startsWith(ym)) { const b = by.get(m.date) || { n: 0, k: 0, kn: 0 }; b.n++; if (typeof m.kcal === "number") { b.k += m.kcal; b.kn++; } by.set(m.date, b); }
+    const cells = [];
+    for (let i = 0; i < lead; i++) cells.push(el("span", { class: "bd2-cal-day empty", "aria-hidden": "true" }));
+    let rec = 0, counted = 0, within = 0, kAll = 0;
+    for (let i = 1; i <= n; i++) {
+      const d = `${ym}-${pad(i)}`, b = by.get(d), k = b ? Math.round(b.k) : 0, full = b && b.kn && k >= 800, cls = !full ? "" : k <= goal ? " in" : " over";
+      if (b && d <= todayKey) rec++;
+      if (full && d <= todayKey) { counted++; kAll += k; if (k <= goal) within++; }
+      cells.push(el("button", { type: "button", class: "bd2-cal-day dt7-cal-day" + cls + (d === todayKey ? " today" : "") + (d === viewDate ? " sel" : "") + (d > todayKey ? " later" : ""),
+        disabled: d > todayKey, "aria-label": `${fmtShort(d)}、${b ? (b.kn ? `${fmtN(k)} kcal` + (full ? (k <= goal ? "（目安以内）" : "（目安超え）") : "") : `${b.n} 件（カロリーなし）`) : "記録なし"}`, onclick: () => setViewDate(d) },
+        el("span", { class: "bd2-cal-n" }, String(i)), b && b.kn ? el("span", { class: "bd2-cal-kg dt7-cal-k" }, fmtN(k)) : b ? el("span", { class: "dt7-cal-dot", "aria-hidden": "true" }) : null));
+    }
+    const step = (k) => { dt7CalMonth = addMonths(ym, k); renderDt7MealCal(); }, first = meals.items.filter((m) => isDay(m.date || "")).reduce((a, m) => (m.date < a ? m.date : a), todayKey);
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "食事カレンダー"),
+        el("span", { class: "bd2-cal-nav" }, el("button", { type: "button", class: "icon-btn", "aria-label": "前の月", disabled: ym <= first.slice(0, 7), onclick: () => step(-1) }, icon("prev", 18)),
+          el("span", { class: "bd2-cal-ym" }, `${Number(ym.slice(0, 4))}年${Number(ym.slice(5))}月`),
+          el("button", { type: "button", class: "icon-btn", "aria-label": "次の月", disabled: ym >= todayKey.slice(0, 7), onclick: () => step(1) }, icon("next", 18)))),
+      el("div", { class: "bd2-cal-wd", "aria-hidden": "true" }, Array.from({ length: 7 }, (_, i) => el("span", {}, WD[(ws + i) % 7]))),
+      el("div", { class: "bd2-cal-grid" }, cells),
+      el("p", { class: "sub dt4-cal-key", "aria-hidden": "true" }, el("span", { class: "phrase" }, el("i", { class: "dt7-key in" }), `目安（${fmtN(goal)} kcal）以内`), "・", el("span", { class: "phrase" }, el("i", { class: "dt7-key over" }), "目安超え")),
+      el("p", { class: "sub" }, rec ? phrases([`この月は ${rec} 日記録`, counted ? `目安以内 ${within} / ${counted} 日` : null, counted ? `平均 ${fmtN(Math.round(kAll / counted))} kcal` : null]) : "この月の食事はまだありません"));
+  }
+
+  // ② 食べたものと次の日の体重: over the 90 days to the day shown, each food eaten on 3 days or more against the change from
+  // that day's weight to the next morning's, set against the usual change; the 3 that went up most and the 3 that went down
+  function dt7FoodKg(d = viewDate) {
+    const by = new Map(sortedWeights().map((r) => [r.id, num(r.kg)])), pairs = new Map();
+    for (let i = 1; i <= 90; i++) { const dd = addDays(d, -i), a = by.get(dd), b = by.get(addDays(dd, 1)); if (a && b) pairs.set(dd, b - a); }
+    if (pairs.size < 10) return null;
+    const usual = sum([...pairs.values()], (v) => v) / pairs.size, foods = new Map();
+    for (const m of meals.items) {
+      if (!pairs.has(m.date) || !oneLine(m.text)) continue;
+      const k = dt5Key(m.text), f = foods.get(k) || { name: oneLine(m.text), days: new Set(), last: "" };
+      f.days.add(m.date);
+      if (m.date >= f.last) { f.last = m.date; f.name = oneLine(m.text); }
+      foods.set(k, f);
+    }
+    const list = [...foods.values()].filter((f) => f.days.size >= 3).map((f) => ({ name: f.name, n: f.days.size, fx: sum([...f.days], (x) => pairs.get(x)) / f.days.size - usual }));
+    return { usual, up: list.filter((f) => f.fx >= 0.1).sort((a, b) => b.fx - a.fx).slice(0, 3), down: list.filter((f) => f.fx <= -0.1).sort((a, b) => a.fx - b.fx).slice(0, 3) };
+  }
+  function renderDt7Food() {
+    let box = $("dt7Food");
+    if (!box) { box = el("div", { class: "card pad dt7-food", id: "dt7Food", hidden: true }); ($("dt7MealCal") || $("mealWeekCard")).after(box); }
+    const r = dt7FoodKg();
+    if (!r || (!r.up.length && !r.down.length)) { box.hidden = true; box.replaceChildren(); return; }
+    box.hidden = false;
+    const rows = (xs) => el("ul", { class: "dt7-food-list" }, xs.map((f) => el("li", {}, el("span", { class: "dt7-food-name" }, f.name), el("span", { class: "num" + (f.fx > 0 ? " up" : " down") }, `${signed(f.fx, 2)} kg`), el("span", { class: "sub" }, `${f.n} 回`))));
+    setChildren(box, el("div", { class: "card-head" }, "食べたものと次の日の体重"),
+      r.up.length ? [el("p", { class: "dt7-food-head" }, "次の朝に増えやすいもの"), rows(r.up)] : null,
+      r.down.length ? [el("p", { class: "dt7-food-head" }, "次の朝に減っていたもの"), rows(r.down)] : null,
+      el("p", { class: "sub" }, `この90日に3回以上食べたものの、次の朝の体重の変化を、ふだん（1日 ${signed(r.usual, 2)} kg）と比べた差です。塩分や水分で一時的に増えることもあります。`));
+  }
+
+  // ③ 食事の予定 (settings mealPlans, with the account): a food, its 区分 and kcal for today, tomorrow or the day after; on
+  // its day 食べた puts it in (and takes the plan off), with what today comes to if all are eaten. A week after their day
+  // they go
+  function dt7Plans() { const l = settings.get("mealPlans")?.list; return Array.isArray(l) ? l.filter((x) => x && typeof x.id === "string" && isDay(x.date || "") && typeof x.text === "string" && x.text && SLOTS.includes(x.slot)) : []; }
+  function dt7PutPlans(list) { return settings.set("mealPlans", { list: list.filter((x) => x.date >= addDays(todayKey, -7)).slice(-60), updatedAt: Date.now() }); }
+  function dt7Eat(p) {
+    if (p.date > todayKey) return;
+    const was = dt7Plans(), at = p.date === todayKey ? nowHM() : undefined;
+    act(async () => {
+      const ids = await meals.addMany([{ date: p.date, slot: p.slot, text: p.text, ...(typeof p.kcal === "number" ? { kcal: p.kcal } : {}), ...pfcClean(p), ...(at ? { at } : {}), createdAt: Date.now() }]);
+      await dt7PutPlans(was.filter((x) => x.id !== p.id));
+      flash(`予定の「${p.text}」を${p.slot}に記録しました`, () => act(async () => { takeBack(meals, ids); await dt7PutPlans(was); flash("元に戻しました"); }));
+    });
+  }
+  function dt7DropPlan(p) {
+    const was = dt7Plans();
+    act(() => dt7PutPlans(was.filter((x) => x.id !== p.id)));
+    flash(`予定の「${p.text}」を消しました`, () => act(() => dt7PutPlans(was)));
+  }
+  // the kcal (and PFC) of a food not given one: the last time it was eaten with one, else a common dish of that name
+  function dt7Guess(text) {
+    const k = dt5Key(text), past = meals.items.filter((m) => typeof m.kcal === "number" && dt5Key(m.text) === k).sort((a, b) => b.date.localeCompare(a.date) || num(b.createdAt) - num(a.createdAt))[0];
+    if (past) return { kcal: past.kcal, ...pfcClean(past) };
+    const f = MEAL_FOODS.find((x) => dt5Key(x.name) === k);
+    return f ? { kcal: f.kcal, p: f.p, f: f.f, c: f.c } : {};
+  }
+  function dt7DayWord(d) { return d === todayKey ? "きょう" : d === addDays(todayKey, 1) ? "あした" : d === addDays(todayKey, 2) ? "あさって" : fmtShort(d); }
+  function renderDt7Plan() {
+    let box = $("dt7Plan");
+    if (!box) { box = el("div", { class: "card dt7-plan", id: "dt7Plan", hidden: true }); ($("dt5Copy") || $("mealTotal")).after(box); }
+    const d = viewDate, today = d === todayKey, all = dt7Plans(), mine = all.filter((x) => x.date === d), later = today ? all.filter((x) => x.date > d) : [];
+    if (!today && !mine.length) { box.hidden = true; box.replaceChildren(); return; }
+    box.hidden = false;
+    if (box.contains(document.activeElement) && document.activeElement.matches("input, select") && box.dataset.day === d && box.dataset.sig === JSON.stringify(all)) return; // (being typed in)
+    box.dataset.day = d; box.dataset.sig = JSON.stringify(all);
+    const order = (a, b) => a.date.localeCompare(b.date) || SLOTS.indexOf(a.slot) - SLOTS.indexOf(b.slot);
+    const row = (p) => el("li", {}, el("span", { class: "chip", style: "--chip-c: var(--c-meal)" }, p.slot),
+      el("span", { class: "body" }, el("span", {}, p.text), el("span", { class: "sub" }, phrases([p.date !== d ? dt7DayWord(p.date) : null, typeof p.kcal === "number" ? `${fmtN(p.kcal)} kcal` : "kcal なし"]))),
+      p.date <= todayKey ? el("button", { type: "button", class: "btn ghost sm dt7-eat", "aria-label": `予定の「${p.text}」を食べたので記録する`, onclick: () => dt7Eat(p) }, "食べた") : null,
+      delButton(() => dt7DropPlan(p), "削除", p.text));
+    const eaten = sum(meals.items.filter((m) => m.date === d && typeof m.kcal === "number"), (m) => m.kcal), planned = sum(mine, (p) => (typeof p.kcal === "number" ? p.kcal : 0)), goal = kcalGoal();
+    let form = null;
+    if (today) {
+      const text = el("input", { type: "text", id: "dt7PlanText", maxlength: 100, placeholder: "食べる予定のもの", "aria-label": "食べる予定のもの", list: "mealHints" });
+      const slot = el("select", { id: "dt7PlanSlot", "aria-label": "区分" }, SLOTS.map((s) => el("option", { value: s }, s)));
+      const day = el("select", { id: "dt7PlanDay", "aria-label": "日" }, [0, 1, 2].map((i) => el("option", { value: addDays(todayKey, i) }, dt7DayWord(addDays(todayKey, i)))));
+      const kcal = el("input", { type: "number", id: "dt7PlanKcal", min: 0, max: 9999, inputmode: "numeric", placeholder: "kcal", "aria-label": "カロリー（任意）" });
+      const h = new Date().getHours();
+      day.value = addDays(todayKey, h >= 19 ? 1 : 0);
+      slot.value = h >= 19 ? "朝食" : h < 10 ? "昼食" : "夕食";
+      form = el("form", { class: "dt7-plan-form", autocomplete: "off" }, text, el("div", { class: "dt7-plan-row" }, day, slot, kcal), el("div", { class: "dt7-plan-go" }, el("button", { class: "btn sm", type: "submit" }, "予定に足す")));
+      form.addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        const t = oneLine(text.value).slice(0, 100), v = kcal.value === "" ? null : Math.round(Number(kcal.value));
+        if (!t) { text.focus(); return; }
+        if (v !== null && !(v >= 0 && v <= 9999)) { kcal.focus(); return; }
+        const p = { id: uid(), date: day.value, slot: slot.value, text: t, ...(v !== null ? { kcal: v } : dt7Guess(t)) }, list = dt7Plans();
+        if (list.length >= 60) { flash("予定は 60 件までです"); return; }
+        act(() => dt7PutPlans([...list, p]));
+        text.value = ""; kcal.value = "";
+        flash(`${dt7DayWord(p.date)}の${p.slot}に「${t}」を予定しました`);
+      });
+    }
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, today ? "食事の予定" : `${fmtMD(d)}の予定`), mine.length ? el("span", { class: "muted small" }, `${mine.length} 件`) : null),
+      mine.length || later.length ? el("ul", { class: "list dt7-plan-list" }, [...mine].sort(order).map(row), [...later].sort(order).map(row)) : null,
+      today && mine.length ? el("p", { class: "sub dt7-plan-sum" + (eaten + planned > goal ? " warn" : "") }, phrases([`予定をぜんぶ食べると きょうは ${fmtN(eaten + planned)} kcal`, eaten + planned > goal ? `目安を ${fmtN(eaten + planned - goal)} kcal 超えます` : `目安まで あと ${fmtN(goal - eaten - planned)} kcal`])) : null,
+      !today ? el("p", { class: "sub dt7-plan-sum" }, "この日に食べる予定だったものです。食べていたら「食べた」で記録できます。") : null,
+      form, today && !all.length ? el("p", { class: "sub dt7-plan-sum" }, "あしたの朝ごはんなど、食べる予定を先に入れておけます。食べたら「食べた」を押すだけで記録できます。") : null);
+  }
+
+  // ④ 食事の写真 side by side: the 30 days to the day shown, newest first (12, or all at もっと見る); a press shows it large
+  var dt7GalleryAll = false, dt7GallerySeen = "";
+  function renderDt7Gallery() {
+    let box = $("dt7Gallery");
+    if (!box) { box = el("div", { class: "card pad dt7-gallery", id: "dt7Gallery", hidden: true }); ($("dt7Food") || $("dt7MealCal") || $("mealWeekCard")).after(box); }
+    if (!dt4Photos) { box.hidden = true; if (!dt4PhotosRead) dt4LoadPhotos().then(() => draw(renderDt7Gallery)); return; }
+    if (dt7GallerySeen !== viewDate) { dt7GallerySeen = viewDate; dt7GalleryAll = false; }
+    const from = addDays(viewDate, -29), list = [...dt4Photos.values()].map((p) => ({ p, m: meals.get(p.mealId) })).filter(({ m }) => m && isDay(m.date || "") && m.date >= from && m.date <= viewDate)
+      .sort((a, b) => b.m.date.localeCompare(a.m.date) || SLOTS.indexOf(b.m.slot) - SLOTS.indexOf(a.m.slot) || num(b.p.createdAt) - num(a.p.createdAt));
+    if (!list.length) { box.hidden = true; box.replaceChildren(); return; }
+    box.hidden = false;
+    const shown = dt7GalleryAll ? list.slice(0, 120) : list.slice(0, 12);
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "食事の写真"), el("span", { class: "muted small" }, `この30日 ${list.length} 枚`)),
+      el("div", { class: "dt7-gal-grid" }, shown.map(({ p, m }) => el("button", { type: "button", class: "dt7-gal-cell", "aria-label": `${fmtShort(m.date)} ${m.slot || ""}「${m.text}」の写真を大きく見る`, onclick: () => dt4ShowPhoto(p, m) },
+        el("img", { src: dt4Url(p), alt: "", loading: "lazy" }), el("span", { class: "dt7-gal-cap", "aria-hidden": "true" }, `${fmtMD(m.date)} ${m.slot || ""}`)))),
+      list.length > shown.length ? el("button", { type: "button", class: "link-btn", onclick: () => { dt7GalleryAll = true; renderDt7Gallery(); } }, `もっと見る（あと ${list.length - shown.length} 枚）`) : null,
+      el("p", { class: "sub" }, "写真はこの端末の中だけにあります。"));
+  }
+
+  // ⑤ ウォームアップ for the weight typed (else the last time's heaviest): 40%・60%・80% (8・5・3 回), with the bar alone first
+  // for a barbell's move; ⑥ プレート: for a barbell's move (by its name), what goes on each side of the bar (settings barKg)
+  const DT7_PLATES = [25, 20, 15, 10, 5, 2.5, 1.25];
+  function dt7Bar() { const v = num(settings.get("barKg")?.kg); return [10, 15, 20].includes(v) ? v : 20; }
+  function dt7IsBarbell(name) { return /ベンチプレス|スクワット|デッドリフト|バーベル|ベントオーバー|ヒップスラスト|オーバーヘッドプレス|ミリタリープレス|ルーマニアン|クリーン|スナッチ|グッドモーニング/.test(name) && !/ダンベル|マシン|スミス|ケーブル|ブルガリアン|ゴブレット/.test(name); }
+  function dt7Plates(kg, bar = dt7Bar()) {
+    let side = Math.round(((kg - bar) / 2) * 100) / 100;
+    if (side < 0) return null;
+    const out = [];
+    for (const p of DT7_PLATES) while (side >= p - 1e-9) { out.push(p); side = Math.round((side - p) * 100) / 100; }
+    return side > 0.001 ? null : out;
+  }
+  function dt7Warm(kg, barbell) {
+    const bar = dt7Bar(), out = barbell && kg > bar + 10 ? [[bar, 10]] : [];
+    for (const [p, reps] of [[0.4, 8], [0.6, 5], [0.8, 3]]) { const w = Math.round((kg * p) / 2.5) * 2.5; if (w >= (barbell ? bar + 2.5 : 2.5) && w < kg && !out.some(([x]) => x === w)) out.push([w, reps]); }
+    return out;
+  }
+  function dt7WorkKg(name) {
+    const v = Number($("woWeight").value);
+    if (v > 0 && !$("woWeight").disabled) return v;
+    const w = woLastFor("筋トレ", name);
+    return w && w.per !== "sec" ? Math.max(0, ...setsOfEntry(w).map((s) => num(s.kg))) : 0;
+  }
+  function renderDt7Lift() {
+    let p = $("dt7Lift");
+    if (!p) { p = el("p", { class: "full field-note dt7-lift", id: "dt7Lift", hidden: true }); ($("dt5RmLine") || $("dt4MoveNote") || $("woExercise").parentNode).after(p); }
+    const name = $("woType").value === "筋トレ" ? $("woExercise").value.trim() : "", kg = name ? dt7WorkKg(name) : 0;
+    if (!name || !(kg >= 15)) { p.hidden = true; p.replaceChildren(); return; }
+    const bb = dt7IsBarbell(name), warm = dt7Warm(kg, bb), pl = bb ? dt7Plates(kg) : undefined;
+    if (!warm.length && !bb) { p.hidden = true; p.replaceChildren(); return; }
+    p.hidden = false;
+    setChildren(p, warm.length ? el("span", { class: "dt7-lift-row" }, el("span", { class: "dt4-note-k" }, "ウォームアップ"), " ", el("span", { class: "phrase" }, keepUnits(warm.map(([w, r]) => `${fmtNum(w)} kg×${r}`).join("・"))), el("span", { class: "phrase muted" }, keepUnits(`（${fmtNum(kg)} kg の前に）`))) : null,
+      bb ? el("span", { class: "dt7-lift-row" }, el("span", { class: "dt4-note-k" }, "プレート"), " ", el("span", { class: "phrase" }, keepUnits(kg < dt7Bar() ? "バーより軽い重さです" : pl === null ? `${fmtNum(kg)} kg は、プレートでちょうどには作れません` : pl.length ? `片側 ${pl.map((x) => String(Math.round(x * 100) / 100)).join(" + ")} kg` : "バーだけ")), el("span", { class: "phrase muted" }, keepUnits(`（バー ${dt7Bar()} kg）`))) : null);
+  }
+  for (const id of ["woExercise", "woType", "woWeight"]) for (const t of ["input", "change"]) $(id).addEventListener(t, () => { if (dietSeven) renderDt7Lift(); });
+  $("workoutForm").addEventListener("submit", () => { if (dietSeven) setTimeout(renderDt7Lift, 0); }); // (after the form's own, its fields emptied)
+  $("dt7Bar").addEventListener("change", (ev) => act(() => settings.set("barKg", { kg: Number(ev.target.value), updatedAt: Date.now() })));
+
+  // ⑦ the day's 運動 as words (each one, then the time, the sets and 消費カロリー), to paste into LINE and the like
+  function dt7WoText(d) {
+    const xs = workouts.items.filter((w) => w.date === d).sort((a, b) => num(a.createdAt) - num(b.createdAt));
+    if (!xs.length) return "";
+    const nb = (s) => String(s).replace(/ /g, " "), lines = [`${fmtMDW(d)}の運動`];
+    for (const w of xs) lines.push(nb(w.exercise ? "筋トレ " + workoutDetail(w).replace("・", " ") : [w.type || "運動", workoutDetail(w)].filter(Boolean).join(" ")) + (oneLine(w.note) ? `（${oneLine(w.note)}）` : ""));
+    const mins = sum(xs, (w) => w.minutes), sets = sum(xs.filter((w) => w.exercise), (w) => w.sets), kc = sum(xs.map(woKcalOf), (k) => k.v);
+    const tail = [mins ? nb(durText(mins)) : null, sets ? `筋トレ ${sets} セット` : null, kc ? `消費 約 ${fmtN(kc)} kcal` : null].filter(Boolean);
+    if (tail.length) lines.push("合計 " + tail.join("・"));
+    return lines.join("\n");
+  }
+  function renderDt7WoCopy() {
+    let p = $("dt7WoCopy");
+    if (!p) { p = el("p", { class: "dt5-copy", id: "dt7WoCopy", hidden: true }, el("button", { type: "button", class: "link-btn", onclick: () => { const t = dt7WoText(viewDate); if (t) dt7Copy(t, "この日の運動を文字でコピーしました。LINEなどに貼り付けられます"); } }, "この日の運動を文字でコピー")); $("workoutTotal").after(p); }
+    p.hidden = !workouts.items.some((w) => w.date === viewDate);
+  }
+
+  // ⑧ 運動のお知らせ (settings woRemind, with the account): on the weekdays picked, at the time, the day's menu (its theme, ラン
+  // and 筋トレ); not on a day with 運動 already. The next 7 days
+  function dt7Remind() {
+    const v = settings.get("woRemind") || {}, days = Array.isArray(v.days) ? [...new Set(v.days.filter((x) => Number.isInteger(x) && x >= 0 && x <= 6))].sort() : [0, 1, 2, 3, 4, 5, 6];
+    return { on: !!v.on, at: isHm(v.at || "") ? v.at : "18:00", days };
+  }
+  function dt7MenuWords(d) {
+    const m = woDays()[parseYmd(d).getDay()] || {}, what = [num(m.km) > 0 ? `ラン ${m.km} km` : null, (m.moves || []).length ? `筋トレ ${m.moves.length}種目` : null].filter(Boolean).join("・");
+    return m.theme ? `きょうは${m.theme}の日です` + (what ? `（${what}）` : "") : what ? `きょうのメニュー：${what}` : "少しでも体を動かしましょう";
+  }
+  function dt7Alarms(now) {
+    const r = dt7Remind(), out = [];
+    if (!r.on || !r.days.length) return out;
+    for (let i = 0; i < 7; i++) {
+      const d = addDays(todayKey, i);
+      if (!r.days.includes(parseYmd(d).getDay()) || (i === 0 && workouts.items.some((w) => w.date === d))) continue;
+      const at = dayAt(d, r.at);
+      if (at > now + 5000) out.push({ at, title: "運動の時間です", body: dt7MenuWords(d), tag: `dt7-wo:${d}`, url: "./#workout" });
+    }
+    return out;
+  }
+  function dt7Push() { const r = dt7Remind(); return r.on ? [["woRemind", r.at, r.days, workouts.items.some((w) => w.date === todayKey), woDays().map((m) => [m.theme || "", num(m.km), (m.moves || []).length])]] : []; }
+  function dt7SaveRemind(patch) {
+    const cur = dt7Remind();
+    act(() => settings.set("woRemind", { ...cur, ...patch, updatedAt: Date.now() }));
+    renderDt7WoSet();
+    if (patch.on && pushState() === "off") pushEnable().then(renderDt7WoSet);
+  }
+  function renderDt7WoSet() {
+    const r = dt7Remind(), st = pushState(), ws = weekStart(), box = $("dt7RemindDays");
+    $("dt7RemindOn").checked = r.on;
+    if (document.activeElement !== $("dt7RemindAt")) $("dt7RemindAt").value = r.at;
+    $("dt7RemindAt").disabled = !r.on;
+    setChildren(box, Array.from({ length: 7 }, (_, k) => { const i = (ws + k) % 7, on = r.days.includes(i);
+      return el("button", { type: "button", class: "dt7-wd", "aria-pressed": String(on), disabled: !r.on, "aria-label": `${WD[i]}曜`, onclick: () => dt7SaveRemind({ days: on ? r.days.filter((x) => x !== i) : [...r.days, i] }) }, WD[i]); }));
+    const words = r.days.length === 7 ? "毎日" : r.days.length ? Array.from({ length: 7 }, (_, k) => (ws + k) % 7).filter((i) => r.days.includes(i)).map((i) => WD[i]).join("・") + "曜" : "";
+    $("dt7RemindFoot").textContent = !r.on ? "決めた曜日と時刻に、その日のメニューをお知らせします。その日に運動を記録していれば届きません。"
+      : !r.days.length ? "曜日を1つ以上選んでください。" : st === "on" ? `${words}の ${r.at} に、この端末に届きます（運動を記録した日は届きません）。` : pushWords(st).replace("通知アラーム", "お知らせ");
+    const bar = $("dt7Bar");
+    if (document.activeElement !== bar) bar.value = String(dt7Bar());
+  }
+  $("dt7RemindOn").addEventListener("change", (ev) => dt7SaveRemind({ on: ev.target.checked }));
+  $("dt7RemindAt").addEventListener("change", (ev) => { if (isHm(ev.target.value)) dt7SaveRemind({ at: ev.target.value }); });
+
+  // ⑨ 減った体重の内訳: from the records with a 体脂肪率, the 7 days at the start against the 7 days at the end (30日, 90日 or
+  // はじめてから, as ⑨ of その4 counts it): 体脂肪量 and 除脂肪体重 (筋肉など), each one's change
+  var dt7SplitBy = "start";
+  function dt7Split(by = dt7SplitBy, to = viewDate) {
+    const start = by === "30" ? addDays(to, -29) : by === "90" ? addDays(to, -89) : dt4Start() || sortedWeights()[0]?.id || "";
+    const ws = sortedWeights().filter((r) => num(r.fat) > 0 && r.id >= start && r.id <= to);
+    if (ws.length < 2) return null;
+    const first = ws[0].id, last = ws[ws.length - 1].id;
+    if (daysBetween(first, last) < 14) return null;
+    const a = ws.filter((r) => r.id <= addDays(first, 6)), b = ws.filter((r) => r.id >= addDays(last, -6)), mean = (xs, f) => sum(xs, f) / xs.length, fk = (r) => (num(r.kg) * num(r.fat)) / 100;
+    const A = { kg: mean(a, (r) => r.kg), fat: mean(a, fk) }, B = { kg: mean(b, (r) => r.kg), fat: mean(b, fk) };
+    return { from: first, to: last, dKg: B.kg - A.kg, dFat: B.fat - A.fat, dLean: B.kg - B.fat - (A.kg - A.fat) };
+  }
+  function renderDt7Split() {
+    let box = $("dt7Split");
+    if (!box) { box = el("div", { class: "card pad dt7-split", id: "dt7Split", hidden: true }); ($("dt4Since") || $("wtStats")).after(box); }
+    const r = dt7Split(), any = ["30", "90", "start"].some((k) => dt7Split(k));
+    if (!any) { box.hidden = true; box.replaceChildren(); return; }
+    box.hidden = false;
+    const seg = el("div", { class: "seg dt5-seg", role: "group", "aria-label": "期間" }, [["30", "30日"], ["90", "90日"], ["start", "はじめから"]].map(([k, w]) =>
+      el("button", { type: "button", "aria-pressed": String(dt7SplitBy === k), onclick: () => { dt7SplitBy = k; renderDt7Split(); } }, w)));
+    if (!r) { setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "体重の変化の内訳"), seg), el("p", { class: "sub" }, "この期間は、体脂肪率のある記録が足りません（2週間以上あいた2回以上が要ります）。")); return; }
+    const lost = r.dKg < 0, same = Math.abs(r.dKg) >= 0.1 && Math.sign(r.dFat) === Math.sign(r.dKg) && Math.sign(r.dLean) === Math.sign(r.dKg), pct = same ? Math.round((r.dFat / (r.dFat + r.dLean)) * 100) : 0;
+    const row = (k, v, sub) => el("div", { class: "dt4-since-row" }, el("span", { class: "k" }, k), el("span", { class: "num" }, `${signed(v)} kg`), sub ? el("span", { class: "sub" }, sub) : null);
+    const say = lost && r.dFat < 0 && r.dLean >= 0 ? "脂肪だけが減っています。いい減り方です"
+      : lost && r.dLean < 0 && Math.abs(r.dLean) > Math.abs(r.dKg) * 0.3 ? "除脂肪体重（筋肉など）も減っています。たんぱく質と筋トレで、筋肉を守りましょう"
+        : lost ? "減ったのは、ほとんどが脂肪です" : r.dKg > 0 && r.dLean > r.dFat ? "増えたのは、除脂肪体重（筋肉など）が多めです" : r.dKg > 0 ? "増えたのは、脂肪が多めです" : "大きな変化はありません";
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, lost ? "減った体重の内訳" : "体重の変化の内訳"), seg),
+      row("体重", r.dKg, `${fmtMD(r.from)}ごろ → ${fmtMD(r.to)}ごろ`), row("体脂肪量", r.dFat, same ? `${lost ? "減った" : "増えた"}うちの ${pct}%` : null), row("除脂肪体重（筋肉など）", r.dLean, same ? `${lost ? "減った" : "増えた"}うちの ${100 - pct}%` : null),
+      el("p", { class: "sub" }, say), el("p", { class: "sub" }, "はじめと終わりの7日の平均で比べています。家庭の体組成計の値は日によってゆれるので、目安です。"));
+  }
+
+  // ⑩ 目標の理由 (settings dietWhy, with the account): why the weight is to come down, in one's own words; on からだ under the
+  // 見通し, and on 食事 when the day has gone over its 目安
+  var dt7WhyEditing = false, dt7WhyDraft = null;
+  function dt7Why() { const t = settings.get("dietWhy")?.text; return typeof t === "string" ? t.trim() : ""; }
+  function dt7SaveWhy(text) {
+    const was = settings.get("dietWhy"), t = String(text || "").trim().slice(0, 200);
+    if (t === dt7Why()) return;
+    act(() => (t ? settings.set("dietWhy", { text: t, updatedAt: Date.now() }) : settings.remove("dietWhy")));
+    flash(t ? "目標の理由を保存しました" : "目標の理由を消しました", () => act(() => (was ? settings.set("dietWhy", { ...was, updatedAt: Date.now() }) : settings.remove("dietWhy"))));
+  }
+  function renderDt7Why() {
+    let box = $("dt7Why");
+    if (!box) { box = el("div", { class: "card pad dt7-why", id: "dt7Why" }); $("wtPlan").after(box); }
+    if (dt7WhyEditing && document.activeElement?.id === "dt7WhyIn" && box.contains(document.activeElement)) return; // (being written)
+    const t = dt7Why();
+    if (dt7WhyEditing) {
+      const ta = el("textarea", { id: "dt7WhyIn", rows: 3, maxlength: 200, "aria-label": "目標の理由", placeholder: "例：夏までに好きな服を着たい、健康診断の数字をよくしたい" }, dt7WhyDraft ?? t);
+      ta.addEventListener("input", () => { dt7WhyDraft = ta.value; });
+      setChildren(box, el("div", { class: "card-head" }, "目標の理由"), ta,
+        el("div", { class: "dt7-why-bar" }, el("button", { type: "button", class: "link-btn", onclick: () => { dt7WhyEditing = false; dt7WhyDraft = null; renderDt7Why(); } }, "やめる"),
+          el("button", { type: "button", class: "btn sm", onclick: () => { dt7WhyEditing = false; dt7WhyDraft = null; dt7SaveWhy(ta.value); renderDt7Why(); } }, "保存")));
+      return;
+    }
+    setChildren(box, el("div", { class: "card-head row-between" }, el("span", {}, "目標の理由"), t ? el("button", { type: "button", class: "link-btn", onclick: () => dt7EditWhy() }, "直す") : null),
+      t ? el("p", { class: "dt7-why-text" }, t) : [el("p", { class: "sub" }, "なぜやせたいのかを書いておくと、くじけそうなときに思い出せます。食べすぎた日は、食事のページにも出ます。"),
+        el("button", { type: "button", class: "btn ghost sm", onclick: () => dt7EditWhy() }, "理由を書く")]);
+  }
+  function dt7EditWhy() { dt7WhyEditing = true; renderDt7Why(); $("dt7WhyIn")?.focus(); }
+  function renderDt7WhyMeal() {
+    const card = $("mealGoalCard");
+    card.querySelector(".dt7-why-meal")?.remove();
+    const t = dt7Why(), k = sum(meals.items.filter((m) => m.date === viewDate && typeof m.kcal === "number"), (m) => m.kcal);
+    if (!t || viewDate !== todayKey || !(k > kcalGoal())) return;
+    card.append(el("p", { class: "dt7-why-meal" }, el("span", { class: "dt4-note-k" }, "目標の理由"), " ", t));
+  }
+
+  // as each part is drawn
+  function renderDt7Meal() { draw(renderDt7Plan); draw(renderDt7MealCal); draw(renderDt7Food); draw(renderDt7Gallery); draw(renderDt7WhyMeal); }
+  function renderDt7Wo() { draw(renderDt7Lift); draw(renderDt7WoCopy); draw(renderDt7WoSet); }
+  function renderDt7Body() { draw(renderDt7Why); draw(renderDt7Split); }
+  dietSeven = true;
 
   // ---------- バイト その2 ①〜⑩ (the user's calls, 2026-11-13): the same shifts put in for weeks (①), お知らせ before a
   // shift (②), 出勤・退勤 at a press (③), the 時給 a shift had on its day (④), 土日祝's more an hour (⑤), the year's mark
