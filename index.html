@@ -1524,30 +1524,34 @@ button.cat-row:active { background: var(--fill-press); }
 .ch-table tr.cur > * { font-weight: 700; }
 .ch-table td.warn { color: var(--warn); }
 .ch-table caption { caption-side: top; padding: 0 4px 4px; text-align: right; font-size: var(--t-foot); color: var(--muted); }
-/* ⑦ 支出のカレンダー: a week a row, each day a button in one of the four steps (a day with none grey, one still to come
-   bare); today ringed, the one pressed ringed in the text's colour; its 明細 under the month */
+/* ⑦ 収入と支出のカレンダー (支出のカレンダー, its days tinted by what went out, until 2026-11-18): a week a row, each day a
+   button with what came in (+) over what went out, in the charts' blue and amber made a step deeper for small text
+   (checked: 4.5:1 and more on the days' grey, in both modes); today ringed, the one pressed ringed in the text's colour;
+   the month's totals under it in the same colours, its 明細 under the month */
+#exCalCard { --ex-in: #1458c7; --ex-out: #8a5a00; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #exCalCard { --ex-in: #6aa2ff; --ex-out: #cc9c00; } }
+:root[data-theme="dark"] #exCalCard { --ex-in: #6aa2ff; --ex-out: #cc9c00; }
 .excal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; padding: 0 var(--space-1) 4px; }
 .excal-wd { padding: 2px 0; text-align: center; font-size: var(--t-foot); color: var(--muted); }
-.excal-d { min-width: 0; min-height: 48px; padding: 4px 1px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+.excal-d { min-width: 0; min-height: 54px; padding: 4px 1px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
   border: 0; border-radius: 8px; background: var(--fill); color: var(--fg); font: inherit; font-variant-numeric: tabular-nums; cursor: pointer; }
 .excal-d .dn { font-size: var(--t-foot); line-height: 1.2; }
-.excal-d .da { max-width: 100%; overflow: hidden; font-size: 11px; line-height: 1.2; font-weight: 600; letter-spacing: -.02em; white-space: nowrap; }
+.excal-d .dv { display: grid; justify-items: center; max-width: 100%; }
+.excal-d .da { max-width: 100%; overflow: hidden; font-size: 11px; line-height: 1.2; font-weight: 600; letter-spacing: -.03em; white-space: nowrap; }
+.excal-d .da.in, .excal-sum .in { color: var(--ex-in); }
+.excal-d .da.out, .excal-sum .out { color: var(--ex-out); }
 .excal-d.future { background: transparent; color: var(--muted); }
-.excal-d.lv1, .excal-sw.lv1 { background: var(--heat1); }
-.excal-d.lv2, .excal-sw.lv2 { background: var(--heat2); }
-.excal-d.lv3, .excal-sw.lv3 { background: var(--heat3); }
-.excal-d.lv4, .excal-sw.lv4 { background: var(--heat4); }
-.excal-d.lv3, .excal-d.lv4 { color: var(--heat-ink); }
 .excal-d.today { box-shadow: inset 0 0 0 2px var(--line); }
 .excal-d.today .dn { font-weight: 700; }
 .excal-d.on { box-shadow: inset 0 0 0 2px var(--fg); }
-.excal-d.lv3.on, .excal-d.lv4.on { box-shadow: inset 0 0 0 2px var(--heat-ink); }
 .excal-d:active { filter: brightness(.94); }
 .excal-key { padding: 4px var(--space-2) 8px; }
 .excal-key p { margin: 6px 0 0; }
+/* the steps' key: 勉強・ルーティーン・日記's calendars use it too */
 .excal-steps { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: var(--t-foot); color: var(--muted); font-variant-numeric: tabular-nums; }
 .excal-step { display: inline-flex; align-items: center; gap: 4px; }
-.excal-sw { flex: none; width: 14px; height: 14px; border-radius: 4px; }
+.excal-sum { font-size: var(--t-sub); font-variant-numeric: tabular-nums; }
+.excal-sum .in, .excal-sum .out { font-weight: 600; }
 .excal-day { border-top: .5px solid var(--separator); }
 .excal-day-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; padding: 12px var(--space-2) 0; }
 .excal-day li.empty { color: var(--muted); }
@@ -2123,20 +2127,6 @@ ul.wx13-plans { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none
 .wx8-pills li.wx12-on { background: transparent; box-shadow: inset 0 0 0 1.5px var(--accent); }
 .wx8-pills li.wx12-on .wx12-pack, .wx8-pills li.wx12-on .icon { color: var(--accent); }
 .wx12-pack-note { margin: 8px 0 0; font-size: var(--t-foot); color: var(--muted); }
-.wx12-year { padding: 12px var(--space-2); }
-.wx12-year-say { margin: 0 0 8px; font-size: var(--t-sub); }
-ul.wx12-yl { margin: 0; padding: 0; list-style: none; }
-.wx12-ym { display: grid; grid-template-columns: 3.3em 3.5em 3.5em minmax(0, 1fr); align-items: baseline; gap: 6px; min-height: 30px; font-size: var(--t-sub); font-variant-numeric: tabular-nums; }
-.wx12-ym.head { min-height: 0; padding-bottom: 4px; font-size: var(--t-foot); color: var(--muted); }
-.wx12-ym-m { color: var(--muted); white-space: nowrap; }
-.wx12-ym-d.warm { color: var(--warn); }
-.wx12-ym-d.cold { color: var(--sat); }
-.wx12-ym-r, .wx12-ym.head > span:last-child { text-align: end; white-space: nowrap; }
-.wx12-ym-r small { color: var(--muted); font-size: var(--t-foot); }
-.wx12-year-n { margin: 8px 0 0; font-size: var(--t-sub); }
-.wx12-wash { align-items: center; }
-.wx12-wash p { flex: 1; min-width: 0; }
-.wx12-wash .chip-btn { flex: none; }
 .wx6-next li .wx12-mute { flex: none; align-self: center; margin-inline-start: auto; min-height: 32px; padding: 0 12px; font-size: var(--t-foot); }
 #wx12Unmute { min-height: 44px; }
 /* 天気 その11 */
@@ -2170,12 +2160,8 @@ li.wx11-thing.none { color: var(--muted); font-size: var(--t-sub); }
 .wx10-three .wx-p { font-size: var(--t-foot); color: var(--sat); }
 .wx8-take p.wx10-umb { margin: 10px 0 0; font-size: var(--t-sub); color: var(--muted); }
 /* 天気 その9 */
-ul.wx9-japan > li { display: grid; grid-template-columns: minmax(0, 1fr) 22px auto 3em; align-items: center; gap: 8px; min-height: 40px; font-variant-numeric: tabular-nums; }
-.wx9-japan .wx-p { text-align: end; font-size: var(--t-sub); color: var(--sat); }
 .wx-lines .wx-line.wx9-heavy.warn .icon { color: var(--warn); }
-.wx-lines p.wx9-feel, .wx-lines p.wx9-ache-note, .wx-lines p.wx9-mood-say { font-size: var(--t-sub); color: var(--muted); }
-.wx9-ache .chip-btn { min-height: 36px; background: var(--fill); box-shadow: none; }
-.wx9-ache .chip-btn[aria-pressed="true"] { background: var(--accent-fill); color: var(--accent-ink); }
+.wx-lines p.wx9-feel, .wx-lines p.wx9-mood-say { font-size: var(--t-sub); color: var(--muted); }
 /* 天気 その8 */
 .wx-place-line { column-gap: 6px; }  /* (the line with 送る・読み上げ・画像 on one row) */
 .wx-place-line .wx5-speak { min-width: 28px; }
@@ -2189,7 +2175,6 @@ ul.wx8-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; 
 .wx-days .wx8-tag { grid-column: 1 / 3; grid-row: 2; justify-self: start; margin-inline-start: 0; padding: 0 5px; line-height: 1.4; }
 .wx8-out-form { margin: 0; }
 .wx8-hrs { display: inline-flex; align-items: center; gap: 6px; }
-.wx-lines .wx-line.wx8-ozone.warn .icon { color: var(--warn); }
 .wx8-words { padding: 0 var(--space-2); }
 .wx8-words > summary { display: flex; align-items: center; min-height: 44px; color: var(--accent); cursor: pointer; }
 .wx8-words dl { margin: 0 0 12px; }
@@ -2210,15 +2195,6 @@ ul.wx7-rainplans li { display: grid; grid-template-columns: 6.8em minmax(0, 1fr)
 .wx7-rainplans .wx7-rd { font-weight: 600; }
 .wx7-rainplans .wx7-rd small { display: block; font-weight: 400; font-size: var(--t-foot); color: var(--sat); }
 .wx7-rainplans .wx7-rp { font-size: var(--t-sub); overflow-wrap: anywhere; }
-.wx7-year-svg { display: block; width: 100%; height: auto; overflow: visible; }
-.wx7-year .wx7-hi { fill: none; stroke: #ff9f0a; stroke-width: 2; stroke-linejoin: round; }
-.wx7-year .wx7-lo { fill: none; stroke: #4fb6e8; stroke-width: 2; stroke-linejoin: round; }
-.wx7-year text.wx7-tl.wx7-hi { fill: #ff9f0a; stroke: none; font-size: 11px; font-weight: 600; }
-.wx7-year text.wx7-tl.wx7-lo { fill: #4fb6e8; stroke: none; font-size: 11px; font-weight: 600; }
-.wx7-year .wx7-bar { fill: var(--sat); opacity: .35; }
-.wx7-year .wx7-now { fill: var(--fill); }
-.wx7-year .wx2-legend .lo::before { background: #4fb6e8; }
-.wx7-ysay { margin: 6px 4px 2px; font-size: var(--t-sub); line-height: 1.5; }
 .wx-places .wx7-up { font-size: 18px; }
 .wx-places .wx7-up-none { flex: none; width: 40px; }
 .wx7-sw { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -2291,7 +2267,7 @@ ul.wx3-places > li { padding: 0; }
 .wx3-pn small { margin-inline-start: 6px; font-size: var(--t-foot); color: var(--accent); }
 .wx3-now { text-align: end; font-weight: 600; }
 .wx3-place .wx-p { min-width: 3em; text-align: end; font-size: var(--t-sub); color: var(--sat); }
-.wx-lines .wx-line.wx3-thunder .icon, .wx-lines .wx-line.wx3-heat.warn .icon { color: var(--warn); }
+.wx-lines .wx-line.wx3-thunder .icon { color: var(--warn); }
 .wx3-auto { margin-bottom: 4px; }
 /* 天気 その2 */
 .wx2-share { margin-inline-start: auto; }
@@ -2421,13 +2397,6 @@ details.bt2-bulk > summary, details.bt3-ask > summary { min-height: 48px; displa
 .bt3-quick-say:empty { display: none; }
 .bt3-quick-say.warn { color: var(--warn); }
 .bt3-ask-body { display: grid; gap: 10px; padding: 0 var(--space-2) 14px; }
-.bt3-ask-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
-.bt3-ask-grid span { font-size: var(--t-foot); color: var(--muted); text-align: center; }
-.bt3-ask-grid button { display: grid; place-items: center; gap: 0; min-height: 48px; padding: 2px 0; border: 0; border-radius: 10px; background: var(--fill); color: var(--fg); font: inherit; font-size: var(--t-foot); cursor: pointer; }
-.bt3-ask-grid button b { font-size: 16px; line-height: 1.1; }
-.bt3-ask-grid button[data-m="o"] { background: color-mix(in srgb, var(--accent) 22%, var(--surface)); }
-.bt3-ask-grid button[data-m="t"] { background: color-mix(in srgb, var(--c-money) 22%, var(--surface)); }
-.bt3-ask-grid button[data-m="x"] { color: var(--muted); }
 .bt3-ask-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
 .bt3-ask-row select, .bt3-ask-body input[type="text"] { min-height: 40px; min-width: 0; padding: 0 10px; border: 1px solid var(--line); border-radius: 10px; background-color: var(--surface); color: var(--fg); font: inherit; }
 .bt3-ask-body input[type="text"] { width: 100%; }
@@ -2489,8 +2458,6 @@ details.bt2-bulk > summary, details.bt3-ask > summary { min-height: 48px; displa
 #bt5FindText { width: 100%; min-height: 40px; padding: 0 10px; border: 1px solid var(--line); border-radius: 10px; background-color: var(--surface); color: var(--fg); font: inherit; }
 #bt5FindSay { margin: 0; }
 #bt5FindList > li { padding-inline: 0; }
-.bt3-ask-grid button.plan { box-shadow: inset 0 -3px 0 var(--accent); }
-.bt5-plan-key i { display: inline-block; width: 14px; height: 3px; margin-inline-end: 6px; vertical-align: middle; background: var(--accent); border-radius: 2px; }
 /* バイト その6 */
 .bt6-pats { display: flex; flex-wrap: wrap; gap: 6px 8px; }
 .bt6-pat { display: inline-flex; align-items: baseline; gap: 2px; }
@@ -2599,7 +2566,7 @@ details.bt9-parts > summary { cursor: pointer; color: var(--accent); min-height:
 #shiftList li.bt9-pick { cursor: pointer; }
 #shiftList li.bt9-pick.on { background-color: color-mix(in srgb, var(--c-money) 12%, transparent); }
 .bt9-box { position: relative; z-index: 1; flex: none; width: 22px; height: 22px; margin: 0 4px 0 0; accent-color: var(--c-money); }
-/* バイト その10: ① the lists in the job's form and on 出勤's card, ⑩ 休憩, ② いっしょ, ⑥ 次の給料日, ④⑨ the lists, ③ お知らせ */
+/* バイト その10: ① the lists in the job's form and on 出勤's card, ⑩ 休憩, ② いっしょ, ⑥ 次の給料日, ③ お知らせ */
 form.add > .flabel:has(+ .ffield > textarea.bt10-ta) { align-self: start; padding-top: 10px; }
 @container (max-width: 19.5em) { form.add > .flabel:has(+ .ffield > textarea.bt10-ta) { padding-top: 0; } }
 textarea.bt10-ta { min-height: 5.6em; }
@@ -2615,10 +2582,7 @@ textarea.bt10-ta { min-height: 5.6em; }
 .bt10-next { display: grid; gap: 2px; }
 .bt10-items { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
 .bt10-items li { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 36px; }
-.bt10-skill-job, .bt10-lent-job { display: grid; gap: 6px; }
-#bt10SkillsBody p, #bt10LentBody p, #bt10AlarmsBody p { margin: 0; }
-.bt10-skill-job + .bt10-skill-job, .bt10-lent-job + .bt10-lent-job { padding-top: 8px; border-top: .5px solid var(--separator); }
-.bt10-skill-job .bt4-adv-form input[type="text"], .bt10-lent-job .bt4-adv-form input[type="text"] { flex: 1 1 10em; width: auto; }
+#bt10AlarmsBody p { margin: 0; }
 .bt10-alarms { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .bt10-alarms li { display: grid; line-height: 1.45; }
 .bt10-al-at { font-size: var(--t-sub); color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -2640,7 +2604,7 @@ textarea.bt10-ta { min-height: 5.6em; }
 .bt11-swatch { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--jc, transparent); box-shadow: inset 0 0 0 1px var(--line); }
 .bt11-dots { display: flex; justify-content: center; gap: 2px; height: 6px; }
 .bt11-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--jc); }
-/* バイト その12: ② the shift just ended, ③ ふりかえり, ④ what it cost, ⑤ the words to send, ⑥ the changes, ⑦ 定休日, ⑩ the checks */
+/* バイト その12: ② the shift just ended, ③ ふりかえり, ④ what it cost, ⑤ the words to send, ⑥ the changes, ⑦ 定休日 */
 .bt12-done { display: grid; gap: 2px; margin-bottom: 10px; padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, var(--c-money) 12%, var(--surface)); line-height: 1.5; }
 .bt12-done p { margin: 0; }
 .bt12-done-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -2660,14 +2624,7 @@ textarea.bt10-ta { min-height: 5.6em; }
 .bt12-wds { display: flex; flex-wrap: wrap; gap: 6px; }
 .bt12-wd { display: inline-flex; align-items: center; gap: 4px; min-height: 40px; padding: 0 10px; border-radius: 10px; background: var(--fill); cursor: pointer; }
 .bt12-wd input { width: 18px; height: 18px; margin: 0; accent-color: var(--c-money); }
-.bt12-terms-job { display: grid; gap: 2px; }
-.bt12-terms-job + .bt12-terms-job { padding-top: 8px; border-top: .5px solid var(--separator); }
-#bt12TermsBody p { margin: 0; }
-.bt12-term { align-items: flex-start; padding: 6px 0; }
-.bt12-term input { margin-top: 2px; }
-.bt12-term > span { display: grid; gap: 2px; line-height: 1.45; }
-.bt12-term b { font-weight: 600; }
-/* バイト その13: ② the span's goals, ③ the request's pay, ⑥ 代わり, ⑦⑧ the record, ⑨ the week by the hour, ⑩ 休憩の長さ */
+/* バイト その13: ② the span's goals, ⑥ 代わり, ⑦⑧ the record, ⑨ the week by the hour, ⑩ 休憩の長さ */
 .bt13-goal-card, .bt13-swap-card, .bt13-miles, .bt13-week { display: grid; gap: 6px; }
 .bt13-goal-card p, .bt13-swap-card p, .bt13-miles p, .bt13-week p { margin: 0; line-height: 1.5; }
 .bt13-goal-top, .bt13-week-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -2681,7 +2638,6 @@ textarea.bt10-ta { min-height: 5.6em; }
 .bt13-goal-ok { color: var(--c-money); font-weight: 600; }
 .bt13-goal-form { display: grid; gap: 6px; }
 .bt13-goal-form input[type="text"] { min-height: 40px; padding: 0 10px; border: 1px solid var(--line); border-radius: 10px; background-color: var(--surface); color: var(--fg); font: inherit; }
-.bt13-askpay { margin: 0; font-size: var(--t-sub); line-height: 1.5; }
 .bt13-swaps { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .bt13-swaps li { display: grid; gap: 0; line-height: 1.45; }
 .bt13-swap-by { min-height: 40px; min-width: 0; padding: 0 10px; border: 1px solid var(--line); border-radius: 10px; background-color: var(--surface); color: var(--fg); font: inherit; }
@@ -2774,20 +2730,12 @@ textarea.bt10-ta { min-height: 5.6em; }
 .bt15-purse-sum { padding-top: 4px; border-top: .5px solid var(--separator); font-weight: 600; }
 .bt15-purse-big { font-size: var(--t-title, 1.15em); font-weight: 600; font-variant-numeric: tabular-nums; }
 .bt15-reach-days { font-weight: 600; }
-/* バイト その16: ① カードを選ぶ, ② 仮のシフト, ③ 定期券, ④ シフト希望, ⑦ 時給の早見表, ⑧ バイトの日の支出 */
+/* バイト その16: ① カードを選ぶ, ② 仮のシフト, ③ 定期券, ④ シフト希望, ⑧ バイトの日の支出 */
 .bt16-tent-card, .bt16-pass-card, .bt16-asked-card, .bt16-spend-card { display: grid; gap: 6px; }
 :is(.bt16-tent-card, .bt16-pass-card, .bt16-asked-card, .bt16-spend-card) p { margin: 0; }
 .bt16-tents li > span { min-width: 0; }
 .bt16-tents li .btn { flex: none; white-space: nowrap; }
 .bt16-asked { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; }
-.bt16-rates { display: grid; gap: 6px; }
-.bt16-rates + .bt16-rates { padding-top: 8px; border-top: .5px solid var(--separator); }
-.bt16-rates p { margin: 0; }
-.bt16-rate-kind { display: grid; gap: 2px; }
-.bt16-rate-head { font-size: var(--t-foot); font-weight: 600; color: var(--muted); }
-.bt16-rate-list { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; font-variant-numeric: tabular-nums; }
-.bt16-rate-list li { display: flex; justify-content: space-between; gap: 8px; }
-.bt16-rate-list li.top { font-weight: 600; }
 .bt16-spend-card { --bt16-on: #2a78d6; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bt16-spend-card { --bt16-on: #3987e5; } }
 :root[data-theme="dark"] .bt16-spend-card { --bt16-on: #3987e5; }
@@ -2802,7 +2750,7 @@ textarea.bt10-ta { min-height: 5.6em; }
 .bt16-card-head { margin: 0; font-size: var(--t-foot); font-weight: 600; color: var(--muted); }
 .bt16-card-list { display: grid; }
 .bt16-cards-link { display: flex; justify-content: center; padding: 4px 0 8px; }
-/* バイト その17: ② 担当, ③ 時給アップまで, ④ 上限, ⑤ 使いみち, ⑥ 記念日, ⑨ 定期, ⑩ 写真を見ながら */
+/* バイト その17: ② 担当, ③ 時給アップまで, ④ 上限, ⑤ 使いみち, ⑥ 記念日, ⑩ 写真を見ながら */
 .bt17-split-card, .bt17-anniv-card, .bt17-raise-card, .bt17-roles-card { display: grid; gap: 6px; }
 :is(.bt17-split-card, .bt17-anniv-card, .bt17-raise-card, .bt17-roles-card, .bt17-caps, .bt17-notes) p { margin: 0; }
 .bt17-anniv, .bt17-raise, .bt17-roles { display: grid; gap: 4px; }
@@ -2816,8 +2764,6 @@ textarea.bt10-ta { min-height: 5.6em; }
 .bt17-bar i { display: block; height: 6px; border-radius: 0 4px 4px 0; background: var(--c-money); }
 .bt3-aim .bar-track { flex: none; } /* (その3 ⑤, その17 ④: in the card's column a track had no height) */
 #jobForms .ffield > .unit { white-space: nowrap; } /* (the job's form: 分前, 時間, 円（1か月） on one line) */
-.bt17-pass-out { display: grid; gap: 2px; line-height: 1.5; }
-.bt17-pass-out p { margin: 0; }
 .bt17-split-row { display: grid; grid-template-columns: minmax(0, 1fr) 5em auto; align-items: center; gap: 8px; }
 a.bt17-app { text-decoration: none; }
 .bt17-viewer { position: fixed; z-index: 22; top: 0; left: 0; right: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; height: 42vh; height: 42dvh; padding: calc(env(safe-area-inset-top) + 6px) 8px 6px; background: var(--surface); box-shadow: 0 4px 18px rgba(0, 0, 0, .25); }
@@ -2939,20 +2885,6 @@ a.bt17-app { text-decoration: none; }
 .mo2-year-notes p { margin: 2px 0 0; }
 .mo2-year-head2 { padding: 12px var(--space-2) 2px; font-size: var(--t-foot); font-weight: 600; color: var(--muted); }
 .mo2-year-none { margin: 0; padding: 4px var(--space-2) 14px; }
-/* ⑨ ほしいもの: each with 買った and やめた under it, the form to add one at the card's foot */
-#mo2WantList li.mo2-want { align-items: flex-start; }
-#mo2WantList li.mo2-want.ready .due-line { color: var(--accent); }
-.mo2-want-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-.mo2-want-add { display: grid; gap: 8px; padding: 10px var(--space-2) 10px; border-top: .5px solid var(--separator); }
-.mo2-want-add input, .mo2-want-add select { min-height: 44px; min-width: 0; padding: 0 12px; background-color: var(--surface); border: 1px solid var(--line); border-radius: 12px; line-height: 1.3; }
-.mo2-want-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.mo2-want-row input { flex: 0 1 7em; text-align: right; font-variant-numeric: tabular-nums; }
-.mo2-want-row select { flex: 1 1 8em; }
-.mo2-want-row .btn { flex: none; }
-.mo2-want-note { margin: 0; padding: 0 var(--space-2) 10px; }
-details.mo2-want-done > summary { display: flex; align-items: center; min-height: 48px; padding: 0 var(--space-2); font-weight: 600; cursor: pointer; }
-details.mo2-want-done { border-top: .5px solid var(--separator); }
-details.mo2-want-done > summary { color: var(--accent); font-weight: 400; }
 /* 家計簿 その3 */
 .mo3-week { margin: calc(-1 * var(--space-1)) 0 0; font-size: var(--t-sub); line-height: 1.45; color: var(--muted); }
 .mo3-week .warn { color: var(--warn); font-weight: 600; }
@@ -9550,9 +9482,10 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
             <div class="card-head">予算を守れた月</div>
             <div class="mo3-box" id="mo3Bud"></div>
           </div>
-          <!-- ⑦ 支出のカレンダー (the user's call): each day by how much went, pressed its 明細 under it -->
+          <!-- ⑦ 収入と支出のカレンダー (the user's calls; 支出のカレンダー until 2026-11-18): each day what came in and what went
+               out, pressed its 明細 under it -->
           <div class="card" id="exCalCard">
-            <div class="card-head">支出のカレンダー</div>
+            <div class="card-head">収入と支出のカレンダー</div>
             <div class="excal" id="exCal"></div>
             <div class="excal-key" id="exCalKey"></div>
             <div class="excal-day" id="exCalDay"></div>
@@ -9579,24 +9512,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
           <div class="card" id="saveCard">
             <div class="card-head">貯金の目標</div>
             <ul class="list" id="saveList"></ul>
-          </div>
-          <!-- (家計簿 その2 ⑨) ほしいもの: each with its price and the days to wait; 買った puts it in as a 支出 -->
-          <div class="card" id="mo2WantCard">
-            <div class="card-head">ほしいもの</div>
-            <ul class="list" id="mo2WantList"></ul>
-            <p class="mo2-want-note sub" id="mo2WantNote" hidden></p>
-            <form class="mo2-want-add" id="mo2WantForm" autocomplete="off">
-              <input type="text" id="mo2WantName" maxlength="40" placeholder="ほしいもの" aria-label="ほしいもの" required>
-              <div class="mo2-want-row">
-                <input type="number" id="mo2WantPrice" min="1" max="99999999" step="1" inputmode="numeric" placeholder="0" aria-label="値段（円）"><span class="unit">円</span>
-                <select id="mo2WantWait" aria-label="買うまで待つ日数"><option value="0">すぐ</option><option value="3">3日待つ</option><option value="7" selected>1週間待つ</option><option value="14">2週間待つ</option><option value="30">30日待つ</option></select>
-                <button class="btn sm" type="submit">追加</button>
-              </div>
-            </form>
-            <details class="mo2-want-done" id="mo2WantDone" hidden>
-              <summary id="mo2WantDoneHead">買ったもの・やめたもの</summary>
-              <ul class="list" id="mo2WantDoneList"></ul>
-            </details>
           </div>
           <div class="card" id="payCard">
             <div class="card-head">支払い方法ごと</div>
@@ -17560,44 +17475,44 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       new ResizeObserver(() => { const w = $("trendWrap").clientWidth; if (!w) { last = 0; return; } if (w !== last) { last = w; renderTrend(); } }).observe($("trendWrap"));
     }
   }
-  // ⑦ 支出のカレンダー (the user's call): the month's days, each tinted by what went out on it, 固定費 left out (they come
-  // every month anyway). Four steps: from the day's share of the month's budget where there is one (half, all of it,
-  // twice it), else from the month's most. A day pressed shows its 明細 under the month, with a way to add one on it
+  // ⑦ 収入と支出のカレンダー (the user's calls; it was 支出のカレンダー, each day tinted by what went out, 固定費 aside, until
+  // 2026-11-18: 「カレンダーに収入と支出両方を表示したカレンダーに変更してほしい」): the month's days, each with what came in
+  // (+) over what went out (固定費 too), in the charts' blue and amber; under the month its totals in the same colours and
+  // the days nothing went out on. A day pressed shows its 明細 under the month, with a way to add one on it
   let exCalPick = null;
-  const roundTo2 = (v) => { const p = 10 ** Math.max(0, Math.floor(Math.log10(Math.max(1, v))) - 1); return Math.max(1, Math.round(v / p) * p); };
   function renderExCal(m) {
     const ym = viewMonth, n = daysInMonth(ym), ws = weekStart(), lead = (parseYmd(ym + "-01").getDay() - ws + 7) % 7;
-    const by = new Map();
-    let fixedIn = false;
-    for (const e of m.outs) { if (e.fixed) { fixedIn = true; continue; } by.set(e.date, (by.get(e.date) || 0) + num(e.amount)); }
-    const budget = monthlyBudget(), per = budget > 0 ? budget / n : 0, most = Math.max(0, ...by.values());
-    const cuts = per > 0 ? [per / 2, per, per * 2].map(roundTo2) : most > 0 ? [most / 4, most / 2, (most * 3) / 4].map(roundTo2) : [];
-    const level = (a) => (!(a > 0) ? 0 : !cuts.length ? 1 : a <= cuts[0] ? 1 : a <= cuts[1] ? 2 : a <= cuts[2] ? 3 : 4);
+    const outBy = new Map(), inBy = new Map();
+    for (const e of m.items) { const by = e.kind === "in" ? inBy : outBy; by.set(e.date, (by.get(e.date) || 0) + num(e.amount)); }
+    const yen = (a) => (a >= 100000 ? fmtMan(a) : fmtN(Math.round(a)));
     if (exCalPick && monthOf(exCalPick) !== ym) exCalPick = null;
     const cells = [...Array.from({ length: 7 }, (_, i) => el("span", { class: "excal-wd", "aria-hidden": "true" }, WD[(ws + i) % 7])),
       ...Array.from({ length: lead }, () => el("span", { class: "excal-pad" }))];
     for (let d = 1; d <= n; d++) {
-      const day = `${ym}-${pad(d)}`, a = by.get(day) || 0, lv = level(a), future = day > todayKey;
-      cells.push(el("button", { type: "button", class: `excal-d lv${lv}` + (day === todayKey ? " today" : "") + (future && !a ? " future" : "") + (exCalPick === day ? " on" : ""), // (one put in ahead tinted as the rest)
-        "data-day": day, "aria-pressed": String(exCalPick === day), "aria-label": `${fmtMDW(day)}${day === todayKey ? "（きょう）" : ""} ${future && !a ? "" : a ? `支出 ${fmtYen(a)}` : "支出なし"}`.trim(),
+      const day = `${ym}-${pad(d)}`, a = outBy.get(day) || 0, b = inBy.get(day) || 0, future = day > todayKey, said = [b ? `収入 ${fmtYen(b)}` : "", a ? `支出 ${fmtYen(a)}` : ""].filter(Boolean).join("、");
+      cells.push(el("button", { type: "button", class: "excal-d" + (day === todayKey ? " today" : "") + (future && !a && !b ? " future" : "") + (exCalPick === day ? " on" : ""), // (one put in ahead shown as the rest)
+        "data-day": day, "aria-pressed": String(exCalPick === day), "aria-label": `${fmtMDW(day)}${day === todayKey ? "（きょう）" : ""} ${said || (future ? "" : "記録なし")}`.trim(),
         onclick: () => { exCalPick = exCalPick === day ? null : day; renderExCal(monthSummary(viewMonth)); if (exCalPick) $("exCalDay").scrollIntoView({ block: "nearest", behavior: reduceMotion.matches ? "auto" : "smooth" }); } },
-        el("span", { class: "dn" }, String(d)), a ? el("span", { class: "da" }, a >= 100000 ? fmtMan(a) : fmtN(Math.round(a))) : null));
+        el("span", { class: "dn" }, String(d)),
+        a || b ? el("span", { class: "dv", "aria-hidden": "true" }, b ? el("span", { class: "da in" }, "+" + yen(b)) : null, a ? el("span", { class: "da out" }, yen(a)) : null) : null));
     }
     setChildren($("exCal"), cells);
-    // the steps' key, and the days nothing went out on (固定費 aside) up to today
+    // under the month: its totals in the days' colours (the key too), and the days nothing went out on, up to today
     const upTo = ym < monthOf(todayKey) ? n : ym === monthOf(todayKey) ? parseYmd(todayKey).getDate() : 0;
-    const none = Array.from({ length: upTo }, (_, i) => `${ym}-${pad(i + 1)}`).filter((d) => !by.get(d)).length;
-    setChildren($("exCalKey"), cuts.length ? [el("span", { class: "excal-steps" }, [1, 2, 3, 4].map((lv) => el("span", { class: "excal-step" }, el("i", { class: `excal-sw lv${lv}` }),
-        lv < 4 ? `〜${fmtN(cuts[lv - 1])}` : "それ以上"))),
-      el("p", { class: "sub" }, el("span", { class: "phrase" }, per > 0 ? keepUnits(`1日の予算 ${fmtYen(per)} を目安に塗っています。`) : "この月のいちばん多い日を目安に塗っています。"),
-        fixedIn ? el("span", { class: "phrase" }, "固定費はのぞいています。") : null, upTo ? el("span", { class: "phrase" }, keepUnits(`使わなかった日は ${none} 日。`)) : null)]
-      : el("p", { class: "sub" }, upTo ? `${fmtMonth(ym)}の支出はまだありません。` : "日付を押すと、その日の明細が出ます。"));
-    // the day pressed: its entries (固定費 and 収入 too), each opening to be changed, and 追加 on that day
+    const none = Array.from({ length: upTo }, (_, i) => `${ym}-${pad(i + 1)}`).filter((d) => !outBy.get(d)).length, net = m.inn - m.out;
+    setChildren($("exCalKey"), m.items.length ? [el("p", { class: "excal-sum" },
+        el("span", { class: "phrase" }, el("span", { class: "in" }, keepUnits(`収入 +${fmtYen(m.inn)}`)), "・"),
+        el("span", { class: "phrase" }, el("span", { class: "out" }, keepUnits(`支出 ${fmtYen(m.out)}`)), "・"),
+        el("span", { class: "phrase" }, keepUnits(`収支 ${net > 0 ? "+" : ""}${fmtYen(net)}`))),
+      el("p", { class: "sub" }, el("span", { class: "phrase" }, "＋がついているのは収入、ついていないのは支出です。"), upTo ? el("span", { class: "phrase" }, keepUnits(`使わなかった日は ${none} 日。`)) : null)]
+      : el("p", { class: "sub" }, upTo ? `${fmtMonth(ym)}の記録はまだありません。` : "日付を押すと、その日の明細が出ます。"));
+    // the day pressed: its entries (収入 and 固定費 too), each opening to be changed, and 追加 on that day
     const box = $("exCalDay");
     if (!exCalPick) { box.hidden = true; box.replaceChildren(); return; }
-    const items = m.items.filter((e) => e.date === exCalPick).sort((a, b) => num(a.createdAt) - num(b.createdAt)), out = sum(items.filter((e) => e.kind !== "in"), (e) => e.amount);
+    const items = m.items.filter((e) => e.date === exCalPick).sort((a, b) => num(a.createdAt) - num(b.createdAt));
+    const out = sum(items.filter((e) => e.kind !== "in"), (e) => e.amount), inn = sum(items.filter((e) => e.kind === "in"), (e) => e.amount);
     box.hidden = false;
-    setChildren(box, el("div", { class: "excal-day-head" }, el("strong", {}, fmtMDW(exCalPick)), el("span", { class: "sub" }, out ? `支出 ${fmtYen(out)}` : "")),
+    setChildren(box, el("div", { class: "excal-day-head" }, el("strong", {}, fmtMDW(exCalPick)), el("span", { class: "sub" }, [inn ? `収入 +${fmtYen(inn)}` : "", out ? `支出 ${fmtYen(out)}` : ""].filter(Boolean).join("・"))),
       el("ul", { class: "list" }, items.length ? items.map((e) => { const isIn = e.kind === "in"; return el("li", {},
         el("span", { class: "chip", style: `--chip-c: ${isIn ? "var(--accent)" : "var(--c-money)"}` }, expenseCat(e) || (isIn ? "収入" : "支出")),
         el("span", { class: "body" }, editLink("money", e.id, e.memo || (isIn ? "収入" : "支出"), `${expenseCat(e) || (isIn ? "収入" : "支出")} ${fmtYen(e.amount)}`),
@@ -22687,7 +22602,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     if (!w0) { wxFetch(); return tile("weather", null, null, wxError || "天気を調べています…", wxError ? el("button", { type: "button", class: "link-btn wx-ask", onclick: () => wxFetch(true) }, "もう一度") : null); }
     wxFetch(); // (an hour on, afresh)
     if (wxFive) wx5Remember(); // (天気 その5 ⑩ tomorrow's forecast, kept for its day)
-    if (wxNine) wx9Remember(); // (天気 その9 ⑧ the day's fall of the air pressure)
     // (きょう その2 ⑧) from the evening's hour tomorrow's weather first, and the temperature now
     const tmr = homeTwo ? h2WxTomorrow() : null, w = tmr ? wxDay(tmr) : w0, now = homeTwo ? h2WxNow() : null;
     const m = woDays()[parseYmd(todayKey).getDay()], runLeft = !tmr && num(m.km) > 0 && !woTally(todayKey).ran;
@@ -25796,7 +25710,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // ---------- この画面の版 ----------
   // when the app's content last changed, so 本番 and テスト版 say the same of the same app (the user's call: each said the
   // time it was put out); tools/make-test.py sets it, and the content it was set for, whenever the content changes
-  const APP_VERSION = "2026年11月18日 14:18"; // 71a087c1 (tools/make-test.py: the content it was set for)
+  const APP_VERSION = "2026年11月18日 14:22"; // 36db1c69 (tools/make-test.py: the content it was set for)
   // (with none, when the page was put out; without the header, lastModified is the moment the page loaded)
   (() => {
     if (APP_VERSION) { $("appVersion").textContent = `アプリの版：${APP_VERSION}`; $("appVersion").hidden = false; return; }
@@ -57696,27 +57610,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       : n >= 3 ? ["中くらい", "日焼け止めがあると安心"] : ["弱い", "紫外線の対策は、ほとんどいりません"];
     return { n, lv, tip };
   }
-  // ⑧ a word for the day: the washing (9時〜15時's rain and damp), and an hour or more good to run outside in (no rain,
-  // 体感 3〜25°, wind under 8 m/s; today from the next hour)
-  function wxLife(day) {
-    const hs = wxHours(day + "T00:00", 24).filter((x) => x.d === day), w = wxDay(day), out = [];
-    if (!hs.length || !w) return out;
-    const mid = hs.filter((x) => x.h >= 9 && x.h <= 15), wetMid = Math.max(0, ...mid.map((x) => x.rain)), hum = mid.length ? sum(mid, (x) => num(x.hum)) / mid.length : 60;
-    out.push(["laundry", wetMid >= 50 ? "洗濯物は、部屋干しがよさそうです" : wetMid >= 30 ? "洗濯は、雨の心配が少しあります" : w.hi >= 10 && hum < 70 ? "洗濯日和です。よく乾きそう" : "洗濯物は、外に干せそうです"]);
-    const from = day === todayKey ? new Date().getHours() + 1 : 6;
-    let best = null, cur = null;
-    for (const x of hs) {
-      if (x.h < Math.max(6, from) || x.h > 21) continue;
-      const ok = x.rain < 30 && !(x.code != null && (WX_RAIN(x.code) || WX_SNOW(x.code))) && num(x.feel) >= 3 && num(x.feel) <= 25 && num(x.wind) < 8;
-      if (!ok) { cur = null; continue; }
-      if (cur && cur.b === x.h) { cur.b = x.h + 1; cur.f.push(num(x.feel)); } else cur = { a: x.h, b: x.h + 1, f: [num(x.feel)] };
-      if (!best || cur.b - cur.a > best.b - best.a) best = cur;
-    }
-    const feel = best ? Math.round(sum(best.f, (v) => v) / best.f.length) : 0;
-    if (best) out.push(["run", best.b - best.a >= 4 ? `外を走るのにいい日です（${best.a}時〜${best.b}時ごろ、体感 ${feel}° 前後）` : `外を走るなら ${best.a}時〜${best.b}時ごろ（体感 ${feel}° 前後）`, feel]); // (its 体感: 天気 その6 ③)
-    else if (Math.max(6, from) <= 21) out.push(["run", "外を走るのには向かない日です（雨や暑さ・寒さ、風）"]);
-    return out;
-  }
   function renderWxPage() {
     const body = $("calPanelBody"), place = wxPlace();
     $("wxMoreBox").hidden = false;
@@ -57728,7 +57621,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       el("button", { type: "button", class: "link-btn", disabled: wxBusy, onclick: () => { wxError = ""; wxFetch(true); renderWxPage(); } }, wxBusy ? "更新しています…" : "更新"));
     if (!w) { setChildren(body, head, el("div", { class: "card empty" }, wxBusy ? "天気を調べています…" : wxError || "天気を調べています…")); if (!wxBusy) wxFetch(); return; }
     if (wxFive) wx5Remember(); // (天気 その5 ⑩)
-    if (wxNine) wx9Remember(); // (天気 その9 ⑧)
     const now = new Date(), nowH = `${todayKey}T${pad(now.getHours())}:00`;
     // ③⑥⑦ the day
     const curH = sel === todayKey ? wxHours(nowH, 1)[0] : null, dayHs = wxHours(sel + "T00:00", 24).filter((x) => x.d === sel && x.h >= 9 && x.h <= 18);
@@ -57759,13 +57651,14 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
         el("span", { class: "wx-p" + (x.rain < 30 ? " dry" : ""), "aria-hidden": "true" }, `${x.rain}%`)];
       return wxFour ? el("div", { role: "listitem" }, wx4HourBtn(x, label, cells, hs)) : el("div", { role: "listitem", "aria-label": label }, cells); // (天気 その4 ⑤ an hour pressed)
     })) : null;
-    // ⑤ rain, ④ what to wear, ⑧ the day's word (with ⑦'s)
-    const rain = wxRainWords(sel), wear = wxWear(sel), life = wxLife(sel), home5 = [...(wxFive ? wx5Home(sel) : []), ...(wxEleven ? wx11Room(sel) : []), ...(wxTwelve ? [wx12WashEl(sel)].filter(Boolean) : []), ...(wxThirteen ? [wx13Sleep(sel), wx13Hair(sel)].filter(Boolean) : []), ...(wxFourteen ? [wx14Plant(sel)].filter(Boolean) : [])]; // (天気 その5 ⑦, その11 ⑤, その12 ⑦, その13 ②⑦)
+    // ⑤ rain, ④ what to wear (⑧ the day's word, 暮らしのひとこと, taken out at the user's call 2026-11-18)
+    const rain = wxRainWords(sel), wear = wxWear(sel);
     const radar = `https://www.jma.go.jp/bosai/nowc/#zoom:9/lat:${place.lat}/lon:${place.lon}/colordepth:normal/elements:hrpns&slmcs&slmcs_fcst`;
     const lines = (rows) => el("div", { class: "card wx-lines" }, rows);
     const line = (ic, words, sub) => el("div", { class: "wx-line" }, icon(ic, 18), el("p", {}, words, sub ? el("span", { class: "sub" }, el("br"), sub) : null));
     // the week, a day pressed to see it
     const week = Array.from({ length: WX_DAYS }, (_, i) => addDays(todayKey, i)).map((d) => [d, wxDay(d)]).filter(([, x]) => x);
+    if (wxSeven) wx7YearGet(place); // (the place's year for 1週間の雨の量 and 先の日の天気; この場所の1年 itself taken out, 2026-11-18)
     setChildren(body, head, wxSeven ? wx7DiffEl() : null, day, wxTen ? wx10Three(sel) : null, // (天気 その7 ⑦, その10 ②)
       hours ? [el("h3", { class: "group-head" }, sel === todayKey ? "1時間ごと（48時間）" : `1時間ごと（${relLabel(sel) || fmtMDW(sel)}）`), wx2Graph(hs, sel), wxThree ? wx3HourSeg() : null, hours, wxFour ? wx4HourPanel(hs) : null] : null, // (天気 その2 ①, その3 ⑨, その4 ⑤)
       el("h3", { class: "group-head" }, "雨"),
@@ -57776,8 +57669,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       wxFour ? wx4ComRows(sel) : null, // (天気 その4 ③)
       wear ? [el("h3", { class: "group-head" }, "服装のめやす"), lines([line("sun", wear.main, wear.more.join("。") + (wear.more.length ? "。" : "")), ...(wxSix ? wx6WearTimes(sel) : []), ...(wxNine ? wx9FeelWhy(sel) : []), ...(wxFour ? wx4WearAsk(sel) : [])])] : null, // (天気 その4 ⑦, その6 ②)
       wxEight ? wx8TakeEl(sel) : null, wxEight ? wx8OutingEl() : null, // (天気 その8 ①③)
-      life.length || uv || home5.length ? [el("h3", { class: "group-head" }, "暮らしのひとこと"), lines([...life.map(([k, words, feel]) => line(k === "run" ? "workout" : "sun", words, k === "laundry" && wxFive ? wx5Dry(sel) : k === "run" && wxSix && feel != null ? wx6RunWear(feel) : null)),
-        uv ? line("sun", `紫外線は${uv.lv}（${uv.n}）。${uv.tip}`, [wxFour ? wx4UvHours(sel) : "", wxEight ? wx8Burn(uv) : ""].filter(Boolean).join("。") || null) : null, ...home5, ...(wxEight ? wx8Life(sel) : []), ...(wxNine ? wx9Comfy(sel) : [])])] : null, // (その8 ⑥⑦) // (天気 その4 ⑥, その5 ④⑦)
       wx2More(sel, place), // (天気 その2 ⑥②⑧⑦⑤)
       wxThree ? wx3Glow(sel) : null, // (天気 その3 ⑤④)
       week.length ? [el("h3", { class: "group-head" }, "1週間"), wxSix ? wx6Story(place) : null, wxFourteen ? wx14WeekRain(place) : null, el("ul", { class: "list card wx-days" }, week.map(([d, x]) => { // (天気 その6 ①⑦)
@@ -57788,7 +57679,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
           el("span", { class: "wx-w" }, x.word), el("span", { class: "wx-hl" }, `${x.hi}° / ${x.lo}°`), el("span", { class: "wx-p" }, `${x.rain}%`), wx2Bar(week, x), wxEight ? wx8Tag(x) : null)); // (天気 その2 ⑩; その8 ④'s name under the day, where the word's room cut it short)
       }))] : null,
       wxThree && week.length ? wx3BestEl() : null, wxFour && week.length ? wx4SureEl() : null, wxEight && week.length ? wx8Season(place) : null, wxEleven ? wx11Rest(place) : null, wxSeven ? wx7RainPlans() : null, wxNine ? wx9OutPlansEl() : null, wxFive ? wx5Long(place) : null, wxThirteen ? wx13AheadEl(place) : null, // (天気 その7 ④)
-      wxThree ? wx3Places(place) : null, wxSix ? wx6Other(place) : null, wxNine ? wx9Japan() : null, wxFour ? wx4Month(place) : null, wxSeven ? wx7Runs(place) : null, wxNine ? wx9Moods(place) : null, wxThirteen ? wx13Records(place) : null, wxSeven ? wx7Year(place) : null, wxTwelve ? wx12Year(place) : null, wxEleven ? wx11PastEl(place) : null, // (その6 ⑧, その7 ⑧⑩) // (天気 その3 ③②, その4 ⑧②, その5 ①)
+      wxThree ? wx3Places(place) : null, wxSix ? wx6Other(place) : null, wxFour ? wx4Month(place) : null, wxSeven ? wx7Runs(place) : null, wxNine ? wx9Moods(place) : null, wxThirteen ? wx13Records(place) : null, wxEleven ? wx11PastEl(place) : null, // (その6 ⑧, その7 ⑧) // (天気 その3 ③②, その4 ⑧②, その5 ①)
       wxFive ? wx5CheckEl(sel) : null, // (天気 その5 ⑩)
       wxEight ? wx8WordsEl() : null, // (天気 その8 ⑩)
       el("p", { class: "group-foot wx-foot-note" }, wxFive ? "天気と空気は Open-Meteo の予報です。平年とこの1か月の天気、答え合わせの「実際」は、Open-Meteo の記録（推定）から出しています。答え合わせの「予報」は、前の日に見たものです。"
@@ -58015,18 +57906,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return el("div", { class: "card wx2-graph" }, svg, el("p", { class: "wx2-legend", "aria-hidden": "true" }, el("span", { class: "t" }, "気温"), el("span", { class: "r" }, "降水確率")));
   }
 
-  // ② the air pressure: the most it falls within 6 hours (today from now), for headaches and feeling heavy
-  function wx2Pressure(day) {
-    const hs = wx2H("pressure_msl", wx2From(day), day === todayKey ? 24 : 24).filter((x) => x.v !== null && (day === todayKey || x.d === day));
-    if (hs.length < 4) return null;
-    let drop = 0, at = null;
-    for (let i = 0; i < hs.length; i++) for (let j = i + 1; j < hs.length && j <= i + 6; j++) { const dd = hs[i].v - hs[j].v; if (dd > drop) { drop = dd; at = hs[i]; } }
-    const now = Math.round(hs[0].v), dr = Math.round(drop * 10) / 10;
-    const when = at ? (at === hs[0] && day === todayKey ? "いまから" : `${at.d !== day ? (relLabel(at.d) || fmtMD(at.d)) + "の" : ""}${at.h}時ごろから`) : "";
-    if (drop >= 4) return { level: 2, words: `気圧が大きく下がります（${when}6時間で ${dr} hPa）`, sub: "頭痛やだるさが出やすい日です。無理をしないで", now };
-    if (drop >= 2) return { level: 1, words: `気圧が少し下がります（${when}6時間で ${dr} hPa）`, sub: "気圧に敏感な人は、気をつけて", now };
-    return { level: 0, words: `気圧は安定しています（${now} hPa${day === todayKey ? "、いま" : ""}）`, sub: "", now };
-  }
   // ③ how much rain: the day's in all and the hour it is hardest (JMA's words for the hour's mm)
   function wx2Strength(mm) { return mm < 0.5 ? "ぱらつく程度" : mm < 3 ? "弱い雨" : mm < 10 ? "本降りの雨" : mm < 20 ? "やや強い雨" : mm < 30 ? "強い雨" : mm < 50 ? "激しい雨" : "非常に激しい雨"; }
   function wx2Amount(day) { const a = wx2AmountWords(day); return a ? wx2Line("rain", a[0], a[1], "wx2-amount") : null; }
@@ -58086,7 +57965,8 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     }).filter(Boolean);
     return rows.length ? [el("h3", { class: "group-head" }, "予定の時間の天気"), el("ul", { class: "list card wx2-plans" }, rows), turns.length > 6 ? el("p", { class: "group-foot" }, `ほか ${turns.length - 6} 件`) : null] : null;
   }
-  // ⑦ the air: PM2.5 and 黄砂 (dust), from Open-Meteo's air quality, kept for an hour
+  // ⑦ the air: PM2.5, 黄砂 (dust) and ozone, from Open-Meteo's air quality, kept for an hour, for 持ち物's マスク and
+  // 空気のお知らせ (its lines in 体調と空気 taken out at the user's call, 2026-11-18)
   async function wx2AirFetch(place) {
     const kept = lsJson(WX2_AIR);
     if (wx2AirBusy || !place) return;
@@ -58104,41 +57984,9 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     wx2AirBusy = false;
     wxPageSync();
   }
-  function wx2Air(day, place) {
-    const a = lsJson(WX2_AIR);
-    if (!a || !a.hourly || !Array.isArray(a.hourly.time) || a.lat !== place.lat || a.lon !== place.lon) { wx2AirFetch(place); return null; }
-    wx2AirFetch(place);
-    const from = wx2From(day), idx = a.hourly.time.map((t, i) => [t, i]).filter(([t]) => t.startsWith(day) && t >= from && Number(t.slice(11, 13)) >= 6).map(([, i]) => i);
-    const pm = idx.map((i) => a.hourly.pm2_5[i]).filter((v) => v != null).map(num), du = idx.map((i) => a.hourly.dust[i]).filter((v) => v != null).map(num);
-    if (!pm.length && !du.length) return null;
-    const pmMax = pm.length ? Math.round(Math.max(...pm)) : null, duMax = du.length ? Math.round(Math.max(...du)) : 0, out = [];
-    if (pmMax !== null) out.push(wx2Line("cloud", `PM2.5 は${pmMax <= 15 ? "少なめ" : pmMax <= 35 ? "ふつう" : pmMax <= 70 ? "やや多め" : "多め"}（いちばん多いときで ${pmMax} µg/m³）`,
-      pmMax > 70 ? "外での長い運動はひかえて。マスクがあると安心" : pmMax > 35 ? "敏感な人は、マスクがあると安心" : "", "wx2-pm"));
-    if (duMax >= 50) out.push(wx2Line("wind", duMax >= 100 ? `黄砂が多く飛びそうです（${duMax} µg/m³）` : `黄砂が飛ぶかもしれません（${duMax} µg/m³）`, "洗濯物や車の汚れに気をつけて", "wx2-dust"));
-    if (wxEight) { const z = wx8Ozone(a, idx); if (z) out.push(z); } // (天気 その8 ⑤)
-    return out;
-  }
-  // ⑧ dry air (the day's lowest humidity) and muggy heat (不快指数 at the warmest hour), and freezing
-  function wx2Comfort(day) {
-    const T = wx2DayH("temperature_2m", day), Hm = wx2DayH("relative_humidity_2m", day), out = [];
-    const from = day === todayKey ? new Date().getHours() : 0;
-    const both = T.filter((x) => x.h >= from).map((x) => ({ h: x.h, t: x.v, rh: (Hm.find((y) => y.h === x.h) || {}).v })).filter((x) => x.rh != null);
-    if (both.length) {
-      const dry = both.filter((x) => x.h >= 9 && x.h <= 18).reduce((a, x) => (!a || x.rh < a.rh ? x : a), null);
-      if (dry && dry.rh <= 40) out.push(wx2Line("sun", `空気が乾燥しています（湿度 ${Math.round(dry.rh)}% まで下がる予報）`, "のどや肌の乾燥、火の元に気をつけて", "wx2-dry"));
-      const hot = both.reduce((a, x) => (!a || x.t > a.t ? x : a), null), di = 0.81 * hot.t + 0.01 * hot.rh * (0.99 * hot.t - 14.3) + 46.3;
-      if (di >= 80) out.push(wx2Line("sun", `蒸し暑くなりそうです（不快指数 ${Math.round(di)}）`, "こまめに水分をとって、熱中症に気をつけて", "wx2-muggy"));
-      else if (di >= 75) out.push(wx2Line("sun", `少し蒸し暑く感じそうです（不快指数 ${Math.round(di)}）`, "", "wx2-muggy"));
-    }
-    const m = wxDayMore(day);
-    if (m && m.feelLo != null && num(m.feelLo) <= 0) out.push(wx2Line("snow", `朝晩は冷えこみます（体感 ${Math.round(num(m.feelLo))}°）`, "路面の凍結に気をつけて", "wx2-cold"));
-    return out;
-  }
   function wx2More(day, place) {
-    const heat = wxThree ? wx3Heat(day) : null, p = wx2Pressure(day), c = wx2Comfort(day).filter((x) => !(heat && x.classList.contains("wx2-muggy"))), air = wx2Air(day, place); // (天気 その3 ⑧)
-    const body = [p ? wx2Line("wind", p.words, p.sub, "wx2-press" + (p.level ? " warn" : "")) : null, heat, ...c, ...(air || []), ...(wxEleven ? wx11Health(day) : []), ...(wxNine ? wx9Ache(day) : [])].filter(Boolean); // (天気 その9 ⑧, その11 ④)
+    wx2AirFetch(place); // (the air for 持ち物's マスク and 空気のお知らせ, asked for as 体調と空気 did: that section taken out, 2026-11-18)
     return [...(wx2Plans(day) || []),
-      ...(body.length ? [el("h3", { class: "group-head" }, "体調と空気"), el("div", { class: "card wx-lines" }, body)] : []),
       el("h3", { class: "group-head" }, "夜の空"), el("div", { class: "card wx-lines" }, wx2Night(day), wxFive ? wx5MoonLine(day) : null), ...(wxFive ? wx5Events() : [])].filter(Boolean); // (天気 その5 ⑧⑨)
   }
   // ⑨ the day's weather as words to send (the share sheet, or copied), as きょう's ふりかえり sends its own
@@ -58331,24 +58179,9 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return out;
   }
 
-  // ⑧ the heat index WBGT, from the temperature, humidity, the sun's radiation and the wind (小野・登内, 2014), 9時〜18時:
-  // 21 and more said with what to do (環境省's five steps)
+  // ⑧ the heat index WBGT, from the temperature, humidity, the sun's radiation and the wind (小野・登内, 2014), as the
+  // notifications and 持ち物 reckon it (its line in 体調と空気 taken out at the user's call, 2026-11-18)
   function wx3Wbgt(t, rh, sr, ws) { const s = num(sr) / 1000; return 0.735 * t + 0.0374 * rh + 0.00292 * t * rh + 7.619 * s - 4.557 * s * s - 0.0572 * num(ws) - 4.064; }
-  function wx3Heat(day) {
-    const T = wx3Hours("temperature_2m", day, true), RH = wx3Hours("relative_humidity_2m", day, true), SR = wx3Hours("shortwave_radiation", day, true), WS = wx3Hours("wind_speed_10m", day, true);
-    const from = day === todayKey ? new Date().getHours() : 9;
-    let top = null;
-    for (const t of T) {
-      if (t.h < Math.max(9, from) || t.h > 18) continue;
-      const rh = RH.find((x) => x.h === t.h), sr = SR.find((x) => x.h === t.h), ws = WS.find((x) => x.h === t.h);
-      if (!rh || !sr) continue;
-      const v = wx3Wbgt(t.v, rh.v, sr.v, ws ? ws.v : 0);
-      if (!top || v > top.v) top = { v, h: t.h };
-    }
-    if (!top || top.v < 21) return null;
-    const n = Math.round(top.v), [lv, tip] = n >= 31 ? ["危険", "外での運動は、やめましょう。すずしい室内で"] : n >= 28 ? ["厳重警戒", "激しい運動はやめて、こまめに休んで水分を"] : n >= 25 ? ["警戒", "こまめに休んで、水分と塩分を"] : ["注意", "運動するときは、水分をこまめに"];
-    return wx3Line("sun", `暑さ指数（WBGT）は ${top.h}時ごろ ${n}（${lv}）`, tip, "wx3-heat" + (n >= 28 ? " warn" : ""));
-  }
 
   // ⑨ the hours' figure: 気温, 体感, 風, 湿度 or 雨量 (this device)
   const WX3_VIEWS = [["temp", "気温"], ["feel", "体感"], ["wind", "風"], ["hum", "湿度"], ["mm", "雨量"]];
@@ -58604,14 +58437,10 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return box;
   }
 
-  // ⑥ UV by the hour: the hours' figure to pick (with 気温 and the rest), and the hours it is strong (3 and more, or on a
-  // day it reaches 6, 6 and more), today from now
+  // ⑥ UV by the hour: the hours' figure to pick (with 気温 and the rest). (The hours it is strong, said in 暮らしのひとこと,
+  // taken out with it at the user's call, 2026-11-18)
   WX3_VIEWS.push(["uv", "紫外線"]);
   function wx4UvVal(x) { const y = wx2H("uv_index", x.t, 1)[0]; return y && y.t === x.t && y.v != null ? String(Math.round(y.v)) : "—"; }
-  function wx4UvHours(day) {
-    const hs = wx3Hours("uv_index", day), top = Math.max(0, ...hs.map((x) => x.v)), lim = top >= 5.5 ? 6 : 3, s = wx3Spans(hs, (x) => x.v >= lim - 0.5);
-    return s.length ? `${lim === 6 ? "とくに強いのは" : "日焼け止めがほしいのは"} ${s.slice(0, 2).map(({ a, b }) => `${a}時〜${b}時ごろ`).join("、")}（${lim} 以上）` : "";
-  }
 
   // ⑦ what to wear, fitted: today's 暑かった・ちょうど・寒かった kept with the account's settings (the last 10 days'),
   // moving the warmth the clothes are picked by, up to 3°
@@ -58845,25 +58674,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return out;
   }
 
-  // ④ when the washing hung out would be dry: each hour's drying (the air's dryness by its vapour pressure, the wind and
-  // the sun) added up from 9時 (today from the next hour, until 14時); rain coming first, in before it
-  const wx5Es = (t) => 6.1078 * Math.pow(10, (7.5 * t) / (t + 237.3));
-  function wx5Dry(day) {
-    const start = day === todayKey ? Math.max(9, new Date().getHours() + 1) : 9;
-    if (start > 14) return "";
-    const hs = wxHours(day + "T00:00", 24).filter((x) => x.d === day && x.h >= start), SR = wx3Hours("shortwave_radiation", day, true);
-    let got = 0;
-    for (const x of hs) {
-      if (wx4Wet(x)) return x.h === start ? "" : `${start}時に干すなら、${x.h}時ごろの雨の前に取りこみを`;
-      if (x.temp == null || x.hum == null) return "";
-      const sr = (SR.find((y) => y.h === x.h) || { v: 0 }).v;
-      got += (wx5Es(num(x.temp)) * Math.max(0, 1 - num(x.hum) / 100) * (1 + 0.25 * Math.min(8, num(x.wind))) + sr / 40) / 90;
-      if (got >= 1) return `${start}時に干すと、${x.h + 1}時ごろ乾きそう`;
-      if (x.h >= 16) break;
-    }
-    return `${start}時に干しても、夕方までには乾ききらなそう。部屋干しも`;
-  }
-
   // ⑤ now against the same hour yesterday (the forecast keeps the day before), and an hour pressed, against 24 hours before
   function wx5Ago(t) {
     const d = addDays(t.slice(0, 10), -1), x = wx2H("temperature_2m", `${d}T${t.slice(11, 13)}:00`, 1)[0];
@@ -58908,25 +58718,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     flash("天気を読み上げています", () => ss.cancel(), 15000, "とめる");
   }
   function wx5SpeakBtn() { return "speechSynthesis" in window ? el("button", { type: "button", class: "link-btn wx5-speak", id: "wx5Speak", "aria-label": "天気を読み上げる", title: "読み上げる", onclick: wx5Speak }, icon("speak", 18)) : null; }
-
-  // ⑦ heating or cooling by how warm the day feels (or dehumidifying a muggy one), and the futon aired 10時〜14時 (sun,
-  // dry air, no rain)
-  function wx5Home(day) {
-    const w = wxDay(day), m = wxDayMore(day), out = [];
-    if (!w) return out;
-    const fh = m && m.feelHi != null ? Math.round(num(m.feelHi)) : w.hi, hs = wxHours(day + "T00:00", 24).filter((x) => x.d === day), mid = hs.filter((x) => x.h >= 10 && x.h <= 14);
-    const rh = mid.length ? sum(mid, (x) => num(x.hum)) / mid.length : null;
-    if (fh <= 13 || w.lo <= 5) out.push(wx3Line("home", fh <= 8 ? "しっかり暖房を。足もとも冷えそうです" : "暖房がほしい寒さです", `最高 ${w.hi}°・最低 ${w.lo}°（体感の最高 ${fh}°）`, "wx5-air"));
-    else if (w.hi >= 28) out.push(wx3Line("home", "冷房を使って、暑さをがまんしないで", `最高 ${w.hi}°。室温は28°をめやすに`, "wx5-air"));
-    else if (w.hi >= 24 && rh != null && rh >= 70) out.push(wx3Line("home", "蒸し暑い日です。除湿（ドライ）が快適", `昼の湿度 ${Math.round(rh)}% ほど`, "wx5-air"));
-    const from = Math.max(10, day === todayKey ? new Date().getHours() : 0), sky = mid.filter((x) => x.h >= from);
-    if (sky.length) {
-      const cl = wx3Hours("cloud_cover", day, true).filter((x) => x.h >= from && x.h <= 14), cloud = cl.length ? sum(cl, (x) => x.v) / cl.length : 50;
-      const wet = sky.some((x) => x.rain >= 30 || wx4Wet(x)), hum = sum(sky, (x) => num(x.hum)) / sky.length;
-      out.push(wx3Line("sun", wet ? "布団は、干さないほうがよさそう（雨の心配）" : cloud < 50 && hum < 60 ? `布団を干すなら ${from}時〜14時ごろ（晴れて、空気が乾いています）` : "布団を干すには、雲や湿気が多めです", "", "wx5-futon"));
-    }
-    return out;
-  }
 
   // ⑧ the moon's rise and set at the place, reckoned here: its place by Meeus's main terms, its altitude against the
   // horizon (parallax, refraction and its half width), the day searched every half hour, each crossing halved down
@@ -59115,12 +58906,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return rows.length >= 2 ? [el("ul", { class: "wx6-times", id: "wx6Times", "aria-label": "時間帯ごとの服装" }, rows)] : [];
   }
 
-  // ③ what to run in, under the line of the hours good to run (dressed as if it were 10° warmer, as runners say)
-  function wx6RunWear(feel) {
-    const t = feel + 10, w = t >= 25 ? "半袖・短パンで" : t >= 18 ? "半袖に、薄い長袖かアームカバー" : t >= 12 ? "長袖シャツに、短パンかタイツ" : t >= 6 ? "長袖に、薄いウインドブレーカーと手袋" : "ウインドブレーカーとタイツ、手袋と帽子";
-    return `走るときの服装：${w}（体感 ${feel}° に10°足して考えます）`;
-  }
-
   // ④ the air unstable (CAPE 1000 J/kg and more; 500 with rain's chance 30% and more), ⑤ fog (visibility under 1 km) and
   // frost (the morning at 3° and under, clouds under 30%, wind under 3 m/s), ⑥ strong wind (8 m/s, or gusts 15 m/s, and
   // more): the day's, today's from now
@@ -59222,15 +59007,16 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // archive (the 10 years before), kept with the place. Function declarations and var ----------
   var wxSeven = false, wx7EditAt = null;
 
-  // ①② the sections, by their headings: key, the chip's words, the heading's
+  // ①② the sections, by their headings: key, the chip's words, the heading's (暮らしのひとこと・体調と空気・この場所の1年,
+  // and 全国の天気・ことしの天気 after them, taken out at the user's call 2026-11-18: tools/REMOVED.md)
   const WX7_SECS = [
     ["hours", "1時間ごと", (t) => t.startsWith("1時間ごと")], ["rain", "雨", (t) => t === "雨"], ["out", "外の注意", (t) => t === "外に出るときの注意"],
-    ["commute", "行きと帰り", (t) => t.endsWith("行きと帰り")], ["wear", "服装", (t) => t === "服装のめやす"], ["life", "暮らし", (t) => t === "暮らしのひとこと"],
-    ["plans", "予定の天気", (t) => t === "予定の時間の天気"], ["health", "体調と空気", (t) => t === "体調と空気"], ["night", "夜の空", (t) => t === "夜の空"],
+    ["commute", "行きと帰り", (t) => t.endsWith("行きと帰り")], ["wear", "服装", (t) => t === "服装のめやす"],
+    ["plans", "予定の天気", (t) => t === "予定の時間の天気"], ["night", "夜の空", (t) => t === "夜の空"],
     ["events", "空のイベント", (t) => t === "空のイベント"], ["glow", "朝焼け・夕焼け", (t) => t === "朝焼け・夕焼け"], ["week", "1週間", (t) => t === "1週間"],
     ["rainplans", "雨の日の予定", (t) => t.startsWith("雨の日の予定")], ["long", "2週間", (t) => t.startsWith("2週間")], ["places", "登録した場所", (t) => t === "登録した場所のきょう"],
     ["other", "ほかの場所", (t) => t === "ほかの場所の1週間"], ["month", "この1か月", (t) => t === "この1か月"], ["runs", "天気とラン", (t) => t.startsWith("天気とラン")],
-    ["year", "この場所の1年", (t) => t.startsWith("この場所の1年")], ["check", "答え合わせ", (t) => t === "きのうの答え合わせ"]];
+    ["check", "答え合わせ", (t) => t === "きのうの答え合わせ"]];
   function wx7Hidden() { const v = settings.get("wxHide"); return Array.isArray(v && v.keys) ? v.keys.filter((k) => typeof k === "string") : []; }
   function wx7HidePut(key, hide) {
     const l = new Set(wx7Hidden());
@@ -59402,9 +59188,10 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   }
 
   // ⑩ the place's year: each month's highest and lowest on average and its rain in all, over the 10 years before (Open-Meteo's
-  // archive, one request, kept with the place till the year turns), this month marked
-  function wx7Year(place) {
-    const k = wx4Kept("wxYear", place), y = Number(todayKey.slice(0, 4));
+  // archive, one request, kept with the place till the year turns), for 1週間の雨の量 (その14 ⑧) and 先の日の天気 (その13 ⑩'s
+  // days). Its own section, この場所の1年, taken out at the user's call (2026-11-18, tools/REMOVED.md)
+  function wx7YearGet(place) {
+    const y = Number(todayKey.slice(0, 4));
     wx4Get("wxYear", place, `https://archive-api.open-meteo.com/v1/archive?latitude=${place.lat}&longitude=${place.lon}&start_date=${y - 10}-01-01&end_date=${y - 1}-12-31&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`,
       (x) => !Array.isArray(x.months) || x.months.length !== 12 || x.from !== y - 10 || (wxThirteen && !x.doy), // (天気 その13 ⑩'s days kept with it)
       (j) => {
@@ -59420,21 +59207,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
         if (acc.some((a) => a.n < 28)) return null;
         return { from: y - 10, months: acc.map((a) => [Math.round((a.hi / a.n) * 10) / 10, Math.round((a.lo / a.n) * 10) / 10, Math.round(a.mm / a.ys.size)]), ...(wxThirteen ? { doy: wx13DoyOf(D) } : {}) };
       });
-    if (!k || !Array.isArray(k.months) || k.months.length !== 12 || k.from !== y - 10) return null;
-    const M = k.months, his = M.map((x) => x[0]), los = M.map((x) => x[1]), mms = M.map((x) => x[2]), now = Number(todayKey.slice(5, 7)) - 1;
-    const W = 340, L = 16, Rr = 16, X = (i) => L + (i * (W - L - Rr)) / 11, top = Math.max(...his) + 2, bot = Math.min(...los) - 2, Y = (t) => 14 + ((top - t) * 76) / Math.max(1, top - bot), mmTop = Math.max(50, ...mms);
-    const at = (a, f) => a.indexOf(f(...a)), hot = at(his, Math.max), cold = at(los, Math.min), wet = at(mms, Math.max);
-    const say = `いちばん暑いのは ${hot + 1}月（平均の最高 ${Math.round(his[hot])}°）、寒いのは ${cold + 1}月（平均の最低 ${Math.round(los[cold])}°）。雨が多いのは ${wet + 1}月（${mms[wet]} mm）`;
-    const svg = svgEl("svg", { class: "wx7-year-svg", viewBox: `0 0 ${W} 146`, role: "img", "aria-label": say });
-    svg.append(svgEl("rect", { class: "wx7-now", x: (X(now) - 12).toFixed(1), y: 4, width: 24, height: 136, rx: 6 }));
-    M.forEach((x, i) => { const h = (x[2] / mmTop) * 34; if (h > 0) svg.append(svgEl("rect", { class: "wx7-bar", x: (X(i) - 7).toFixed(1), y: (124 - h).toFixed(1), width: 14, height: h.toFixed(1), rx: 2 })); });
-    svg.append(svgEl("line", { class: "wx2-base", x1: L - 8, x2: W - Rr + 8, y1: 124, y2: 124 }));
-    for (const [cls, v] of [["wx7-hi", his], ["wx7-lo", los]]) svg.append(svgEl("path", { class: cls, d: v.map((t, i) => `${i ? "L" : "M"}${X(i).toFixed(1)} ${Y(t).toFixed(1)}`).join(" ") }));
-    for (const [cls, v, dy] of [["wx7-hi", his, -6], ["wx7-lo", los, 14]]) svg.append(svgEl("text", { class: "wx7-tl " + cls, x: X(now).toFixed(1), y: (Y(v[now]) + dy).toFixed(1), "text-anchor": "middle" }, `${Math.round(v[now])}°`));
-    M.forEach((x, i) => svg.append(svgEl("text", { class: "wx2-hl" + (i === now ? " day" : ""), x: X(i).toFixed(1), y: 140, "text-anchor": "middle" }, String(i + 1))));
-    return [el("h3", { class: "group-head" }, "この場所の1年（過去10年の平均）"), el("div", { class: "card wx2-graph wx7-year", id: "wx7Year" }, svg,
-      el("p", { class: "wx2-legend", "aria-hidden": "true" }, el("span", { class: "t" }, "最高"), el("span", { class: "lo" }, "最低"), el("span", { class: "r" }, "雨の量")),
-      el("p", { class: "wx7-ysay" }, `${now + 1}月は、平均 ${Math.round(his[now])}° / ${Math.round(los[now])}°、雨 ${mms[now]} mm。`, el("br"), say + "。"))];
   }
 
   // ② under the page, at its end: the sections to show
@@ -59559,30 +59331,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   }
   function wx8Tag(w) { const n = w ? wx8Names(w) : []; return n.length ? el("span", { class: "wx8-tag" + (n.some((x) => x.includes("冬")) ? " cold" : "") }, n.join("・")) : null; }
 
-  // ⑤ ozone (photochemical smog): 180 µg/m³ and more said, 240 (about 0.12 ppm, 光化学オキシダント注意報's) and more as a warning
-  function wx8Ozone(a, idx) {
-    const oz = idx.map((i) => (Array.isArray(a.hourly.ozone) ? a.hourly.ozone[i] : null)).filter((v) => v != null).map(num);
-    const top = oz.length ? Math.round(Math.max(...oz)) : 0;
-    if (top < 180) return null;
-    return wx2Line("sun", top >= 240 ? `光化学スモッグに注意（オゾンがとても多い：${top} µg/m³）` : `オゾンが多め。光化学スモッグに注意（${top} µg/m³）`, "目やのどがチカチカしたら、室内へ。外での激しい運動はひかえめに", "wx8-ozone" + (top >= 240 ? " warn" : ""));
-  }
-
-  // ⑥ how long to sunburn at the day's strongest UV, bare skin (about 200 minutes over the index, for skin of the middle kind)
-  function wx8Burn(uv) { return uv && uv.n >= 3 ? `日焼け止めなしで日焼けするまで、いちばん強いときで約 ${Math.max(5, Math.round(200 / uv.n / 5) * 5)} 分（はだの強さで変わります）` : ""; }
-
-  // ⑦ the bicycle (rain, wind, cold or heat from now on, 7時〜20時) and washing the car (no rain the day and the 2 after it)
-  function wx8Life(day) {
-    const hs = wx8Hours(day, day === todayKey ? Math.max(7, new Date().getHours()) : 7, 20), out = [];
-    if (hs.length) {
-      const wet = hs.find((x) => wx4Wet(x)), windy = hs.reduce((a, x) => (num(x.wind) >= 6 && (!a || num(x.wind) > num(a.wind)) ? x : a), null), fs = hs.map((x) => num(x.feel));
-      out.push(wx3Line("place", wet ? `自転車は、${wet.h}時ごろからの雨に気をつけて` : windy ? `自転車は、風が強めです（${windy.h}時ごろ ${Math.round(num(windy.wind))} m/s）` : Math.max(...fs) <= 3 ? "自転車は、手がかじかむ寒さ。手袋を"
-        : Math.max(...fs) >= 32 ? "自転車は、暑さに気をつけて。こまめに水分を" : "自転車日和です", "", "wx8-bike"));
-    }
-    const next = [0, 1, 2].map((i) => addDays(day, i)).map((d) => [d, wxDay(d)]).filter(([, w]) => w);
-    if (next.length === 3) { const wet = next.find(([, w]) => w.wet); out.push(wx3Line("drop", wet ? `洗車は、${wx6Day(wet[0])}の雨のあとがよさそう` : "洗車日和です（このあと3日、雨の予報なし）", "", "wx8-car")); }
-    return out;
-  }
-
   // ⑧ the season's signs, from the week against the month gone by (その4's record of it): winter clothes, summer clothes,
   // heating or cooling, a frozen morning
   function wx8Season(place) {
@@ -59636,7 +59384,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // headaches against the air pressure (⑧), the weather and the mood of the month gone by (⑨), and the day's cautions in
   // the morning's notification (⑩). The country's ten cities in one request (kept 3 hours); the rest from the forecast
   // kept. Function declarations and var ----------
-  var wxNine = false, wx9JapanDay = 0;
+  var wxNine = false;
 
   // ① an outdoor plan (its name with one of the words: these, and those added) in the rain within 2 hours of its time (a
   // day's plan, 9時〜17時): on the page, and told the evening before at 20:00 (this device's)
@@ -59703,30 +59451,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return out;
   }
 
-  // ③ the country's weather: ten cities, today or tomorrow (one request, kept 3 hours)
-  const WX9_CITIES = [["札幌", 43.06, 141.35], ["仙台", 38.27, 140.87], ["新潟", 37.92, 139.04], ["東京", 35.68, 139.77], ["名古屋", 35.18, 136.91], ["大阪", 34.69, 135.5], ["広島", 34.39, 132.46], ["高知", 33.56, 133.53], ["福岡", 33.59, 130.4], ["那覇", 26.21, 127.68]];
-  function wx9Japan() {
-    const P = { lat: 0, lon: 0 }, k = wx4Kept("wxJapan", P);
-    wx4Get("wxJapan", P, `https://api.open-meteo.com/v1/forecast?latitude=${WX9_CITIES.map((c) => c[1]).join(",")}&longitude=${WX9_CITIES.map((c) => c[2]).join(",")}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&forecast_days=2`,
-      (x) => x.day !== todayKey || Date.now() - x.at > 3 * 3600000,
-      (j) => {
-        const arr = Array.isArray(j) ? j : [j];
-        if (arr.length !== WX9_CITIES.length) return null;
-        return { list: arr.map((x) => { const D = x && x.daily; return D ? [0, 1].map((i) => ({ c: D.weather_code?.[i] == null ? null : num(D.weather_code[i]), hi: D.temperature_2m_max?.[i], lo: D.temperature_2m_min?.[i], r: D.precipitation_probability_max?.[i] })) : null; }) };
-      });
-    const seg = el("div", { class: "seg wx3-seg", id: "wx9JapanSeg", role: "group", "aria-label": "全国の天気の日" }, [[0, "きょう"], [1, "あした"]].map(([v, w]) =>
-      el("button", { type: "button", "data-day": v, "aria-pressed": String(wx9JapanDay === v), onclick: () => { wx9JapanDay = v; wx4Redraw(); } }, w)));
-    const head = [el("h3", { class: "group-head" }, "全国の天気"), seg];
-    if (!k || k.day !== todayKey || !Array.isArray(k.list)) return [...head, el("div", { class: "card empty" }, "天気を調べています…")];
-    return [...head, el("ul", { class: "list card wx9-japan", id: "wx9Japan" }, WX9_CITIES.map(([name], i) => {
-      const x = k.list[i] && k.list[i][wx9JapanDay];
-      if (!x || x.c == null || x.hi == null || x.lo == null) return null;
-      const ic = wxIconOf(x.c), hi = Math.round(num(x.hi)), lo = Math.round(num(x.lo)), r = x.r == null ? null : Math.round(num(x.r));
-      return el("li", { "aria-label": `${name}、${wx3Word(x.c)}、最高${hi}度、最低${lo}度${r != null ? `、降水確率${r}%` : ""}` }, el("span", { class: "wx9-city", "aria-hidden": "true" }, name),
-        el("span", { class: "wx-icon " + ic, "aria-hidden": "true" }, icon(ic, 20)), el("span", { class: "wx-hl", "aria-hidden": "true" }, `${hi}° / ${lo}°`), el("span", { class: "wx-p", "aria-hidden": "true" }, r != null ? `${r}%` : ""));
-    }))];
-  }
-
   // ④ disasters, for a place in Japan: heavy rain (30 mm in an hour, or 80 mm in the day) said, 気象庁's キキクル and
   // 国土地理院's hazard map at the place (opened when pressed)
   function wx9Bousai(day, place) {
@@ -59746,17 +59470,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return best ? [wx3Line("snow", `急に寒くなる時間：${best.a}時〜${best.b}時に ${Math.round(best.dd)}° 下がります`, "羽織るものがあると安心", "wx9-swing")] : [];
   }
 
-  // ⑥ the 2 hours most pleasant (体感 near 20°, no rain, little wind, the air neither damp nor dry), 7時〜21時
-  function wx9Comfy(day) {
-    const hs = wx8Hours(day, day === todayKey ? Math.max(7, new Date().getHours() + 1) : 7, 21).filter((x) => x.feel != null);
-    const score = (x) => Math.abs(num(x.feel) - 20) + (x.rain >= 30 ? 10 : 0) + (wx4Wet(x) ? 20 : 0) + Math.max(0, num(x.wind) - 5) * 2 + (x.hum != null && (num(x.hum) > 75 || num(x.hum) < 30) ? 3 : 0);
-    let best = null;
-    for (let i = 0; i + 1 < hs.length; i++) if (hs[i + 1].h === hs[i].h + 1) { const s = score(hs[i]) + score(hs[i + 1]); if (!best || s < best.s) best = { s, a: hs[i], b: hs[i + 1] }; }
-    if (!best) return [];
-    const f = Math.round((num(best.a.feel) + num(best.b.feel)) / 2);
-    return [wx3Line("sun", `いちばん過ごしやすいのは ${best.a.h}時〜${best.a.h + 2}時ごろ（体感 ${f}°${Math.max(best.a.rain, best.b.rain) < 30 ? "、雨の心配なし" : ""}）`, "", "wx9-comfy")];
-  }
-
   // ⑦ why it feels colder or warmer: at the hour 体感 is furthest from the air (2° and more): the wind, dry air, damp or sun
   function wx9FeelWhy(day) {
     const hs = wx8Hours(day, day === todayKey ? new Date().getHours() : 9, day === todayKey ? 23 : 18).filter((x) => x.feel != null && x.temp != null);
@@ -59767,43 +59480,14 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return [el("p", { class: "wx9-feel", id: "wx9Feel" }, `${x.h}時ごろは、${why}、気温より ${Math.abs(dd)}° ${dd < 0 ? "寒く" : "暑く"}感じそうです`)];
   }
 
-  // ⑧ headaches against the air pressure: today's 「頭が痛い」 kept with the account's settings; each day's fall (the most
-  // within 6 hours) kept on this device as the forecast is seen (90 days); 3 days and more, the two set side by side
+  // ⑧ the day's fall of the air pressure (the most within 6 hours), for ⑩'s morning notification. (頭痛と気圧, today's
+  // 「頭が痛い」 set against the falls, taken out at the user's call 2026-11-18: the days kept in settings "wxAche")
   function wx9Drop(day) {
     const hs = wx2H("pressure_msl", day + "T00:00", 30).filter((x) => x.v !== null);
     if (!hs.length || hs[0].d !== day) return null;
     let drop = 0;
     for (let i = 0; i < hs.length && hs[i].d === day; i++) for (let j = i + 1; j < hs.length && j <= i + 6; j++) drop = Math.max(drop, hs[i].v - hs[j].v);
     return Math.round(drop * 10) / 10;
-  }
-  function wx9PressLog() { const v = lsJson(LS_PREFIX + "wxPressLog"); return v && typeof v === "object" && !Array.isArray(v) ? v : {}; }
-  function wx9Remember() {
-    const l = wx9PressLog(), y = addDays(todayKey, -1), d = wx9Drop(todayKey), dy = l[y] == null ? wx9Drop(y) : null;
-    let changed = false;
-    if (d != null && l[todayKey] !== d) { l[todayKey] = d; changed = true; }
-    if (dy != null) { l[y] = dy; changed = true; }
-    if (!changed) return;
-    const out = {};
-    for (const k of Object.keys(l).sort().slice(-90)) out[k] = l[k];
-    lsJsonPut(LS_PREFIX + "wxPressLog", out);
-  }
-  function wx9Aches() { const v = settings.get("wxAche"); return v && v.days && typeof v.days === "object" ? v.days : {}; }
-  function wx9AcheSet(days) { act(() => (Object.keys(days).length ? settings.set("wxAche", { days, updatedAt: Date.now() }) : settings.remove("wxAche"))); }
-  function wx9AchePut(on) {
-    const was = wx9Aches(), days = { ...was };
-    if (on) days[todayKey] = 1; else delete days[todayKey];
-    wx9AcheSet(days); wx4Redraw();
-    flash(on ? "「頭が痛い」と残しました" : "「頭が痛い」を消しました", () => { wx9AcheSet(was); wx4Redraw(); });
-  }
-  function wx9Ache(day) {
-    const aches = wx9Aches(), log = wx9PressLog(), out = [];
-    if (day === todayKey) { const on = !!aches[todayKey]; out.push(el("div", { class: "wx9-ache" }, el("button", { type: "button", class: "chip-btn", id: "wx9AcheBtn", "aria-pressed": String(on), onclick: () => wx9AchePut(!on) }, on ? "頭が痛い（残しました）" : "きょう頭が痛い"))); }
-    const yes = Object.keys(aches).filter((d) => log[d] != null), no = Object.keys(log).filter((d) => !aches[d] && d < todayKey), r = (v) => Math.round(v * 10) / 10;
-    if (yes.length >= 3 && no.length >= 3) {
-      const a = sum(yes, (d) => log[d]) / yes.length, b = sum(no, (d) => log[d]) / no.length;
-      out.push(wx3Line("wind", `頭が痛かった日（${yes.length}日）は、気圧が平均 ${r(a)} hPa 下がっていました`, `ほかの日は ${r(b)} hPa。${a - b >= 1.5 ? "気圧が下がる日は気をつけて。「体調のお知らせ」が便利です" : "気圧との関係は、まだはっきりしません"}`, "wx9-ache-sum"));
-    } else if (Object.keys(aches).length) out.push(el("p", { class: "wx9-ache-note" }, `頭が痛い日を ${Object.keys(aches).length} 日残しています。3日以上たまると、気圧との関係を出します`));
-    return out;
   }
 
   // ⑨ the weather and the mood of the month gone by (きょう's 気分, その4's record of the weather): 5 days and more
@@ -59850,7 +59534,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     $("wx9MornExtra").checked = !!m.extra; $("wx9MornExtra").disabled = !m.on;
     if (document.activeElement !== $("wx9Words")) $("wx9Words").value = (v && v.text) || "";
   }
-  WX7_SECS.push(["outplans", "外の予定", (t) => t === "外の予定と雨"], ["bousai", "防災", (t) => t === "防災"], ["japan", "全国", (t) => t === "全国の天気"], ["moods", "天気と気分", (t) => t.startsWith("天気と気分")]);
+  WX7_SECS.push(["outplans", "外の予定", (t) => t === "外の予定と雨"], ["bousai", "防災", (t) => t === "防災"], ["moods", "天気と気分", (t) => t.startsWith("天気と気分")]);
   wxNine = true;
 
   // ---------- 天気 その10 ①〜⑩ (the user's calls, 2026-11-16): the page in brief (①), yesterday, today and tomorrow side
@@ -60144,46 +59828,10 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return dry == null || dry >= 10 ? [`雨の降らない日が${dry == null ? "1か月以上" : dry + "日"}続いていて、この先1週間も雨の予報はありません。乾燥や火の元に気をつけて。`] : [];
   }
 
-  // ④ colds and influenza: the air's water (絶対湿度) on average 7時〜21時, under 7 g/m³ a time for influenza (5, very
-  // dry); and a day whose highest and lowest are 10° and more apart
-  const wx11Ah = (t, rh) => (217 * (rh / 100) * 6.1078 * Math.pow(10, (7.5 * t) / (t + 237.3))) / (t + 273.15);
-  function wx11AhOf(day) {
-    const F = wx11Hourly(), l = [];
-    if (!F) return null;
-    for (let h = 7; h <= 21; h++) { const t = `${day}T${pad(h)}:00`, T = F.v("temperature_2m", t), rh = F.v("relative_humidity_2m", t); if (T != null && rh != null) l.push(wx11Ah(T, rh)); }
-    return l.length >= 8 ? sum(l, (x) => x) / l.length : null;
-  }
-  function wx11Health(day) {
-    const w = wxDay(day), ah = wx11AhOf(day), out = [];
-    if (!w) return out;
-    if (ah != null && ah < 7) out.push(wx3Line("drop", ah < 5 ? `空気がとても乾いていて、かぜやインフルエンザがはやりやすい日です（絶対湿度 ${ah.toFixed(1)} g/m³）` : `かぜやインフルエンザに気をつけたい乾き具合です（絶対湿度 ${ah.toFixed(1)} g/m³）`,
-      "部屋は加湿を（20°なら湿度50〜60%）。手洗いと、人の多い所ではマスクを", "wx11-flu"));
-    if (w.hi - w.lo >= 10) out.push(wx3Line("sun", `寒暖差が大きい日です（最高と最低の差 ${w.hi - w.lo}°）`, "脱ぎ着しやすい服で、体を冷やさないように。寒暖差の疲れにも気をつけて", "wx11-swing"));
-    return out;
-  }
-
-  // ⑤ the window's dew: the night (21時〜次の日の8時) down to 5° and under; mould: the 3 days from the day humid (75% and
-  // over) and warm (20° and over) on average
-  function wx11Room(day) {
-    const F = wx11Hourly(), out = [];
-    if (!F) return out;
-    const night = [];
-    for (let k = 21; k <= 32; k++) { const v = F.v("temperature_2m", `${k < 24 ? day : addDays(day, 1)}T${pad(k % 24)}:00`); if (v != null) night.push(v); }
-    if (night.length >= 8 && Math.min(...night) <= 5)
-      out.push(wx3Line("home", `${day === todayKey ? "今夜" : wx6Day(day) + "の夜"}は、窓が結露しやすそうです（明け方 ${Math.round(Math.min(...night))}°）`, "朝に窓の水滴をふいて、換気を。カーテンやサッシのカビの予防にも", "wx11-dew"));
-    const hum = [], tem = [];
-    for (let i = 0; i < 3; i++) for (let h = 0; h < 24; h++) { const t = `${addDays(day, i)}T${pad(h)}:00`, a = F.v("relative_humidity_2m", t), b = F.v("temperature_2m", t); if (a != null && b != null) { hum.push(a); tem.push(b); } }
-    if (hum.length >= 48) {
-      const rh = sum(hum, (x) => x) / hum.length, t = sum(tem, (x) => x) / tem.length;
-      if (rh >= 75 && t >= 20) out.push(wx3Line("drop", `湿気の多い日が続きます。カビに気をつけて（3日の平均の湿度 ${Math.round(rh)}%）`, "換気や除湿を。押し入れや靴箱、浴室も", "wx11-mold"));
-    }
-    return out;
-  }
-
   // ⑥ the sections in the user's order (the account's settings), moved up and down under the page; none kept, the page's
   // own (as renderWxPage draws them); a section not in the order kept goes after the one before it in the page's
-  const WX11_PAGE = ["hours", "rain", "out", "bousai", "commute", "wear", "take", "outing", "life", "plans", "health", "night", "events", "glow", "week", "rest", "rainplans", "outplans", "long", "ahead",
-    "places", "other", "japan", "month", "runs", "moods", "records", "year", "thisyear", "past", "check", "words"];
+  const WX11_PAGE = ["hours", "rain", "out", "bousai", "commute", "wear", "take", "outing", "plans", "night", "events", "glow", "week", "rest", "rainplans", "outplans", "long", "ahead",
+    "places", "other", "month", "runs", "moods", "records", "past", "check", "words"];
   const wx11Fill = (base, ref) => {
     const out = [...new Set(base.filter((k) => ref.includes(k)))];
     ref.forEach((k, i) => { if (out.includes(k)) return; let j = -1; for (let p = i - 1; p >= 0 && j < 0; p--) j = out.indexOf(ref[p]); out.splice(j + 1, 0, k); });
@@ -60460,104 +60108,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return el("p", { class: "wx12-pack-note", id: "wx12PackNote" }, !n ? "用意できたものを押すと、印がつきます" : n === l.length ? "ぜんぶ用意できました" : `${l.length}つのうち${n}つ、用意できました`);
   }
 
-  // ⑥ this year month by month (1月から, Open-Meteo's archive till a week ago, the days after from その4's record) against
-  // その7 ⑩'s normal: the highest and lowest on average and the rain; the 夏日・真夏日・猛暑日・冬日 counted, and the
-  // year's last 夏日 from 9月 on
-  function wx12YearGet(place) {
-    const y = Number(todayKey.slice(0, 4)), end = addDays(todayKey, -7);
-    if (end < `${y}-01-01`) return { y, end, months: Array.from({ length: 12 }, () => [0, 0, 0, 0, 0]), c: { s: 0, ms: 0, ks: 0, f: 0, last: null } };
-    const k = wx4Kept("wxThisYear", place);
-    wx4Get("wxThisYear", place, `https://archive-api.open-meteo.com/v1/archive?latitude=${place.lat}&longitude=${place.lon}&start_date=${y}-01-01&end_date=${end}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`,
-      (x) => x.day !== todayKey || x.end !== end,
-      (j) => {
-        const D = j && j.daily;
-        if (!D || !Array.isArray(D.time)) return null;
-        const months = Array.from({ length: 12 }, () => [0, 0, 0, 0, 0]), c = { s: 0, ms: 0, ks: 0, f: 0, last: null };
-        D.time.forEach((t, i) => wx12YearAdd(months, c, t, D.temperature_2m_max?.[i], D.temperature_2m_min?.[i], D.precipitation_sum?.[i]));
-        return { y, end, months, c };
-      });
-    return k && k.day === todayKey && k.end === end && Array.isArray(k.months) ? { y, end, months: k.months.map((m) => [...m]), c: { ...k.c } } : null;
-  }
-  // (a day added: the month's [highest's sum, lowest's sum, days, rain's sum, days with rain kept]; the year's counts)
-  function wx12YearAdd(months, c, t, hi, lo, mm) {
-    const m = months[Number(t.slice(5, 7)) - 1];
-    if (hi != null && lo != null) {
-      hi = num(hi); lo = num(lo); m[0] += hi; m[1] += lo; m[2]++;
-      if (hi >= 25) { c.s++; c.last = t.slice(0, 10); }
-      if (hi >= 30) c.ms++;
-      if (hi >= 35) c.ks++;
-      if (lo < 0) c.f++;
-    }
-    if (mm != null) { m[3] += num(mm); m[4]++; }
-  }
-  function wx12Year(place) {
-    const k = wx12YearGet(place);
-    if (!k) return null;
-    for (const x of (wxFour ? wx4MonthDays(place) : null) || []) if (x.d > k.end && x.d.startsWith(String(k.y))) wx12YearAdd(k.months, k.c, x.d, x.hi, x.lo, x.mm);
-    const nm = wx4Kept("wxYear", place), norm = nm && Array.isArray(nm.months) && nm.months.length === 12 && nm.from === k.y - 10 ? nm.months : null;
-    if (!norm && wxSeven) wx7Year(place); // (その7 ⑩'s normal asked for, should its section be hidden)
-    const r1 = (v) => Math.round(v * 10) / 10, cur = Number(todayKey.slice(5, 7)) - 1;
-    const rows = k.months.map((m, i) => ({ i, n: m[2], hi: m[2] ? m[0] / m[2] : null, lo: m[2] ? m[1] / m[2] : null, mm: m[3], days: m[4], dim: daysInMonth(`${k.y}-${pad(i + 1)}`) })).filter((x) => x.i <= cur && x.n >= 5);
-    if (!rows.length) return null;
-    const dHi = (x) => (norm ? x.hi - norm[x.i][0] : null), pct = (x) => (norm && norm[x.i][2] > 0 && x.days ? Math.round((x.mm / (norm[x.i][2] * (x.days / x.dim))) * 100) : null);
-    const full = rows.filter((x) => x.days >= x.dim - 1 && x.n >= x.dim - 1);
-    let say = "";
-    if (norm && full.length) {
-      const d = r1(sum(full, (x) => dHi(x) * x.n) / sum(full, (x) => x.n)), rain = Math.round((sum(full, (x) => x.mm) / sum(full, (x) => norm[x.i][2])) * 100);
-      say = `ことし（${full[0].i + 1}月〜${full[full.length - 1].i + 1}月）の最高気温は、平年より ${Math.abs(d) < 0.3 ? "平年並み" : `${Math.abs(d)}° ${d > 0 ? "高め" : "低め"}`}。雨は平年の ${rain}%。`.replace("平年より 平年並み", "平年並み");
-    }
-    const c = k.c, last = c.last && cur >= 8 ? `。ことし最後の夏日は ${fmtShort(c.last)}` : "";
-    const cell = (x) => { const d = dHi(x), p = pct(x), part = x.i === cur || x.days < x.dim - 1;
-      return el("li", { class: "wx12-ym", "aria-label": `${x.i + 1}月${part ? "（途中）" : ""}、最高の平均${r1(x.hi)}度${d != null ? `、平年より${d >= 0 ? "プラス" : "マイナス"}${Math.abs(r1(d))}度` : ""}、雨${Math.round(x.mm)}ミリ${p != null ? `、平年の${p}%` : ""}` },
-        el("span", { class: "wx12-ym-m", "aria-hidden": "true" }, `${x.i + 1}月${part ? "*" : ""}`), el("span", { "aria-hidden": "true" }, `${x.hi.toFixed(1)}°`),
-        el("span", { class: "wx12-ym-d" + (d == null ? "" : d >= 0.5 ? " warm" : d <= -0.5 ? " cold" : ""), "aria-hidden": "true" }, d == null ? "" : wx4Sign(r1(d)) + "°"),
-        el("span", { class: "wx12-ym-r", "aria-hidden": "true" }, `${Math.round(x.mm)} mm`, p != null ? el("small", {}, `（${p}%）`) : null)); };
-    return [el("h3", { class: "group-head" }, "ことしの天気（1月から）"), el("div", { class: "card wx12-year", id: "wx12Year" },
-      say ? el("p", { class: "wx12-year-say" }, say) : null,
-      el("ul", { class: "wx12-yl" }, el("li", { class: "wx12-ym head", "aria-hidden": "true" }, el("span"), el("span", {}, "最高"), el("span", {}, norm ? "平年差" : ""), el("span", {}, norm ? "雨（平年比）" : "雨")), rows.map(cell)),
-      el("p", { class: "wx12-year-n" }, `夏日 ${c.s}日・真夏日 ${c.ms}日・猛暑日 ${c.ks}日・冬日 ${c.f}日${last}。`)),
-      el("p", { class: "group-foot" }, `最高は、その月の毎日の最高気温の平均。* はまだ途中の月です。${norm ? "平年は、その前の10年の平均です。" : ""}Open-Meteo の記録（推定）から出しています。`)];
-  }
-
-  // ⑦ the washing hung out (a button in 暮らしのひとこと, today 6時〜15時): told 30 minutes before the rain, else when it
-  // should be dry (その5 ③'s reckoning, from the hour after it was hung), else at 16:00 (this device's)
-  function wx12Wash() { const v = lsJson(LS_PREFIX + "wxWash"); return v && v.day === todayKey && Number.isFinite(v.at) ? v : null; }
-  function wx12WashPut(on) { lsJsonPut(LS_PREFIX + "wxWash", on ? { day: todayKey, at: Date.now() } : null); wxShare(); pushSoon(); wx4Redraw(); wxMoreSync(); }
-  function wx12WashPlan(from) {
-    const start = new Date(from).getHours() + 1, hs = wxHours(todayKey + "T00:00", 24).filter((x) => x.d === todayKey && x.h >= start), SR = wx3Hours("shortwave_radiation", todayKey, true);
-    let got = 0;
-    for (const x of hs) {
-      if (wx4Wet(x)) return { kind: "rain", h: x.h, rain: x.rain };
-      if (x.temp == null || x.hum == null) break;
-      const sr = (SR.find((y) => y.h === x.h) || { v: 0 }).v;
-      got += (wx5Es(num(x.temp)) * Math.max(0, 1 - num(x.hum) / 100) * (1 + 0.25 * Math.min(8, num(x.wind))) + sr / 40) / 90;
-      if (got >= 1) return { kind: "dry", h: Math.min(x.h + 1, 16) };
-      if (x.h >= 15) break;
-    }
-    return { kind: "late", h: 16 };
-  }
-  function wx12WashAlarms(now) {
-    const w = wx12Wash();
-    if (!w) return [];
-    const p = wx12WashPlan(w.at), at = wx12Ms(todayKey, `${pad(p.h)}:00`) - (p.kind === "rain" ? 1800000 : 0), t = new Date(w.at);
-    if (at <= now + 5000) return [];
-    return [{ at, title: p.kind === "rain" ? "洗濯物を取りこんで" : p.kind === "dry" ? "洗濯物が乾くころです" : "洗濯物を取りこむ時間です",
-      body: p.kind === "rain" ? `${p.h}時ごろから雨の予報です（降水確率 ${p.rain}%）` : p.kind === "dry" ? `${t.getHours()}:${pad(t.getMinutes())}に干したものが、乾いていそうです` : "夕方は湿気がもどります。乾ききらなければ、部屋干しに",
-      tag: `wx-wash:${todayKey}`, url: "./#weather" }];
-  }
-  function wx12WashEl(day) {
-    const w = wx12Wash(), h = new Date().getHours();
-    if (day !== todayKey || (!w && (h < 6 || h >= 15))) return null;
-    let words, sub;
-    if (w) {
-      const p = wx12WashPlan(w.at), t = new Date(w.at);
-      words = `洗濯物：${t.getHours()}:${pad(t.getMinutes())}に干しました`;
-      sub = p.kind === "rain" ? `${p.h}時ごろの雨の30分前にお知らせします` : p.kind === "dry" ? `${p.h}時ごろ乾きそうなので、そのころお知らせします` : "16時に、取りこみのお知らせをします";
-    } else { words = "洗濯物を干したら、押してください"; sub = "雨の前か、乾くころにお知らせします"; }
-    return el("div", { class: "wx-line wx12-wash", id: "wx12Wash" }, icon("sun", 18), el("p", {}, words, el("span", { class: "sub" }, el("br"), sub)),
-      el("button", { type: "button", class: "chip-btn", id: "wx12WashBtn", onclick: () => wx12WashPut(!w) }, w ? "取りこんだ" : "干した"));
-  }
-
   // ⑧ snow: a day (today, tomorrow) with 1 cm and more falling, told at 20:00 the evening before (else an hour before it
   // starts); 10 cm and more, 大雪 (this device's)
   function wx12SnowDays() {
@@ -60630,13 +60180,12 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     } }, "止める");
   }
 
-  // (the notifications: ⑦⑧⑨)
-  function wx12Alarms(now) { return [...wx12WashAlarms(now), ...wx12SnowAlarms(now), ...wx12WatchAlarms(now)]; }
+  // (the notifications: ⑧⑨; ⑦ 洗濯物, started from a button in 暮らしのひとこと, taken out with it, 2026-11-18)
+  function wx12Alarms(now) { return [...wx12SnowAlarms(now), ...wx12WatchAlarms(now)]; }
   function wx12PushParts() {
-    const now = Date.now(), w = wx12Watch(), wash = wx12Wash(), m = wx12Muted(), out = [];
+    const now = Date.now(), w = wx12Watch(), m = wx12Muted(), out = [];
     if (wx10Flag("wxSnowAlert")) out.push(["wxSnow", wx12SnowAlarms(now).map((a) => [a.at, a.title])]);
     if (w && w.on) out.push(["wxWatch", w.place.lat, w.place.lon, wx12WatchAlarms(now).map((a) => [a.at, a.title])]);
-    if (wash) out.push(["wxWash", wash.at, wx12WashAlarms(now).map((a) => [a.at, a.title])]);
     if (Object.keys(m).length) out.push(["wxMuted", Object.keys(m).sort()]);
     return out;
   }
@@ -60672,7 +60221,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     $("wx12UmbAt").value = String(wx12UmbAt());
     $("wx12Unmute").hidden = !m; $("wx12Unmute").textContent = `止めたお知らせ（${m}件）を、もとにもどす`;
   }
-  WX7_SECS.push(["thisyear", "ことし", (t) => t.startsWith("ことしの天気")]);
   wxTwelve = true;
 
   // ---------- 天気 その13 ①〜⑩ (the user's calls, 2026-11-16): the breaks in a rainy day (①), the night: what to sleep
@@ -60699,20 +60247,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     const avg = (r) => sum(hs.slice(r.a, r.b + 1), (x) => x.rain) / (r.b - r.a + 1);
     const best = gaps.reduce((p, r) => (avg(r) < avg(p) || (avg(r) === avg(p) && r.b - r.a > p.b - p.a) ? r : p));
     return wx3Line("rain", `雨の合間：${hs[best.a].h}時〜${hs[best.b].h + 1}時ごろは、雨が弱まりそうです（降水確率 ${Math.max(...hs.slice(best.a, best.b + 1).map((x) => x.rain))}%）`, "出かけるなら、この時間がおすすめです", "wx13-gap");
-  }
-
-  // ② the night (22時〜次の日の6時): what to sleep with, by its lowest, its warmth and its damp
-  function wx13Sleep(day) {
-    const F = wx11Hourly(), T = [], RH = [];
-    if (!F) return null;
-    for (let k = 22; k <= 30; k++) { const t = `${k < 24 ? day : addDays(day, 1)}T${pad(k % 24)}:00`, a = F.v("temperature_2m", t), b = F.v("relative_humidity_2m", t); if (a != null) T.push(a); if (b != null) RH.push(b); }
-    if (T.length < 6) return null;
-    const lo = Math.round(Math.min(...T)), rh = RH.length ? Math.round(sum(RH, (x) => x) / RH.length) : null, who = day === todayKey ? "今夜" : `${wx6Day(day)}の夜`;
-    if (lo >= 25) return wx3Line("moon", `${who}は寝苦しい夜になりそうです（朝まで ${lo}°以上）`, "エアコンは28°ほどで、朝までつけておくと安心。枕もとに水も", "wx13-sleep");
-    if (lo >= 22 && rh != null && rh >= 75) return wx3Line("moon", `${who}は蒸し暑い夜です（湿度 ${rh}%）`, "除湿（ドライ）や扇風機で湿気をとると、眠りやすくなります", "wx13-sleep");
-    if (lo <= 5) return wx3Line("moon", `${who}は冷えこみます（明け方 ${lo}°）`, "寝る前に部屋をあたためて、毛布や湯たんぽを。暖房のタイマーも便利です", "wx13-sleep");
-    if (lo <= 10) return wx3Line("moon", `${who}は少し冷えます（明け方 ${lo}°）`, "掛けるものを1枚足しておくと安心です", "wx13-sleep");
-    return null;
   }
 
   // ③ the season's words for the weather (as 気象庁 and the almanac use them), the first that fits: 木枯らし, 小春日和, 春一番,
@@ -60787,17 +60321,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return out;
   }
 
-  // ⑦ hair and static: the day's air (9時〜18時) damp (75% and more: hair spreads), or dry and cool (40% and under, 15°
-  // and under: static)
-  function wx13Hair(day) {
-    const hs = wxHours(day + "T00:00", 24).filter((x) => x.d === day && x.h >= 9 && x.h <= 18 && x.hum != null && x.temp != null);
-    if (hs.length < 6) return null;
-    const rh = Math.round(sum(hs, (x) => num(x.hum)) / hs.length), t = sum(hs, (x) => num(x.temp)) / hs.length;
-    if (rh >= 75) return wx3Line("drop", `湿気で髪が広がりやすい日です（湿度 ${rh}%）`, "まとめ髪や、湿気に強いスタイリング剤がおすすめ", "wx13-hair");
-    if (rh <= 40 && t <= 15) return wx3Line("drop", `静電気が起きやすい日です（湿度 ${rh}%）`, "金属にさわる前に、壁や木にふれて逃がして。ハンドクリームや加湿も", "wx13-static");
-    return null;
-  }
-
   // ⑧ the weather and the records over the month gone by (その4's, its rainy or snowy days against the rest, as その9 ⑨'s
   // mood): 家計簿's spending, study, the routines done, each a day on average
   function wx13Records(place) {
@@ -60848,11 +60371,11 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     });
     return Object.fromEntries(Object.entries(doy).map(([md, a]) => [md, [a[0], a[1], Math.round(a[2] * 10) / 10, Math.round(a[3] * 10) / 10]]));
   }
-  // (from その7 ⑩'s request, asked for here should its section be hidden)
+  // (the place's year asked for here too, as the page does)
   function wx13Doy(place) {
     const y = Number(todayKey.slice(0, 4)), k = wx4Kept("wxYear", place);
     if (k && k.from === y - 10 && k.doy && Object.keys(k.doy).length >= 360) return k.doy;
-    if (wxSeven) wx7Year(place);
+    if (wxSeven) wx7YearGet(place);
     return null;
   }
   function wx13Odds(doy, d) {
@@ -60940,19 +60463,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       }
     }
     return out;
-  }
-
-  // ③ the plants on the balcony: frost (the lowest 3° and under), rain (5 mm and more in the day), heat (the highest 30° and
-  // over), a drying day (20° and over, 50% and under, no rain); the first that fits
-  function wx14Plant(day) {
-    const w = wxDay(day);
-    if (!w) return null;
-    const mm = sum(wx3Hours("precipitation", day, true), (x) => x.v), hs = wxHours(day + "T00:00", 24).filter((x) => x.d === day && x.h >= 9 && x.h <= 17 && x.hum != null), rh = hs.length ? sum(hs, (x) => num(x.hum)) / hs.length : null;
-    if (w.lo <= 3) return wx3Line("snow", `植物：冷えこみます（最低 ${w.lo}°）。寒さに弱い鉢植えは、夜は室内か軒下へ`, "水やりは、あたたかい午前中に", "wx14-plant");
-    if (mm >= 5) return wx3Line("rain", `植物：雨が降るので、外の植物の水やりはお休みでよさそう（1日に ${Math.round(mm)} mm）`, "", "wx14-plant");
-    if (w.hi >= 30) return wx3Line("sun", "植物：暑い日です。水やりは朝の涼しいうちと夕方に", "昼の水やりは、根をいためることがあります", "wx14-plant");
-    if (w.hi >= 20 && rh != null && rh <= 50 && !w.wet) return wx3Line("sun", `植物：よく乾く日です（湿度 ${Math.round(rh)}%）。鉢植えは土を見て、朝に水やりを`, "", "wx14-plant");
-    return null;
   }
 
   // ④ head wind or tail wind (3 m/s and more) on the way there and back, by the way's bearing (the account's settings)
@@ -68394,7 +67904,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   function renderMo2(m) {
     mo2SyncPay();
     if (moneyPart === "book") { draw(mo2QuickSay); draw(mo2SplitSync); draw(renderMo2Fore); draw(renderMo2Zero); }
-    if (moneyPart === "stats") { draw(() => renderMo2Feel(m)); draw(renderMo2Wants); draw(renderMo2Year); }
+    if (moneyPart === "stats") { draw(() => renderMo2Feel(m)); draw(renderMo2Year); } // (⑨ ほしいもの taken off 2026-11-18, the user's call)
   }
   function mo2DayWord(d) { return d === todayKey ? "きょう" : d === addDays(todayKey, -1) ? "きのう" : fmtDay(d); }
   // records put in (one, or several at once), as they are in the store now: an add pushes them at its end as it is called
@@ -68839,72 +68349,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
         el("div", { class: "cat-track" }, el("div", { class: "cat-bar", style: `width:${Math.max(1, (v / top) * 100)}%` })),
         el("span", { class: "amount" }, fmtYen(v), el("small", {}, out ? `${Math.round((v / out) * 100)}%` : "")))));
   }
-
-  // ⑨ ほしいもの (the user's call): a name, a price and the days to wait before buying (the wait shown till it is over), its
-  // hours of バイト where a 時給 is set; 買った puts it in as a 支出 (its 費目 from its name), やめた keeps it among those let
-  // go, with what they came to. Kept with the account
-  function mo2Wants() { const s = settings.get("wants"); return s && Array.isArray(s.items) ? s.items.filter((w) => w && typeof w.id === "string" && typeof w.name === "string") : []; }
-  function mo2SaveWants(items) { act(() => settings.set("wants", { items, updatedAt: Date.now() })); }
-  function mo2WantsBack(was) { return () => { act(() => settings.set("wants", { items: was, updatedAt: Date.now() })); flash("元に戻しました"); }; }
-  function mo2Hours(price) {
-    const job = jobList()[0], wage = job ? bt2WageOn(job, todayKey) : 0;
-    if (!(wage > 0) || !(price > 0)) return null;
-    const h = price / wage;
-    return `バイト 約 ${h >= 10 ? Math.round(h) : (Math.round(h * 10) / 10).toFixed(1)} 時間分`;
-  }
-  function renderMo2Wants() {
-    const all = mo2Wants(), open = all.filter((w) => !w.bought && !w.dropped), done = all.filter((w) => w.bought || w.dropped);
-    setChildren($("mo2WantList"), open.length ? [...open].sort((a, b) => String(a.at).localeCompare(String(b.at))).map((w) => {
-      const wait = num(w.wait), until = addDays(isDay(w.at || "") ? w.at : todayKey, wait), left = daysBetween(todayKey, until), price = num(w.price);
-      return el("li", { class: "mo2-want" + (wait > 0 && left <= 0 ? " ready" : "") },
-        el("span", { class: "body" }, el("span", { class: "text" }, w.name),
-          dotParts([price > 0 ? fmtYen(price) : "値段なし", mo2Hours(price), wait > 0 ? (left > 0 ? `あと ${left} 日待つ（${fmtMD(until)}まで）` : "待つ日がすぎました") : null]),
-          el("span", { class: "mo2-want-acts" },
-            el("button", { type: "button", class: "btn ghost sm", onclick: () => mo2WantBuy(w.id) }, "買った"),
-            el("button", { type: "button", class: "btn ghost sm", onclick: () => mo2WantDrop(w.id) }, "やめた"))));
-    }) : el("li", { class: "empty" }, "ほしいものを入れておくと、決めた日数だけ待ってから買えます。"));
-    const dropped = done.filter((w) => w.dropped && !w.bought);
-    $("mo2WantNote").hidden = !dropped.length;
-    $("mo2WantNote").textContent = dropped.length ? keepUnits(`やめたもの ${dropped.length} こ・${fmtYen(sum(dropped, (w) => w.price))} ぶん、使わずにすみました。`) : "";
-    $("mo2WantDone").hidden = !done.length;
-    $("mo2WantDoneHead").textContent = `買ったもの・やめたもの（${done.length}）`;
-    setChildren($("mo2WantDoneList"), [...done].sort((a, b) => String(b.bought || b.dropped).localeCompare(String(a.bought || a.dropped))).slice(0, 50).map((w) => el("li", {},
-      el("span", { class: "body" }, el("span", { class: "text" }, w.name), dotParts([num(w.price) > 0 ? fmtYen(w.price) : null, w.bought ? `${fmtShort(w.bought)}に買った` : `${fmtShort(w.dropped)}にやめた`])),
-      delButton(() => mo2WantForget(w.id), "削除", w.name))));
-  }
-  function mo2WantBuy(id) {
-    const was = JSON.parse(JSON.stringify(mo2Wants())), w = was.find((x) => x.id === id);
-    if (!w) return;
-    let added = [];
-    if (num(w.price) > 0) {
-      const outs = exCats("out"), category = mo2Guess(w.name, "out") || (outs.includes("雑費") ? "雑費" : outs[0]);
-      added = mo2AddNow([{ date: todayKey, kind: "out", category, amount: Math.round(num(w.price)), memo: w.name, createdAt: Date.now(), ...($("exMethod").value ? { method: $("exMethod").value } : {}) }]);
-    }
-    mo2SaveWants(was.map((x) => (x.id === id ? dropUndef({ ...x, bought: todayKey, exp: added[0]?.id }) : x)));
-    const back = mo2WantsBack(was);
-    mo2Speak(added, added.length ? `「${w.name}」を支出（${added[0].category}・${fmtYen(added[0].amount)}）に入れました` : `「${w.name}」を買ったものにしました`,
-      () => { if (added.length) takeBack(expenses, added.map((e) => e.id)); back(); });
-  }
-  function mo2WantDrop(id) {
-    const was = JSON.parse(JSON.stringify(mo2Wants())), w = was.find((x) => x.id === id);
-    if (!w) return;
-    mo2SaveWants(was.map((x) => (x.id === id ? { ...x, dropped: todayKey } : x)));
-    flash(num(w.price) > 0 ? keepUnits(`「${w.name}」をやめました。${fmtYen(w.price)} 使わずにすみました`) : `「${w.name}」をやめました`, mo2WantsBack(was));
-  }
-  function mo2WantForget(id) {
-    const was = JSON.parse(JSON.stringify(mo2Wants())), w = was.find((x) => x.id === id);
-    mo2SaveWants(was.filter((x) => x.id !== id));
-    flash(`「${w ? w.name : ""}」をリストから消しました`, mo2WantsBack(was));
-  }
-  $("mo2WantForm").addEventListener("submit", (ev) => {
-    ev.preventDefault();
-    const name = $("mo2WantName").value.trim().replace(/\s+/g, " ").slice(0, 40), price = Math.round(num($("mo2WantPrice").value)), wait = clampTo(Math.round(num($("mo2WantWait").value)), 0, 365);
-    if (!name) { $("mo2WantName").focus(); return; }
-    const was = JSON.parse(JSON.stringify(mo2Wants()));
-    mo2SaveWants([...was, dropUndef({ id: uid(), name, price: price > 0 ? Math.min(price, 99999999) : undefined, wait, at: todayKey })]);
-    $("mo2WantName").value = ""; $("mo2WantPrice").value = "";
-    flash(`ほしいものに「${name}」を入れました${wait ? `。${fmtMDW(addDays(todayKey, wait))}まで待ってみましょう` : ""}`, mo2WantsBack(was));
-  });
 
   // ---------- 家計簿 その3 ①〜⑩ (the user's calls, 2026-11-14): each 費目 against its usual (①), a sum written in ひとことで
   // 追加 (②), 明細 in order of amount (③), several 明細 picked at once (④), the tags in メモ (⑤), the days of the week (⑥),
@@ -69679,7 +69123,8 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   function bt3JobName(x) { const jobs = jobList(), j = jobs.find((y) => y.id === bt2JobIdOf(x)); return jobs.length > 1 && j ? j.name || "バイト先" : ""; }
   function bt3Hours(min) { const h = min / 60; return `${Number.isInteger(h) ? h : (Math.round(h * 10) / 10).toFixed(1)} 時間`; }
 
-  // the cards, made once into バイト's part: ① and ④⑤ over the month, ② over the form, ⑧ under the shifts' card
+  // the cards, made once into バイト's part: ① and ④⑤ over the month, ② over the form (⑧ シフト希望を作って送る, under the
+  // shifts' card, taken off 2026-11-18, the user's call)
   function bt3Build() {
     if ($("bt3Next")) return;
     $("jobSum").before(el("div", { class: "card pad bt3-next", id: "bt3Next", hidden: true }));
@@ -69692,15 +69137,12 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     f.addEventListener("submit", (ev) => { ev.preventDefault(); bt3QuickGo(); });
     const t = $("bt3QuickText");
     t.addEventListener("input", bt3QuickSay); t.addEventListener("focus", bt3QuickSay); t.addEventListener("blur", () => setTimeout(bt3QuickSay, 150));
-    $("shiftCard").after(el("details", { class: "card bt3-ask", id: "bt3Ask", hidden: true, ontoggle: () => renderBt3Ask() }, el("summary", {}, "シフト希望を作って送る"),
-      el("div", { class: "bt3-ask-body", id: "bt3AskBody" })));
   }
   function renderBt3() {
     bt3Build();
     const has = jobList().length > 0;
-    $("bt3Quick").hidden = $("bt3Ask").hidden = !has;
+    $("bt3Quick").hidden = !has;
     renderBt3Next(); renderBt3Aim(); bt3QuickSay(); renderBt3Settings();
-    if ($("bt3Ask").open) renderBt3Ask();
   }
 
   // ① 次のバイト: the shift under way or the next, with the time to it, and the two after
@@ -69885,56 +69327,16 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     return out.length ? el("div", { class: "bt3-notes" }, out) : null;
   }
 
-  // ⑧ シフト希望: next month's (or the one after) days, each pressed in turn ○ 入れる・△ 時間しだい・× 入れない; a line
-  // for the times; made into words to send. Kept on this device
+  // ⑧ シフト希望 (its card, シフト希望を作って送る, taken off 2026-11-18, the user's call): the marks it kept on this device,
+  // still read by その11 ③ シフト希望とのちがい for the months they were made for
   var BT3_ASK_KEY = LS_PREFIX + "bt3Ask";
   function bt3AskGet() { try { const v = JSON.parse(localStorage.getItem(BT3_ASK_KEY) || "{}"); return v && typeof v === "object" ? v : {}; } catch { return {}; } }
-  function bt3AskPut(v) { try { localStorage.setItem(BT3_ASK_KEY, JSON.stringify(v)); } catch {} }
-  function bt3AskMonth() { const v = bt3AskGet(), next = addMonths(monthOf(todayKey), 1); return v.month === addMonths(next, 1) ? v.month : next; }
   function bt3AskMarks(ym) { const v = bt3AskGet(); return v.month === ym && v.marks && typeof v.marks === "object" ? v.marks : {}; }
-  function renderBt3Ask() {
-    const box = $("bt3AskBody"), ym = bt3AskMonth(), marks = bt3AskMarks(ym), v = bt3AskGet(), ws = weekStart(), n = daysInMonth(ym), lead = (parseYmd(ym + "-01").getDay() - ws + 7) % 7;
-    const next = addMonths(monthOf(todayKey), 1), sel = el("select", { "aria-label": "どの月", onchange: (ev) => { bt3AskPut({ month: ev.target.value, marks: {}, note: v.note || "" }); renderBt3Ask(); } },
-      [next, addMonths(next, 1)].map((m) => el("option", { value: m }, `${Number(m.slice(5))}月`)));
-    sel.value = ym;
-    const sign = { o: "○", t: "△", x: "×" }, cycle = { "": "o", o: "t", t: "x", x: "" }, plans = bt5PlanDays(ym); // (その5 ⑨ 予定のある日)
-    const cells = [...Array.from({ length: 7 }, (_, i) => el("span", { "aria-hidden": "true" }, WD[(ws + i) % 7])), ...Array.from({ length: lead }, () => el("span", {}))];
-    for (let d = 1; d <= n; d++) {
-      const k = `${ym}-${pad(d)}`, mk = marks[k] || "";
-      cells.push(el("button", { type: "button", "data-day": k, "data-m": mk, class: plans.has(k) ? "plan" : null, title: plans.has(k) ? plans.get(k).join("・") : null,
-        "aria-label": `${fmtMDW(k)} ${mk === "o" ? "入れる" : mk === "t" ? "時間しだい" : mk === "x" ? "入れない" : "未定"}${plans.has(k) ? `（予定：${plans.get(k).join("・")}）` : ""}`,
-        onclick: () => { const cur = bt3AskMarks(ym), nx = cycle[cur[k] || ""]; if (nx) cur[k] = nx; else delete cur[k]; bt3AskPut({ ...bt3AskGet(), month: ym, marks: cur }); renderBt3Ask(); box.querySelector(`button[data-day="${k}"]`)?.focus(); } },
-        el("span", {}, String(d)), el("b", {}, sign[mk] || "")));
-    }
-    const note = el("input", { type: "text", maxlength: 200, value: v.note || "", placeholder: "メモ（例：平日は17時から）", "aria-label": "シフト希望のメモ", oninput: (ev) => bt3AskPut({ ...bt3AskGet(), month: ym, marks: bt3AskMarks(ym), note: ev.target.value }) });
-    const cnt = (m) => Object.values(marks).filter((x) => x === m).length;
-    setChildren(box, el("div", { class: "bt3-ask-row" }, sel, el("span", { class: "sub" }, "日付を押すたびに ○ → △ → × → 空 になります")),
-      el("div", { class: "bt3-ask-grid" }, cells),
-      el("p", { class: "sub" }, keepUnits(`○ ${cnt("o")} 日・△ ${cnt("t")} 日・× ${cnt("x")} 日`)),
-      bt13AskPay(ym, marks), // (その13 ③ 来月の見込み)
-      plans.size ? el("div", { class: "bt3-ask-row" }, el("span", { class: "sub bt5-plan-key" }, el("i", { "aria-hidden": "true" }), keepUnits(`下に線のある日は、カレンダーに予定があります（${plans.size} 日）`)),
-        el("button", { type: "button", class: "link-btn", id: "bt5AskPlans", onclick: () => bt5AskPlans(ym) }, "予定のある日を × にする")) : null, // (その5 ⑨)
-      bt8AskUsualRow(ym), // (その8 ④ いつもの曜日)
-      bt12AskClosedRow(ym), // (その12 ⑦ 定休日)
-      note,
-      el("div", { class: "bt3-ask-row" }, el("button", { type: "button", class: "btn sm", id: "bt3AskSend", onclick: () => bt3AskSend() }, "文字で送る"),
-        el("button", { type: "button", class: "link-btn", onclick: () => { const was = bt3AskGet(); bt3AskPut({ month: ym, marks: {}, note: was.note || "" }); renderBt3Ask(); flash("印を消しました", () => { bt3AskPut(was); renderBt3Ask(); }); } }, "印を消す")));
-  }
-  function bt3AskText() {
-    const ym = bt3AskMonth(), marks = bt3AskMarks(ym), v = bt3AskGet(), d = (k) => `${Number(k.slice(8))}(${WD[parseYmd(k).getDay()]})`;
-    const by = (m) => Object.keys(marks).filter((k) => marks[k] === m && monthOf(k) === ym).sort().map(d).join(" ");
-    const lines = [`${Number(ym.slice(5))}月のシフト希望`, by("o") ? `○ 入れる：${by("o")}` : "", by("t") ? `△ 時間しだい：${by("t")}` : "", by("x") ? `× 入れない：${by("x")}` : "", (v.note || "").trim()];
-    return { n: Object.keys(marks).length, text: lines.filter(Boolean).join("\n") };
-  }
+  // words handed to another app, else copied (シフト希望's first, the others' since)
   async function bt3SendText(text, title, okWords) {
     if (navigator.share) { try { await navigator.share({ title, text }); return; } catch (e) { if (e && e.name === "AbortError") return; } }
     let ok = await copyText(text);
     flash(ok ? okWords : "コピーできませんでした");
-  }
-  function bt3AskSend() {
-    const { n, text } = bt3AskText();
-    if (!n) { flash("日付を押して、○・△・× をつけてください"); return; }
-    bt3SendText(text, "シフト希望", "シフト希望を文字でコピーしました。LINEなどに貼り付けられます");
   }
 
   // ⑨ 給料日のお知らせ: on each job's 給料日 (the next ones within the days sent ahead), at the time set, with the estimate
@@ -70859,26 +70261,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     }));
   }
 
-  // ⑨ シフト希望: the days of the month with the calendar's plans (中止 ones aside), and those marked × at once
-  function bt5PlanDays(ym) {
-    const out = new Map();
-    let by;
-    try { by = turnsByDay(`${ym}-01`, `${ym}-${pad(daysInMonth(ym))}`); } catch { return out; }
-    for (const [d, list] of by) {
-      const names = list.filter((t) => !cal4Cx(t.e, t.start)).map((t) => oneLine(t.e.title) || "予定");
-      if (names.length) out.set(d, [...new Set(names)]);
-    }
-    return out;
-  }
-  function bt5AskPlans(ym) {
-    const was = bt3AskGet(), marks = { ...bt3AskMarks(ym) }, days = [...bt5PlanDays(ym).keys()].filter((d) => !marks[d]);
-    if (!days.length) { flash("予定のある日には、もう印がついています"); return; }
-    for (const d of days) marks[d] = "x";
-    bt3AskPut({ ...was, month: ym, marks });
-    renderBt3Ask();
-    flash(`予定のある ${days.length} 日を × にしました`, () => { bt3AskPut(was); renderBt3Ask(); });
-  }
-
   // ⑩ 1年のまとめ: the year of the month shown, as 「〜年に入る給料」 counts it (the months whose 給料日 is in it): the pay,
   // the hours, the shifts, 深夜, 有給, the month most worked, each job's, and the slips' 総支給・所得税・手取り
   function renderBt5Year() {
@@ -70911,10 +70293,10 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       el("p", { class: "sub" }, `給料日が${y}年にある月の分です（給料日を決めていないバイト先は、締め日で数えています）。`));
   }
 
-  // made once into バイト's part: ⑧ under シフト希望, ⑦ before the year's pay, ⑩ after the months' pay
+  // made once into バイト's part: ⑧ under the shifts' card, ⑦ before the year's pay, ⑩ after the months' pay
   function bt5Build() {
     if ($("bt5Weeks")) return;
-    $("bt3Ask").after(el("details", { class: "card bt3-ask bt5-find", id: "bt5Find", hidden: true, ontoggle: () => { if ($("bt5Find").open) { renderBt5Find(); $("bt5FindText").focus(); } } },
+    $("shiftCard").after(el("details", { class: "card bt3-ask bt5-find", id: "bt5Find", hidden: true, ontoggle: () => { if ($("bt5Find").open) { renderBt5Find(); $("bt5FindText").focus(); } } },
       el("summary", {}, "勤務を探す"),
       el("div", { class: "bt3-ask-body" }, el("input", { type: "search", id: "bt5FindText", maxlength: 40, placeholder: "研修、11/3、火 など", "aria-label": "勤務を探す", enterkeyhint: "search", oninput: () => renderBt5Find() }),
         el("p", { class: "sub", id: "bt5FindSay", role: "status" }), el("ul", { class: "list", id: "bt5FindList" }))));
@@ -73213,28 +72595,6 @@ ${parts.join("\n")}
       Array.from({ length: 7 }, (_, i) => (ws + i) % 7).map((k) => row(`${WD[k]}曜日`, wd[k].n ? `${wd[k].n} 回` : "", wd[k].m, wt, wd[k].n ? keepUnits(`${durText(wd[k].m)}・1時間あたり ${fmtYen(wd[k].pay / (wd[k].m / 60 || 1))}`) : "")));
   }
 
-  // ④ シフト希望: the weekdays worked in at least half of the last 8 weeks, marked ○ at once
-  function bt8UsualDays() {
-    const from = addDays(todayKey, -56), weeks = Array.from({ length: 7 }, () => new Set());
-    for (const x of shifts.items) if (isDay(x.date || "") && x.date > from && x.date <= todayKey) weeks[parseYmd(x.date).getDay()].add(Math.floor(daysBetween(from, x.date) / 7));
-    return weeks.map((s, k) => [k, s.size]).filter(([, n]) => n >= 4).map(([k]) => k);
-  }
-  function bt8AskUsualRow(ym) {
-    const days = bt8UsualDays();
-    if (!days.length) return null;
-    const ws = weekStart(), sorted = [...days].sort((a, b) => ((a - ws + 7) % 7) - ((b - ws + 7) % 7));
-    return el("div", { class: "bt3-ask-row" }, el("span", { class: "sub" }, `いつも入っている曜日：${sorted.map((k) => WD[k]).join("・")}`),
-      el("button", { type: "button", class: "link-btn", id: "bt8AskUsual", onclick: () => bt8AskUsual(ym, days) }, "その曜日を ○ にする"));
-  }
-  function bt8AskUsual(ym, days) {
-    const was = bt3AskGet(), marks = { ...bt3AskMarks(ym) }, add = [];
-    for (let d = 1; d <= daysInMonth(ym); d++) { const k = `${ym}-${pad(d)}`; if (!marks[k] && days.includes(parseYmd(k).getDay())) { marks[k] = "o"; add.push(k); } }
-    if (!add.length) { flash("その曜日には、もう印がついています"); return; }
-    bt3AskPut({ ...was, month: ym, marks });
-    renderBt3Ask();
-    flash(`いつもの曜日の ${add.length} 日を ○ にしました`, () => { bt3AskPut(was); renderBt3Ask(); });
-  }
-
   // ⑨ 代わりのお願い: words to send, and the shift marked 代わりを探し中 till that is taken off
   function bt8SwapRow(x) {
     if (!x || !x.id || !shifts.get(x.id)) return null;
@@ -73279,7 +72639,7 @@ ${parts.join("\n")}
     const set = (v) => { saveJobs(); act(() => settings.set("jobs", { ...jobSet(), items: jobList().map((x) => (x.id === j.id ? { ...x, ended: v || undefined } : x)), updatedAt: Date.now() })); renderJobForms(); };
     return el("button", { type: "button", class: "link-btn bt9-end", onclick: () => {
       if (ended) { set(null); flash(`「${name}」を、いまのバイト先にもどしました`); return; }
-      askFirst(`「${name}」をやめたことにしますか？これまでの勤務と給料の記録は残ります。勤務を入れる欄には出なくなります。${bt10LentWord(j)}`, "やめた", () => { set(todayKey); flash(`「${name}」を、やめたバイト先にしました`, () => set(null)); });
+      askFirst(`「${name}」をやめたことにしますか？これまでの勤務と給料の記録は残ります。勤務を入れる欄には出なくなります。`, "やめた", () => { set(todayKey); flash(`「${name}」を、やめたバイト先にしました`, () => set(null)); });
     } }, ended ? `やめたのを取り消す（${bt4Ymd(j.ended)}にやめた）` : "このバイト先をやめた");
   }
 
@@ -73947,56 +73307,6 @@ ${parts.join("\n")}
     $("bt10AlarmsHead").textContent = list.length ? `これから届くお知らせ（${list.length}）` : "これから届くお知らせ";
   }
 
-  // ④ できるようになったこと: each job's { id, name, date }, kept with the account; ⑤ the jobs in words, for 就活
-  function bt10Skills(j) { return (Array.isArray(j.skills) ? j.skills : []).filter((x) => x && x.name && isDay(x.date || "")).sort((a, b) => a.date.localeCompare(b.date)); }
-  function renderBt10Skills() {
-    const box = $("bt10SkillsBody"), jobs = jobList(), many = jobs.length > 1;
-    if (bt10Typing(box)) return;
-    setChildren(box, jobs.map((j) => {
-      const list = bt10Skills(j), name = el("input", { type: "text", maxlength: 30, placeholder: "レジ、ドリンク、新人の教育など", "aria-label": "できるようになったこと", enterkeyhint: "done", onkeydown: (ev) => { if (ev.key === "Enter" && !ev.isComposing) { ev.preventDefault(); add(); } } }),
-        day = el("input", { type: "date", value: todayKey, max: todayKey, "aria-label": "できるようになった日" });
-      const add = () => {
-        const n = name.value.trim().replace(/\s+/g, " ").slice(0, 30), d = day.value;
-        if (!n) { name.focus(); return; }
-        if (!isDay(d)) { day.focus(); return; }
-        bt10Unfocus(box);
-        bt10SaveJob(j.id, { skills: [...bt10Skills(j), { id: uid(), name: n, date: d }] });
-        renderBt10Skills();
-        flash(`できるようになったことに「${n}」を入れました`);
-      };
-      const drop = (x) => { const was = bt10Skills(j); bt10Unfocus(box); bt10SaveJob(j.id, { skills: was.filter((y) => y.id !== x.id) }); renderBt10Skills(); flash(`「${x.name}」を消しました`, () => { bt10SaveJob(j.id, { skills: was }); renderBt10Skills(); }); };
-      return el("div", { class: "bt10-skill-job", "data-job": j.id }, many ? el("p", { class: "bt9-cmp-name" }, j.name || "バイト先") : null,
-        list.length ? el("ul", { class: "bt10-items" }, list.map((x) => el("li", {}, el("span", {}, keepUnits(`${x.name}（${bt4Ymd(x.date)}）`)),
-          el("button", { type: "button", class: "icon-btn bt4-adv-x", "aria-label": `「${x.name}」を消す`, onclick: () => drop(x) }, icon("close", 16))))) : el("p", { class: "sub" }, "まだありません。覚えた仕事や任されたことを入れておくと、就活のときに思い出せます。"),
-        el("div", { class: "bt4-adv-form" }, name, day, el("button", { type: "button", class: "btn ghost sm", onclick: add }, "入れる")));
-    }), el("div", { class: "bt3-ask-row" }, el("button", { type: "button", class: "btn sm", id: "bt10Resume", onclick: () => bt10Resume() }, "就活用のまとめを文字で送る")));
-  }
-  function bt10ResumeText() {
-    const out = [];
-    for (const j of jobList()) {
-      const list = jobShifts(j).filter((x) => isDay(x.date || "") && x.date <= todayKey && !x.tentative);
-      if (!list.length) continue;
-      const first = list.reduce((a, x) => (x.date < a ? x.date : a), list[0].date), ended = isDay(j.ended || "") && j.ended <= todayKey, last = ended ? j.ended : todayKey;
-      const mo = Math.max(0, (Number(last.slice(0, 4)) - Number(first.slice(0, 4))) * 12 + Number(last.slice(5, 7)) - Number(first.slice(5, 7)));
-      const long = mo >= 12 ? `${Math.floor(mo / 12)}年${mo % 12 ? `${mo % 12}か月` : ""}` : `${Math.max(1, mo)}か月`, ym = (d) => `${Number(d.slice(0, 4))}年${Number(d.slice(5, 7))}月`;
-      const mins = sum(list, (x) => shiftMinutes(x).all), from = addDays(last, -56), weeks = Array.from({ length: 7 }, () => new Set());
-      for (const x of list) if (x.date > from && x.date <= last) weeks[parseYmd(x.date).getDay()].add(Math.floor(daysBetween(from, x.date) / 7));
-      const usual = weeks.map((s, k) => [k, s.size]).filter(([, n]) => n >= 4).map(([k]) => WD[k]), sk = bt10Skills(j);
-      const wages = [...bt2WageHist(j).map((e) => num(e.wage)), num(j.wage)].filter((w) => w > 0).filter((w, i, a) => i === 0 || w !== a[i - 1]);
-      out.push([`【${j.name || "アルバイト"}】${ym(first)}〜${ended ? ym(j.ended) : "現在"}（${long}）`,
-        `・勤務 ${fmtN(list.length)} 回・のべ ${fmtN(Math.round(mins / 60))} 時間`,
-        usual.length ? `・いつも入っている曜日：${usual.join("・")}` : "",
-        sk.length ? `・できるようになったこと：${sk.map((x) => `${x.name}（${ym(x.date)}）`).join("、")}` : "",
-        wages.length > 1 ? `・時給：${wages.map((w) => `${fmtN(w)}円`).join(" → ")}` : ""].filter(Boolean).join("\n"));
-    }
-    return out.join("\n\n");
-  }
-  function bt10Resume() {
-    const t = bt10ResumeText();
-    if (!t) { flash("まとめる勤務がまだありません"); return; }
-    bt3SendText(t, "バイトのまとめ", "バイトのまとめをコピーしました。履歴書やエントリーシートを書くときに使えます");
-  }
-
   // ⑥ 次の給料日: the soonest 給料日 from today, of each job, with what comes then (前払い aside)
   function bt10NextPays() {
     const out = [];
@@ -74048,33 +73358,6 @@ ${parts.join("\n")}
   }
   function bt10Push() { const l = bt9Active(jobList()).filter((j) => isDay(j.contractEnd || "") && j.contractAlarm !== false).map((j) => [j.id, j.name || "", j.contractEnd]); return l.length ? [["bt10Contract", l]] : []; }
 
-  // ⑨ 借りているもの: each job's { id, name, date }; 返した takes it off; said as the job is left
-  function bt10Lent(j) { return (Array.isArray(j.lent) ? j.lent : []).filter((x) => x && x.name); }
-  function bt10LentWord(j) { const l = bt10Lent(j); return l.length ? `借りているもの（${l.map((x) => x.name).join("・")}）を、返すのを忘れずに。` : ""; }
-  function renderBt10Lent() {
-    const box = $("bt10LentBody"), jobs = jobList(), many = jobs.length > 1;
-    if (bt10Typing(box)) return;
-    setChildren(box, jobs.map((j) => {
-      const list = bt10Lent(j), name = el("input", { type: "text", maxlength: 20, placeholder: "制服、カギ、名札など", "aria-label": "借りているもの", enterkeyhint: "done", onkeydown: (ev) => { if (ev.key === "Enter" && !ev.isComposing) { ev.preventDefault(); add(); } } });
-      const add = () => {
-        const n = name.value.trim().replace(/\s+/g, " ").slice(0, 20);
-        if (!n) { name.focus(); return; }
-        bt10Unfocus(box);
-        bt10SaveJob(j.id, { lent: [...bt10Lent(j), { id: uid(), name: n, date: todayKey }] });
-        renderBt10Lent();
-        flash(`借りているものに「${n}」を入れました`);
-      };
-      const back = (x) => { const was = bt10Lent(j); bt10Unfocus(box); bt10SaveJob(j.id, { lent: was.filter((y) => y.id !== x.id) }); renderBt10Lent(); flash(`「${x.name}」を返したことにしました`, () => { bt10SaveJob(j.id, { lent: was }); renderBt10Lent(); }); };
-      return el("div", { class: "bt10-lent-job", "data-job": j.id }, many ? el("p", { class: "bt9-cmp-name" }, j.name || "バイト先") : null,
-        isDay(j.ended || "") && j.ended <= todayKey && list.length ? el("p", { class: "warn" }, "やめたバイト先です。返すのを忘れずに。") : null,
-        list.length ? el("ul", { class: "bt10-items" }, list.map((x) => el("li", {}, el("span", {}, keepUnits(`${x.name}（${bt4Ymd(x.date)}から）`)),
-          el("button", { type: "button", class: "btn ghost sm", "aria-label": `「${x.name}」を返した`, onclick: () => back(x) }, "返した")))) : null,
-        el("div", { class: "bt4-adv-form" }, name, el("button", { type: "button", class: "btn ghost sm", onclick: add }, "入れる")));
-    }), el("p", { class: "sub" }, "入れておくと、バイト先をやめるときに、返すものとして出ます。"));
-    bt10LentHead();
-  }
-  function bt10LentHead() { const n = sum(jobList(), (j) => bt10Lent(j).length); $("bt10LentHead").textContent = n ? `借りているもの（${n}）` : "借りているもの"; }
-
   // ⑩ 休憩ボタン: on 出勤's settings doc, breakAt (when it began) and rest (the minutes so far); 退勤 puts them on the
   // shift, no more than its length (a 退勤 put in later, with a 休憩 not ended)
   function bt10RestOf(c, end) {
@@ -74097,26 +73380,21 @@ ${parts.join("\n")}
     flash(on ? `休憩からもどりました（休憩 ${durText(rest)}）` : f ? `休憩に入りました（${f} 分・${bt11Hm(now + f * 60e3).hm} まで）` : "休憩に入りました。もどったら「休憩からもどる」を押してください");
   }
 
-  // made once into バイト's part: ⑥ under 次のバイト, ② after 働き方, ④⑤ after これまでのバイト, ⑨③ after メモ
+  // made once into バイト's part: ⑥ under 次のバイト, ② after 働き方, ③ after メモ (④⑤ できるようになったこと・就活用のまとめ
+  // and ⑨ 借りているもの taken off 2026-11-18, the user's call; what they kept, j.skills and j.lent, stays with the job)
   function bt10Build() {
     if ($("bt10Next")) return;
     $("bt3Next").after(el("div", { class: "card pad bt10-next", id: "bt10Next", hidden: true }));
     $("bt8Ways").after(el("div", { class: "card pad bt10-with-card", id: "bt10With", hidden: true }));
-    $("bt7Total").after(el("details", { class: "card bt3-ask bt10-skills-card", id: "bt10SkillsCard", hidden: true, ontoggle: () => { if ($("bt10SkillsCard").open) renderBt10Skills(); } },
-      el("summary", {}, "できるようになったこと・就活用のまとめ"), el("div", { class: "bt3-ask-body", id: "bt10SkillsBody" })));
-    $("bt6Notes").after(el("details", { class: "card bt3-ask", id: "bt10LentCard", hidden: true, ontoggle: () => { if ($("bt10LentCard").open) renderBt10Lent(); } },
-      el("summary", { id: "bt10LentHead" }, "借りているもの"), el("div", { class: "bt3-ask-body", id: "bt10LentBody" })),
-      el("details", { class: "card bt3-ask", id: "bt10AlarmsCard", hidden: true, ontoggle: () => { if ($("bt10AlarmsCard").open) renderBt10Alarms(); } },
-        el("summary", { id: "bt10AlarmsHead" }, "これから届くお知らせ"), el("div", { class: "bt3-ask-body", id: "bt10AlarmsBody" })));
+    $("bt6Notes").after(el("details", { class: "card bt3-ask", id: "bt10AlarmsCard", hidden: true, ontoggle: () => { if ($("bt10AlarmsCard").open) renderBt10Alarms(); } },
+      el("summary", { id: "bt10AlarmsHead" }, "これから届くお知らせ"), el("div", { class: "bt3-ask-body", id: "bt10AlarmsBody" })));
   }
   function renderBt10() {
     bt10Build();
     const has = jobList().length > 0;
-    for (const id of ["bt10SkillsCard", "bt10LentCard", "bt10AlarmsCard"]) $(id).hidden = !has;
+    $("bt10AlarmsCard").hidden = !has;
     if (!has) { $("bt10Next").hidden = $("bt10With").hidden = true; return; }
     draw(renderBt10Next); draw(renderBt10With);
-    if ($("bt10SkillsCard").open) draw(renderBt10Skills);
-    if ($("bt10LentCard").open) draw(renderBt10Lent); else draw(bt10LentHead);
     if ($("bt10AlarmsCard").open) draw(renderBt10Alarms);
   }
 
@@ -74917,14 +74195,6 @@ ${parts.join("\n")}
     const c = [...f.querySelectorAll('[data-f="closed"]')].filter((b) => b.checked).map((b) => Number(b.value)).sort();
     return { closed: c.length ? c : undefined, closedHol: hol.checked || undefined };
   }
-  function bt12AskClosedRow(ym) {
-    const j = bt2FormJob(), n = daysInMonth(ym), days = [];
-    if (!j || (!(Array.isArray(j.closed) && j.closed.length) && !j.closedHol)) return null;
-    for (let d = 1; d <= n; d++) { const k = `${ym}-${pad(d)}`; if (bt12Closed(j, k)) days.push(k); }
-    if (!days.length) return null;
-    return el("div", { class: "bt3-ask-row" }, el("span", { class: "sub" }, keepUnits(`${j.name || "バイト先"}の定休日 ${days.length} 日`)),
-      el("button", { type: "button", class: "link-btn", id: "bt12AskClosed", onclick: () => { const cur = bt3AskMarks(ym); for (const k of days) cur[k] = "x"; bt3AskPut({ ...bt3AskGet(), month: ym, marks: cur }); renderBt3Ask(); flash(`定休日 ${days.length} 日を × にしました`); } }, "定休日を × にする"));
-  }
 
   // ⑧ この回の交通費と場所: a shift's own fare (empty: the job's; 0: none), and where it is (ほかの店舗・会場)
   function bt12Fare(x, job) { return job.fareMode === "month" ? 0 : x && x.fare != null && x.fare !== "" && Number.isFinite(Number(x.fare)) ? Math.max(0, Number(x.fare)) : num(job.fare); }
@@ -74955,51 +74225,20 @@ ${parts.join("\n")}
       el("span", { class: "sub" }, "押し忘れていたときに"));
   }
 
-  // ⑩ 働く前のチェック: what to ask a job before starting (労働基準法など), ticked for each, kept with the account
-  var BT12_TERMS = [
-    ["paper", "労働条件を書面でもらった", "時給・働く時間・休み・給料日などは、書面（労働条件通知書など）で示すことが決まっています。"],
-    ["pay", "時給と、交通費が出るか", "交通費が出るか、1回いくらか・1か月いくらかも。"],
-    ["day", "締め日と給料日、受け取り方", "振込か手渡しか。給料日は毎月決まった日です。"],
-    ["rest", "休憩の時間", "6時間をこえると45分、8時間をこえると1時間の休憩があります。"],
-    ["night", "22時〜5時の時給", "深夜の時間は、時給が25%以上増えます。"],
-    ["over", "長く働いた分の時給", "1日8時間・週40時間をこえた分は、時給が25%以上増えます。"],
-    ["train", "研修や準備の時間", "研修や、決められた着替え・準備の時間も、勤務の時間です。"],
-    ["leave", "有給休暇", "6か月続けて働き、8割以上出勤すると、アルバイトでももらえます。"],
-    ["quit", "やめるときの連絡", "何日前までに伝えるか。契約の期間が決まっていなければ、2週間前に伝えればやめられます。"],
-  ];
-  function bt12TermsOf(j) { return (Array.isArray(j.terms) ? j.terms : []).filter((k) => BT12_TERMS.some(([x]) => x === k)); }
-  function renderBt12Terms() {
-    const box = $("bt12TermsBody"), jobs = bt9Active(jobList()), many = jobs.length > 1;
-    setChildren(box, jobs.map((j) => {
-      const on = bt12TermsOf(j);
-      return el("div", { class: "bt12-terms-job", "data-job": j.id }, many ? el("p", { class: "bt9-cmp-name" }, j.name || "バイト先", el("span", { class: "sub" }, ` ${on.length}/${BT12_TERMS.length}`)) : null,
-        BT12_TERMS.map(([k, w, more]) => el("label", { class: "check-row bt12-term" }, el("input", { type: "checkbox", "data-term": k, checked: on.includes(k),
-          onchange: (ev) => { const cur = new Set(bt12TermsOf(j)); if (ev.currentTarget.checked) cur.add(k); else cur.delete(k); bt10SaveJob(j.id, { terms: cur.size ? BT12_TERMS.map(([x]) => x).filter((x) => cur.has(x)) : undefined }); } }),
-          el("span", {}, el("b", {}, w), el("small", { class: "sub" }, more)))));
-    }), el("p", { class: "sub" }, "わからないことは、働きはじめる前にお店に聞いておきましょう。"));
-    bt12TermsHead();
-  }
-  function bt12TermsHead() {
-    const jobs = bt9Active(jobList()), left = sum(jobs, (j) => BT12_TERMS.length - bt12TermsOf(j).length);
-    $("bt12TermsHead").textContent = left ? `働く前のチェック（あと ${left}）` : "働く前のチェック";
-  }
-
-  // made once into バイト's part: ③ after いっしょに入った人, ④ after 月ごとの給料, ⑩ at the end
+  // made once into バイト's part: ③ after いっしょに入った人, ④ after 月ごとの給料 (⑩ 働く前のチェック taken off 2026-11-18,
+  // the user's call; the ticks, j.terms, stay with the job)
   function bt12Build() {
     if ($("bt12Feel")) return;
     $("bt10With").after(el("div", { class: "card pad bt12-feel", id: "bt12Feel", hidden: true }));
     $("bt2Year").after(el("div", { class: "card pad bt12-cost", id: "bt12Cost", hidden: true }));
-    $("bt10AlarmsCard").after(el("details", { class: "card bt3-ask", id: "bt12Terms", hidden: true, ontoggle: () => { if ($("bt12Terms").open) renderBt12Terms(); } },
-      el("summary", { id: "bt12TermsHead" }, "働く前のチェック"), el("div", { class: "bt3-ask-body", id: "bt12TermsBody" })));
   }
   function renderBt12() {
     bt12Build();
     renderBt12Settings();
     const has = jobList().length > 0;
-    $("bt12Cost").hidden = $("bt12Terms").hidden = !has;
+    $("bt12Cost").hidden = !has;
     if (!has) { $("bt12Feel").hidden = true; return; }
     draw(renderBt12Feel); draw(renderBt12Cost);
-    if ($("bt12Terms").open) draw(renderBt12Terms); else draw(bt12TermsHead);
   }
 
   // ---------- ルーティーン その4 ①〜⑩ (the user's calls, 2026-11-15; still daily, no weekdays, no groups): the day or the
@@ -75411,25 +74650,6 @@ ${parts.join("\n")}
         el("button", { type: "button", class: "link-btn", id: "bt13GoalAdd", "aria-expanded": String(bt13GoalOpen), onclick: () => { bt13GoalOpen = !bt13GoalOpen; renderBt13Goal(); if (bt13GoalOpen) box.querySelector('[data-g="name"]')?.focus(); } }, bt13GoalOpen ? "やめる" : "足す")),
       rows.length ? rows : el("p", { class: "sub" }, "夏休み・春休みなど、期間を決めて、稼ぎたい額を入れられます。"),
       bt13GoalOpen ? el("div", { class: "bt13-goal-form" }, name, el("div", { class: "bt4-adv-form" }, from, el("span", {}, "〜"), to), el("div", { class: "bt4-adv-form" }, amt, el("span", { class: "unit" }, "円"), el("button", { type: "button", class: "btn sm", "data-g": "go", onclick: add }, "入れる"))) : null);
-  }
-
-  // ③ シフト希望から来月の見込み: the ○ (and △) days, each at the form job's usual times (its last 30 shifts' most often)
-  function bt13Usual(j) {
-    const recent = jobShifts(j).filter((x) => isDay(x.date || "") && x.date <= todayKey && isHm(x.start || "") && isHm(x.end || "")).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 30), by = new Map();
-    for (const x of recent) { const k = `${x.start}|${x.end}|${num(x.rest)}`; by.set(k, (by.get(k) || 0) + 1); }
-    const top = [...by.entries()].sort((a, b) => b[1] - a[1])[0];
-    if (!top) return null;
-    const [start, end, rest] = top[0].split("|");
-    return { start, end, rest: Number(rest) };
-  }
-  function bt13AskPay(ym, marks) {
-    const j = bt2FormJob(), u = j && bt13Usual(j);
-    if (!u) return null;
-    const of = (k) => Object.keys(marks).filter((d) => marks[d] === k && isDay(d) && monthOf(d) === ym), o = of("o"), t = of("t");
-    if (!o.length && !t.length) return null;
-    const pay = (d) => shiftPay({ id: "", date: d, start: u.start, end: u.end, rest: u.rest, jobId: j.id, createdAt: 0 }, j), po = sum(o, pay), pt = sum(t, pay);
-    const words = o.length ? [`○ の ${o.length} 日ぜんぶ入ると 約 ${fmtYen(po)}`, t.length ? `・△ もふくめると 約 ${fmtYen(po + pt)}` : ""] : [`△ の ${t.length} 日ぜんぶ入ると 約 ${fmtYen(pt)}`];
-    return el("p", { class: "bt13-askpay" }, bt4Ph(...words, `（いつもの ${u.start}〜${u.end}${u.rest ? `・休憩 ${u.rest}分` : ""} で）`));
   }
 
   // ⑤ 帰る連絡: from the shift just ended's card (その12 ②), when home by the job's 通勤
@@ -76104,19 +75324,18 @@ ${parts.join("\n")}
   }
 
   // ⑧ やめたあとにすること: a job left in the last 4 months: its last 給料日 (in 家計簿 yet?), the 源泉徴収票 (その9 ②, within a
-  // month of leaving by law), and things lent (その10 ⑨)
+  // month of leaving by law) (things lent, その10 ⑨, taken off 2026-11-18)
   function renderBt14Left() {
     const box = $("bt14Left"), jobs = jobList().filter((j) => isDay(j.ended || "") && j.ended <= todayKey && j.ended >= addDays(todayKey, -122));
     box.hidden = !jobs.length;
     if (!jobs.length) { box.replaceChildren(); return; }
     const item = (ok, w, more) => el("li", { class: ok ? "ok" : "" }, el("span", { class: "bt14-mark", "aria-hidden": "true" }, ok ? "✓" : "・"), el("span", {}, el("span", {}, w), more ? el("small", { class: "sub" }, more) : null));
     setChildren(box, el("strong", { class: "bt2-head" }, "やめたあとにすること"), jobs.map((j) => {
-      const ym = periodMonthOf(j, j.ended), p = paySummary(j, ym), inBook = expenses.items.some((e) => e.pay === `${j.id}|${ym}`), y = j.ended.slice(0, 4), g = bt9Gensen()[`${y}|${j.id}`], lent = bt10Lent(j);
+      const ym = periodMonthOf(j, j.ended), p = paySummary(j, ym), inBook = expenses.items.some((e) => e.pay === `${j.id}|${ym}`), y = j.ended.slice(0, 4), g = bt9Gensen()[`${y}|${j.id}`];
       return el("div", { class: "bt14-left-job", "data-job": j.id }, el("p", { class: "bt9-cmp-name" }, `${j.name || "バイト先"}（${bt4Ymd(j.ended)}にやめた）`),
         el("ul", { class: "bt14-left" },
           p.payday ? item(inBook, `最後の給料日 ${fmtMDW(p.payday)}（${Number(ym.slice(5))}月分 約 ${fmtYen(p.amount)}）`, inBook ? "家計簿に入れました" : p.payday < todayKey ? "入った額を、月の欄の「収入に入れる」で家計簿に入れましょう" : `あと ${daysBetween(todayKey, p.payday)} 日`) : null,
-          item(!!g, `${y}年の源泉徴収票`, g ? "記録しました" : "やめてから1か月以内にもらえる決まりです。もらったら「源泉徴収票」に記録しましょう"),
-          item(!lent.length, lent.length ? `返していないもの：${lent.map((x) => x.name).join("・")}` : "借りていたものは、ぜんぶ返しました", lent.length ? "返したら「借りているもの」で「返した」を押します" : "")));
+          item(!!g, `${y}年の源泉徴収票`, g ? "記録しました" : "やめてから1か月以内にもらえる決まりです。もらったら「源泉徴収票」に記録しましょう")));
     }));
   }
 
@@ -76172,12 +75391,12 @@ ${parts.join("\n")}
     d.showModal();
   }
 
-  // made once into バイト's part: ⑧ after 次の給料日, ⑤⑥⑦ after 働く前のチェック, ⑩ after シフト表の写真
+  // made once into バイト's part: ⑧ after 次の給料日, ⑤⑥⑦ after これから届くお知らせ (働く前のチェック until 2026-11-18), ⑩ after シフト表の写真
   function bt14Build() {
     if ($("bt14Left")) return;
     $("bt10Next").after(el("div", { class: "card pad bt14-left-card", id: "bt14Left", hidden: true }));
     const card = (id, head, body, fn) => el("details", { class: "card bt3-ask", id, hidden: true, ontoggle: () => { if ($(id).open) fn(); } }, el("summary", {}, head), el("div", { class: "bt3-ask-body", id: body }));
-    $("bt12Terms").after(card("bt14People", "バイト先の連絡先", "bt14PeopleBody", renderBt14People), card("bt14Help", "ヘルプに入れる日を文字で", "bt14HelpBody", () => { bt14Help.picked = null; renderBt14Help(); }),
+    $("bt10AlarmsCard").after(card("bt14People", "バイト先の連絡先", "bt14PeopleBody", renderBt14People), card("bt14Help", "ヘルプに入れる日を文字で", "bt14HelpBody", () => { bt14Help.picked = null; renderBt14Help(); }),
       card("bt14What", "時給が変わったら（もしもの計算）", "bt14WhatBody", renderBt14What));
     const file = el("input", { type: "file", accept: "image/*", id: "bt14SlipFile", hidden: true, onchange: (ev) => { const f = ev.target.files?.[0]; ev.target.value = ""; bt14SlipAdd(f); } });
     $("bt7Photos").after(el("details", { class: "card bt3-ask bt7-photos", id: "bt14Slips", hidden: true, ontoggle: () => { if ($("bt14Slips").open) renderBt14Slips(); } },
@@ -76714,10 +75933,10 @@ ${parts.join("\n")}
     ["上のほう", [["bt17Anniv", "勤続の記念日"], ["bt2Clock", "出勤・退勤"], ["bt3Next", "次のバイト"], ["bt10Next", "次の給料日"], ["bt17Split", "給料の使いみち"], ["bt15Purse", "次の給料日までのやりくり"], ["bt16Tent", "まだ仮のシフト"], ["bt16Pass", "定期券の期限"], ["bt16Asked", "シフト希望を出したか"],
       ["bt15Tax", "年末調整と源泉徴収票"], ["bt16Min", "最低賃金のチェック"], ["bt6Feel", "きょうのふりかえり"], ["bt3Aim2", "月の目標"], ["bt17Caps", "月の上限・週の日数"], ["bt15Reach", "目標に届く入れ方"], ["bt13Goal", "期間の目標"], ["bt17Raise", "時給アップまで"]]],
     ["勤務を入れる", [["bt3Quick", "ひとことでシフト"], ["bt6Bulk", "文字からまとめて入れる"], ["bt2Bulk", "決まったシフトをまとめて入れる"], ["bt7Photos", "シフト表の写真"], ["bt14Slips", "給料明細の写真"]]],
-    ["勤務を見る", [["bt6Cal", "勤務カレンダー"], ["bt13Week", "1週間の勤務"], ["bt15Multi", "掛け持ちの日"], ["bt15Study", "バイトと勉強の時間"], ["bt16Spend", "バイトの日の支出"], ["bt3Ask", "シフト希望を作って送る"], ["bt5Find", "勤務を探す"], ["bt5Weeks", "週ごとの働いた時間"]]],
+    ["勤務を見る", [["bt6Cal", "勤務カレンダー"], ["bt13Week", "1週間の勤務"], ["bt15Multi", "掛け持ちの日"], ["bt15Study", "バイトと勉強の時間"], ["bt16Spend", "バイトの日の支出"], ["bt5Find", "勤務を探す"], ["bt5Weeks", "週ごとの働いた時間"]]],
     ["1年・これまで", [["jobYear", "年に入る給料の見込み"], ["bt2Year", "月ごとの給料"], ["bt12Cost", "バイトのためにかかったお金"], ["bt5Year", "1年のまとめ"], ["bt9Heat", "1年の勤務"], ["bt9GensenCard", "源泉徴収票"], ["bt7Total", "これまでのバイト"],
-      ["bt10SkillsCard", "できるようになったこと・就活用のまとめ"], ["bt8Records", "バイトの記録"], ["bt13Miles", "がんばりの記録"], ["bt8Ways", "働き方"], ["bt17Roles", "担当ごとの時間"], ["bt10With", "いっしょに入った人"], ["bt13Swap", "代わりの貸し借り"], ["bt12Feel", "ふりかえりの傾向"], ["bt9Cmp", "バイト先をくらべる"]]],
-    ["道具", [["bt2Calc", "何時間分？"], ["bt16Rates", "時給の早見表"], ["bt17Pass", "定期と1回ごと"], ["bt4Leave", "有給休暇のめやす"], ["bt6Notes", "バイト先のメモ"], ["bt10LentCard", "借りているもの"], ["bt10AlarmsCard", "これから届くお知らせ"], ["bt12Terms", "働く前のチェック"],
+      ["bt8Records", "バイトの記録"], ["bt13Miles", "がんばりの記録"], ["bt8Ways", "働き方"], ["bt17Roles", "担当ごとの時間"], ["bt10With", "いっしょに入った人"], ["bt13Swap", "代わりの貸し借り"], ["bt12Feel", "ふりかえりの傾向"], ["bt9Cmp", "バイト先をくらべる"]]],
+    ["道具", [["bt2Calc", "何時間分？"], ["bt4Leave", "有給休暇のめやす"], ["bt6Notes", "バイト先のメモ"], ["bt10AlarmsCard", "これから届くお知らせ"],
       ["bt14People", "バイト先の連絡先"], ["bt14Help", "ヘルプに入れる日を文字で"], ["bt14What", "時給が変わったら"], ["bt15Tpl", "連絡のひな形"], ["bt15Hunt", "バイト探し"]]],
   ];
   function bt16HideRule() {
@@ -76851,33 +76070,6 @@ ${parts.join("\n")}
     return el("div", { class: "bt3-notes bt16-notes" }, el("p", {}, bt4Ph(`去年の${Number(ym.slice(5))}月分より`, `${sign(p.list.length - q.list.length, (v) => `${v} 回`)}・${sign(p.mins - q.mins, bt4Hours)}・${sign(p.amount - q.amount, fmtYen)}`)));
   }
 
-  // ⑦ 時給の早見表: a job's 時給 through the day as its settings make it (土日祝, 期間, 深夜 1.25 times, 時間帯), on weekdays and
-  // on 土日祝, in runs from 5:00, the highest said (8時間 and 週40時間's 25% left out: they hang on the shift)
-  function bt16Rate(j, hol, m) {
-    const w = bt2WageOn(j, todayKey) + (hol ? num(j.plusHol) : 0) + bt6PeriodPlus(j, todayKey), b = bt4Band(j);
-    let inB = false;
-    if (b) { const f = clockMin(b.from), t = clockMin(b.to); inB = f < t ? m >= f && m < t : m >= f || m < t; }
-    return Math.round(w * ((m < 300 || m >= 1320) && j.night !== false ? 1.25 : 1) + (inB ? num(b.plus) : 0));
-  }
-  function bt16Runs(j, hol) {
-    const out = [];
-    for (let k = 0; k < 1440; k++) { const m = (300 + k) % 1440, r = bt16Rate(j, hol, m), last = out[out.length - 1]; if (last && last.r === r) last.to = (m + 1) % 1440; else out.push({ from: m, to: (m + 1) % 1440, r }); }
-    return out;
-  }
-  function renderBt16Rates() {
-    const box = $("bt16RatesBody"), jobs = bt9Active(jobList()).filter((j) => bt2WageOn(j, todayKey) > 0), many = jobs.length > 1;
-    if (!jobs.length) { setChildren(box, el("p", { class: "sub" }, "時給を決めると、時間ごとの時給が出ます。")); return; }
-    setChildren(box, jobs.map((j) => {
-      const kinds = [["平日", false], ...(num(j.plusHol) > 0 ? [["土日祝", true]] : [])], runs = kinds.map(([k, hol]) => [k, bt16Runs(j, hol)]), all = runs.flatMap(([k, l]) => l.map((x) => ({ ...x, k })));
-      const top = all.reduce((a, b) => (b.r > a.r ? b : a), all[0]);
-      return el("div", { class: "bt16-rates", "data-job": j.id }, many ? el("p", { class: "bt9-cmp-name" }, j.name || "バイト先") : null,
-        runs.map(([k, l]) => el("div", { class: "bt16-rate-kind" }, kinds.length > 1 ? el("p", { class: "bt16-rate-head" }, k) : null,
-          el("ul", { class: "bt16-rate-list" }, l.map((x) => el("li", { class: x.r === top.r && all.some((y) => y.r !== top.r) ? "top" : null },
-            el("span", {}, l.length === 1 ? "1日中" : `${bt16Hm(x.from)}〜${bt16Hm(x.to)}`), el("span", { class: "amount" }, fmtYen(x.r))))))),
-        all.some((x) => x.r !== top.r) ? el("p", { class: "sub" }, bt4Ph(`いちばん高いのは${kinds.length > 1 ? ` ${top.k}の` : ""} ${bt16Hm(top.from)}〜${bt16Hm(top.to)}`, `（${fmtYen(top.r)}）`)) : null);
-    }), el("p", { class: "sub" }, "1日8時間・週40時間をこえた分の割増は、入っていません。"));
-  }
-
   // ⑧ バイトの日の支出: the 8 weeks to yesterday, what went out in 家計簿 (固定費 aside) a day, on days with a shift and on days
   // without, and the 費目 most apart
   function bt16Spend() {
@@ -76979,7 +76171,6 @@ ${parts.join("\n")}
     $("bt15Purse").after(card("bt16Tent", "bt16-tent-card"), card("bt16Pass", "bt16-pass-card"), card("bt16Asked", "bt16-asked-card"));
     $("bt15Tax").after(card("bt16Min", "bt14-left-card"));
     $("bt15Study").after(card("bt16Spend", "bt16-spend-card"));
-    $("bt2Calc").after(el("details", { class: "card bt3-ask", id: "bt16Rates", hidden: true, ontoggle: () => { if ($("bt16Rates").open) renderBt16Rates(); } }, el("summary", {}, "時給の早見表"), el("div", { class: "bt3-ask-body", id: "bt16RatesBody" })));
     $("bt15Hunt").after(el("div", { class: "bt16-cards-link" }, el("button", { type: "button", class: "link-btn", id: "bt16CardsLink", onclick: (ev) => bt16OpenCards(ev) }, "ページに出すカードを選ぶ")));
   }
   function renderBt16() {
@@ -76987,10 +76178,8 @@ ${parts.join("\n")}
     bt16HideRule();
     renderBt16Settings();
     const has = jobList().length > 0;
-    $("bt16Rates").hidden = !has;
     if (!has) { for (const id of ["bt16Tent", "bt16Pass", "bt16Asked", "bt16Min", "bt16Spend"]) $(id).hidden = true; return; }
     draw(renderBt16Tent); draw(renderBt16Pass); draw(renderBt16Asked); draw(renderBt16Min); draw(renderBt16Spend);
-    if ($("bt16Rates").open) draw(renderBt16Rates);
   }
 
   // ---------- ルーティーン その6 ①〜⑩ (the user's calls, 2026-11-16; still daily, no weekdays, no groups): やめる習慣, kept
@@ -77736,34 +76925,6 @@ ${parts.join("\n")}
     return out.length ? el("div", { class: "bt3-notes bt17-notes" }, out) : null;
   }
 
-  // ⑨ 定期と1回ごと: at the last 3 months' shifts a month (the job's), a fare each time against a month's pass; where they meet
-  var bt17Pass = { job: "", each: "", month: "" };
-  function bt17PassOut() {
-    const box = $("bt17PassOut"), jobs = bt9Active(jobList()), j = jobs.find((x) => x.id === bt17Pass.job) || jobs[0];
-    if (!box || !j) return;
-    const each = Math.round(num(bt17Pass.each)), month = Math.round(num(bt17Pass.month)), n = jobShifts(j).filter((x) => isDay(x.date || "") && x.date > addDays(todayKey, -91) && x.date <= todayKey).length / 3;
-    if (!(each > 0) || !(month > 0)) { box.textContent = "1回（往復）と定期（1か月）の金額を入れると、どちらが得かが出ます。"; return; }
-    const by = n * each, d = Math.round(month - by), meet = Math.ceil(month / each);
-    setChildren(box, el("p", {}, bt4Ph(`この3か月は 月 平均 ${(Math.round(n * 10) / 10).toFixed(1)} 回。`, `1回ごとだと 月 約 ${fmtYen(Math.round(by))}・`, `定期は ${fmtYen(month)}`)),
-      el("p", { class: "bt14-what-big" }, d > 0 ? bt4Ph("1回ごとのほうが", `${fmtYen(d)} 安い`) : d < 0 ? bt4Ph("定期のほうが", `${fmtYen(-d)} 安い`) : "どちらも同じです"),
-      el("p", { class: "sub" }, `月 ${meet} 回より多く入るなら、定期のほうが得です。`));
-  }
-  function renderBt17Pass() {
-    const box = $("bt17PassBody"), jobs = bt9Active(jobList());
-    if (bt10Typing(box) || box.contains(document.activeElement)) { bt17PassOut(); return; }
-    const j = jobs.find((x) => x.id === bt17Pass.job) || jobs[0];
-    if (!j) { box.replaceChildren(); return; }
-    if (bt17Pass.each === "" && j.fareMode !== "month" && num(j.fare) > 0) bt17Pass.each = String(num(j.fare));
-    if (bt17Pass.month === "" && num(j.passCost) > 0) bt17Pass.month = String(num(j.passCost));
-    const num0 = (k, label) => el("input", { type: "number", id: `bt17Pass${k}`, min: 0, max: 1000000, step: 1, inputmode: "numeric", value: bt17Pass[k === "Each" ? "each" : "month"], "aria-label": label,
-      oninput: (ev) => { bt17Pass[k === "Each" ? "each" : "month"] = ev.target.value; bt17PassOut(); }, onchange: (ev) => { if (k === "Month") bt10SaveJob(j.id, { passCost: Math.round(num(ev.target.value)) > 0 ? Math.round(num(ev.target.value)) : undefined }); } });
-    setChildren(box, jobs.length > 1 ? el("div", { class: "bt3-ask-row" }, el("select", { "aria-label": "バイト先", onchange: (ev) => { bt17Pass = { job: ev.target.value, each: "", month: "" }; renderBt17Pass(); } }, jobs.map((x) => el("option", { value: x.id, selected: x.id === j.id }, x.name || "バイト先")))) : null,
-      el("div", { class: "bt4-adv-form" }, el("span", {}, "1回（往復）"), num0("Each", "1回の交通費（往復・円）"), el("span", { class: "unit" }, "円")),
-      el("div", { class: "bt4-adv-form" }, el("span", {}, "定期（1か月）"), num0("Month", "定期代（1か月・円）"), el("span", { class: "unit" }, "円")),
-      el("div", { class: "bt17-pass-out", id: "bt17PassOut", role: "status" }));
-    bt17PassOut();
-  }
-
   // ⑩ 写真を見ながら入れる: the month's シフト表 photos (その7 ⑤) pinned at the top, to be scrolled and zoomed, while shifts
   // go in below
   var bt17View = { i: 0, zoom: false };
@@ -77835,7 +76996,7 @@ ${parts.join("\n")}
   $("bt17AnnivChk").addEventListener("change", (ev) => { bt17Save({ annivChk: ev.target.checked }); renderBt17Settings(); if (ev.target.checked && pushState() === "off") pushEnable().then(renderBt17Settings); });
 
   // made once into バイト's part: ⑤ after 次の給料日, ⑥ before 出勤・退勤, ③ after 期間の目標, ④ after 月の目標, ② after
-  // 働き方, ⑨ after 時給の早見表, ⑩ in シフト表の写真, and ② the 担当 picked as a shift goes in
+  // 働き方, ⑩ in シフト表の写真, and ② the 担当 picked as a shift goes in (⑨ 定期と1回ごと taken off 2026-11-18)
   function bt17Build() {
     if ($("bt17Split")) return;
     const card = (id, cls) => el("div", { class: `card pad ${cls}`, id, hidden: true });
@@ -77844,7 +77005,6 @@ ${parts.join("\n")}
     $("bt13Goal").after(card("bt17Raise", "bt17-raise-card"));
     $("bt3Aim2").after(card("bt17Caps", "bt3-aim bt17-caps"));
     $("bt8Ways").after(card("bt17Roles", "bt17-roles-card"));
-    $("bt16Rates").after(el("details", { class: "card bt3-ask", id: "bt17Pass", hidden: true, ontoggle: () => { if ($("bt17Pass").open) renderBt17Pass(); } }, el("summary", {}, "定期と1回ごと、どちらが得？"), el("div", { class: "bt3-ask-body", id: "bt17PassBody" })));
     $("bt7PhotoList").after(el("div", { class: "bt3-ask-row" }, el("button", { type: "button", class: "btn ghost sm", id: "bt17ViewOpen", onclick: () => bt17ViewOpen() }, "写真を見ながら勤務を入れる")));
     const sel = el("select", { id: "bt17Role", "aria-label": "担当" });
     $("shiftMemo").before(el("label", { class: "flabel", for: "bt17Role", id: "bt17RoleLabel" }, "担当 ", el("span", { class: "opt" }, "任意")), el("div", { class: "ffield", id: "bt17RoleRow", hidden: true }, sel));
@@ -77855,10 +77015,8 @@ ${parts.join("\n")}
     renderBt17Settings();
     bt17RoleSync();
     const has = jobList().length > 0;
-    $("bt17Pass").hidden = !has;
     if (!has) { for (const id of ["bt17Split", "bt17Anniv", "bt17Raise", "bt17Caps", "bt17Roles"]) $(id).hidden = true; return; }
     draw(renderBt17Split); draw(renderBt17Anniv); draw(renderBt17Raise); draw(renderBt17Caps); draw(renderBt17Roles);
-    if ($("bt17Pass").open) draw(renderBt17Pass);
   }
 
   // ---------- ルーティーン その7 ①〜⑩ (the user's calls, 2026-11-16; still daily, no weekdays, no groups): why one wasn't
