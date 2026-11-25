@@ -11180,6 +11180,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // the page a page sits under: きょう for the record pages, 記録 for a record's entries
   const parentOf = (key) => (isRecord(key) ? "home" : key === "trash" && (trashBack || trashOf === "todos") ? trashBack || "todo" : (key === "reclist" && recListBack) || (key === "recday" && recDayBack === "reclist" && recListKind ? "reclist" : key === "recday" && recDayBack === "tsumi" ? "tsumi" : null) || SUBPAGES.find((p) => p.key === key)?.parent || null);
   const SLOTS = ["朝食", "昼食", "夕食", "間食"];
+  const slotTurn = (m) => { const i = SLOTS.indexOf(m?.slot); return i < 0 ? SLOTS.length : i; }; // (one with none, or another, after them)
 
   let tab = "home";
   let viewDate = todayKey;
@@ -19490,7 +19491,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     const patch = { mandala: chart, depth, done }, keep = byHand && !byCells && kidsOf({ c: chart }, depth).length > 0;
     if (keep || g.doneByHand) patch.doneByHand = keep;
     if (done && g.pausedAt) patch.pausedAt = null; // achieved, it is on hold no more
-    if (done && !g.done) { patch.doneAt = Date.now(); said = (said ? said + "。" : "") + `「${oneLine(g.title)}」を達成しました`; setTimeout(celebrate, 200); } // (confetti: the user's call; その3 ⑧ its ごほうび)
+    if (done && !g.done) { patch.doneAt = Date.now(); said = (said ? said + "。" : "") + `「${oneLine(g.title)}」を達成しました`; setTimeout(celebrate, 200); } // (confetti: the user's call; その3 ⑧ its ごほうび taken out, 2026-11-25)
     if (goalNine && done && !g.done) said = nineNextStart(g, said); // (目標 その9 ③ 次の目標)
     else if (!done && goalTwo) { const m = goalMiles(g, chart, depth); if (m) { patch.miles = m.miles; if (m.words) { said = (said ? said + "。" : "") + m.words; setTimeout(celebrate, 200); } } } // (目標 その2 ⑤ 節目: 25・50・75%, an element finished)
     if (goalSix) said = sixMsCheck(g, chart, depth, patch, said); // (目標 その6 ① 中間目標)
@@ -22329,7 +22330,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     if (k2 < k) said.push(`${fmtN(k)} 段が ${fmtN(k2)} 段になります`);
     return said.map((w) => w + "。").join("");
   }
-  // every record so far as a block, oldest first: a ToDo done, a day's 日記, a meal, a workout, a study, a day's ルーティーン
+  // every record so far as a block, oldest first: a ToDo done, a day's 日記, a day's 食事, a workout, a study, a day's ルーティーン
   // (one, however many are checked), a day's からだ, a 家計簿 entry, an action checked in a goal's chart and a goal reached. Each holds what it
   // says (cut short) and how to open it; words: false leaves the words out. mode "tally" makes no blocks, only { n, today,
   // days }: how many, how many went on today, and the days they are of, without the sort and the dates worked out, and
@@ -22366,21 +22367,26 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     // a day's 日記 without its words (the user's call: they showed under the stairs and were read out, though きょう's tile
     // no longer shows them) (「この記録を開く」, which opened it to be read: taken out, 2026-11-25)
     for (const j of journal.items) if (j.text?.trim()) add("journal:" + j.id, "journal", j.date || j.id, realTime(j.createdAt), "", { kind: "journal", id: j.id });
-    // a 食事's kcal, a からだ's 摂取カロリー with them (the user's call: pressing their blocks didn't say)
-    for (const m of meals.items) add("meal:" + m.id, "meal", m.date, realTime(m.createdAt), () => [m.slot, m.text, typeof m.kcal === "number" ? `${fmtN(m.kcal)} kcal` : ""].filter(Boolean).join("・"), { kind: "meal", id: m.id });
-    // 運動, 勉強 and 家計簿 as ルーティーン (the user's call: each record was a block of its own): a day's one block, every
-    // record of it in it, in the order they were made, stacked with the first of them (at its noon when any of them is from
-    // before such times were kept); a day of more leads with how many and opens its page on that day, one alone its record
-    const dayBlocks = (kind, items, say, head) => {
+    // 運動, 勉強, 家計簿 and 食事 as ルーティーン (the user's calls: each record was a block of its own; 食事's each meal too,
+    // 2026-11-25): a day's one block, every record of it in it, in the order they were made, stacked with the first of them
+    // (at its noon when any of them is from before such times were kept); a day of more leads with how many and opens its
+    // page on that day, one alone its record. `sep` between the records, `order` theirs, `many` each in a day of more
+    const dayBlocks = (kind, items, say, head, { sep = "・", order = (a, b) => num(a.createdAt) - num(b.createdAt), many = say } = {}) => {
       const days = new Map();
       for (const x of items) if (x && x.date) (days.get(x.date) || days.set(x.date, []).get(x.date)).push(x);
       for (const [day, xs] of days) {
         const ts = xs.map((x) => realTime(x.createdAt));
-        if (xs.length > 1) xs.sort((a, b) => num(a.createdAt) - num(b.createdAt));
-        add(`${kind}:${day}`, kind, day, ts.every(Boolean) ? Math.min(...ts) : 0, () => (xs.length > 1 ? `${head(xs)}：` : "") + xs.map(say).join("・"),
+        if (xs.length > 1) xs.sort(order);
+        add(`${kind}:${day}`, kind, day, ts.every(Boolean) ? Math.min(...ts) : 0, () => (xs.length > 1 ? `${head(xs)}：` + xs.map(many).join(sep) : say(xs[0])),
           xs.length > 1 ? { kind, day, page: true, n: xs.length } : { kind, id: xs[0].id });
       }
     };
+    // a 食事's kcal, a からだ's 摂取カロリー with them (the user's call: pressing their blocks didn't say); a day of more meals:
+    // how many and their kcal first, then each without its own (so the day's meals fit in the block's two lines), 朝食・昼食・
+    // 夕食・間食 in turn (as 食事's page has them), apart with 、
+    dayBlocks("meal", meals.items, (m) => [m.slot, m.text, typeof m.kcal === "number" ? `${fmtN(m.kcal)} kcal` : ""].filter(Boolean).join("・"),
+      (xs) => `${xs.length} 回` + (xs.some((m) => typeof m.kcal === "number") ? `・${fmtN(sum(xs, (m) => num(m.kcal)))} kcal` : ""),
+      { sep: "、", order: (a, b) => slotTurn(a) - slotTurn(b) || num(a.createdAt) - num(b.createdAt), many: (m) => [m.slot, m.text].filter(Boolean).join(" ") });
     dayBlocks("workout", workouts.items, (w) => [w.type, workoutDetail(w)].filter(Boolean).join(" "), (xs) => `${xs.length} 件`);
     dayBlocks("study", study.items, (x) => `${subjectOf(x)?.name || (x.subjectId && names["subject:" + x.subjectId]) || "科目なし"} ${num(x.minutes)} 分`,
       (xs) => `${xs.length} 件・${durText(sum(xs, (x) => num(x.minutes)))}`);
@@ -24887,7 +24893,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // ---------- この画面の版 ----------
   // when the app's content last changed, so 本番 and テスト版 say the same of the same app (the user's call: each said the
   // time it was put out); tools/make-test.py sets it, and the content it was set for, whenever the content changes
-  const APP_VERSION = "2026年11月25日 10:09"; // f804170b (tools/make-test.py: the content it was set for)
+  const APP_VERSION = "2026年11月25日 10:57"; // d3df6b46 (tools/make-test.py: the content it was set for)
   // (with none, when the page was put out; without the header, lastModified is the moment the page loaded)
   (() => {
     if (APP_VERSION) { $("appVersion").textContent = `アプリの版：${APP_VERSION}`; $("appVersion").hidden = false; return; }
@@ -30267,6 +30273,14 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // for today, 同じToDoをきょうも入れる: taken out at the user's call, 2026-11-25, tools/REMOVED.md)
   function tsAgainOf(b) {
     const o = b && !b.gone ? b.open : null, now = Date.now(), keep = (src, keys) => Object.fromEntries(keys.filter((k) => src[k] !== undefined && src[k] !== "").map((k) => [k, src[k]]));
+    if (o?.page && o.kind === "meal") { // (a day's meals, one block since 2026-11-25: all of them again, in their turn)
+      const xs = meals.items.filter((m) => m.date === o.day).sort((a, b) => slotTurn(a) - slotTurn(b) || num(a.createdAt) - num(b.createdAt));
+      return xs.length > 0 && { label: `きょうも同じ食事を記録（${xs.length} 回）`, go: async () => {
+        const ids = [];
+        for (const [i, m] of xs.entries()) ids.push(await meals.add({ date: todayKey, ...keep(m, ["slot", "text", "kcal", "p", "f", "c"]), createdAt: now + i }));
+        flash(`${xs.length} 回の食事をきょうに記録しました`, () => takeBack(meals, ids));
+      } };
+    }
     if (!o || o.page) return null;
     if (o.kind === "meal") { const m = meals.get(o.id); return m && { label: "きょうも同じ食事を記録", go: async () => { const id = await meals.add({ date: todayKey, ...keep(m, ["slot", "text", "kcal", "p", "f", "c"]), createdAt: now }); flash(`「${clip(oneLine(m.text), 20)}」をきょうの食事に記録しました`, () => takeBack(meals, [id])); } }; }
     if (o.kind === "workout") { const w = workouts.get(o.id); if (!w) return null; const { id: _i, date: _d, createdAt: _c, updatedAt: _u, live: _l, ...rest } = w; return { label: "きょうも同じ運動を記録", go: async () => { const id = await workouts.add({ ...rest, date: todayKey, createdAt: now }); flash(`${w.type || "運動"}をきょうも記録しました`, () => takeBack(workouts, [id])); } }; }
@@ -31822,7 +31836,9 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   // the days before, the latest first, each a press away on the stairs
   var TS9_BEST_ID = "tsumiDayBest";
   var ts9BestAll = false;
-  function ts9Bests() { const v = settings.get(TS9_BEST_ID)?.days; return v && typeof v === "object" ? v : {}; }
+  // (a meal picked before 食事 was one block a day, 2026-11-25, is kept as "meal:<its id>": that day's 食事 block now)
+  const ts9Key = (k) => { const m = typeof k === "string" && k.startsWith("meal:") ? meals.get(k.slice(5)) : null; return m?.date ? "meal:" + m.date : k; };
+  function ts9Bests() { const v = settings.get(TS9_BEST_ID)?.days; return v && typeof v === "object" ? Object.fromEntries(Object.entries(v).map(([d, k]) => [d, ts9Key(k)])) : {}; }
   function ts9SetBest(d, key) {
     const days = { ...ts9Bests() };
     if (key) days[d] = key; else delete days[d];
@@ -39653,8 +39669,8 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   }
 
   // ⑧ ごほうび (g.rewards: { half, done }, set under the goal, shown in its 進み具合 and said with the 紙ふぶき at 50% and when
-  // achieved): taken out at the user's call, 2026-11-25, tools/REMOVED.md. What was set stays; やる気が出ないとき and すごろく read it still
-  const rewardOf = (g, key) => (typeof g?.rewards?.[key] === "string" ? g.rewards[key].trim() : "");
+  // achieved): taken out at the user's call, 2026-11-25, tools/REMOVED.md. What was set stays, read by nothing (やる気が出ないとき's
+  // and すごろく's, which read it, taken out after it the same day)
 
   // ⑨ ways to write ふりかえり: よかったこと・うまくいかなかったこと・次にやること, or the week in figures to start from
   function putReflect(text, caretAfter) {
@@ -43295,9 +43311,9 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
       ["見積もりをまとめて・空き時間とくらべる", "見積もりのないマスにまとめて付ける。この1週間の空き時間と、見積もりの合計をくらべる。"],
       ["要素ごとの見込み", "要素ごとに、このペースならいつ終わるか、期限に間に合うかを出します。"],
       ["見積もりを実績で直す", "終わったマスが見積もりより長く（短く）かかっているとき、のこりの見積もりをまとめて直せます。"],
-      ["すごろく", "目標を、マスの数だけのすごろくで見られます。ごほうびのマスもあります。"],
+      ["すごろく", "目標を、マスの数だけのすごろくで見られます。"],
       ["やる気と進み", "やる気が高い日と低い日に、それぞれ何マス進めたかをくらべます。"],
-      ["やる気が出ないとき", "なぜ・ごほうび・★のふりかえり・あと少しの節目と、次のマスの小さな一歩を出します。"],
+      ["やる気が出ないとき", "なぜ・★のふりかえり・あと少しの節目と、次のマスの小さな一歩を出します。"],
       ["期限を延ばす・期限の変更", "期限が近い・過ぎた目標を1週間〜3か月延ばせます。変えた記録と理由も残ります。"],
       ["目標の内容", "名前・達成基準・期限・メモ。達成基準のチェックリストや「なぜこの目標？」も。"],
       ["中間目標・もし〜なら・やらないこと", "途中の目標や、つまずいたときの決め事、やらないことを書けます。"],
@@ -44153,7 +44169,8 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   }
 
   // ⑥ やる気が出ないとき: under the goal's やる気, a press away (stood out on a day its やる気 is low): why it is wanted, what it
-  // will be like, its ごほうび, a ★ ふりかえり, the next 節目, and the next cell made small (its 小さな一歩) with the focus timer
+  // will be like, a ★ ふりかえり, the next 節目, and the next cell made small (its 小さな一歩) with the focus timer (its ごほうび:
+  // taken out with ごほうび at the user's call, 2026-11-25, tools/REMOVED.md)
   let lowFor = null;
   function renderLow(g) {
     const row = $("mLowRow"), box = $("mLow"), btn = $("mLowOpen"), open = lowFor === g.id && !g.done, mood = num(moodOf(g)[todayKey]);
@@ -44167,8 +44184,6 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     const vision = typeof g.vision === "string" ? oneLine(g.vision) : "";
     if (whyOf(g)) out.push(sec("なぜこの目標？", whyOf(g)));
     if (vision) out.push(sec("達成したら", vision));
-    const rw = [rewardOf(g, "half") ? `50%で「${rewardOf(g, "half")}」` : "", rewardOf(g, "done") ? `達成で「${rewardOf(g, "done")}」` : ""].filter(Boolean);
-    if (rw.length) out.push(sec("ごほうび", rw.join("・")));
     const notes = goalNotes(g).sort((a, b) => Number(!!b.star) - Number(!!a.star) || num(b.at) - num(a.at)), note = notes[0];
     if (note) out.push(sec(note.star ? "★のふりかえり" : "最近のふりかえり", clip(oneLine(note.text), 80)));
     const p = cellProgress(nodeAt(g, []), goalDepth(g)), mile = kidsOf(nodeAt(g, []), goalDepth(g)).length ? [0.25, 0.5, 0.75, 1].find((m) => p < m - 1e-9) : null, k = mile ? cellsToMile(g, mile) : null;
@@ -45296,14 +45311,13 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
   }
 
   // ⑩ すごろく: the goal as a board game: a square a cell (those done first, in order), the piece on the next, ゴール at the end;
-  // 25・75% ★, 50% and the end its ごほうび 🎁 when it has them
+  // 25・75% ★ (50%'s 🎁, its ごほうび: taken out with ごほうび at the user's call, 2026-11-25, tools/REMOVED.md)
   function renderSugoroku(g) {
     const box = $("mSugo"), lv = goalLeaves2(g).filter((l) => !(goalThree && linkOf(l.cell)));
     $("mSugoHead").hidden = box.hidden = lv.length < 3;
     if (lv.length < 3) { box.replaceChildren(); return; }
     const n = lv.length, done = lv.filter((l) => cellDone(l.cell, 0)).length, mark = (i) => { // i: 1 to n
       if (i === n) return "🏁";
-      if (i === Math.round(n / 2) && rewardOf(g, "half")) return "🎁";
       if (i === Math.round(n / 4) || i === Math.round((n * 3) / 4)) return "★";
       return "";
     };
@@ -45317,7 +45331,7 @@ body::after { content: "テスト版"; position: fixed; z-index: 2147483647; top
     }
     setChildren(box, el("div", { class: "g20-sugo", role: "img", "aria-label": `すごろく：${n}マスのうち ${done}マス目まで進んでいます` }, sq.map((i) => !i ? el("span", { class: "g20-sq empty" })
       : el("span", { class: "g20-sq" + (i <= done ? " done" : "") + (i === done + 1 ? " here" : "") + (i === n ? " goal" : "") }, el("small", {}, String(i)), i === done + 1 && done < n ? "🙂" : mark(i)))),
-      el("p", { class: "sub" }, done >= n ? "ゴールしました！" : `いま ${done}マス目・ゴールまで あと ${n - done}マス` + (rewardOf(g, "half") && done < Math.round(n / 2) ? `（🎁 ${Math.round(n / 2)}マス目で「${clip(rewardOf(g, "half"), 12)}」）` : "")));
+      el("p", { class: "sub" }, done >= n ? "ゴールしました！" : `いま ${done}マス目・ゴールまで あと ${n - done}マス`));
   }
 
   // the chart's own: ① ⑨
